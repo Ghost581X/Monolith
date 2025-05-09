@@ -1952,3 +1952,9 @@ Entries:
         and an infinite stun baton.
   id: 232
   time: '2025-05-09T06:25:05.0000000+00:00'
+- author: Ghost581
+  changes:
+    - type: Add
+      message: Viper Group now has their own hardsuit available in the rogue uplink.
+  id: 233
+  time: '2025-05-09T16:20:39.0000000+00:00'
