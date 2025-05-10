@@ -1978,3 +1978,14 @@ Entries:
         point spawn point and GCS, and Littora blast door rotation.
   id: 235
   time: '2025-05-09T21:27:42.0000000+00:00'
+- author: starch70
+  changes:
+    - type: Add
+      message: Properly lowered asteroid spawnrates.
+    - type: Tweak
+      message: >-
+        tweaked some shit with protogens or whatever they go faster now but have
+        to suffer higher radiation and shock damage also edited the markings a
+        bit
+  id: 236
+  time: '2025-05-10T00:56:07.0000000+00:00'
