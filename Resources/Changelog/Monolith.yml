@@ -2027,3 +2027,9 @@ Entries:
       message: Added encryption keys and glasses to Rogue loadouts.
   id: 241
   time: '2025-05-10T08:35:12.0000000+00:00'
+- author: Ghost581
+  changes:
+    - type: Tweak
+      message: Slight nerf to the VG IMP Hardsuit
+  id: 242
+  time: '2025-05-10T10:50:05.0000000+00:00'
