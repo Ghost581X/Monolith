@@ -1958,3 +1958,23 @@ Entries:
       message: Viper Group now has their own hardsuit available in the rogue uplink.
   id: 233
   time: '2025-05-09T16:20:39.0000000+00:00'
+- author: starch70
+  changes:
+    - type: Add
+      message: >-
+        Added Sakuratsu science ship and Taichi S&R shuttle to compensate for
+        the removal of UNJ ships (mainly the Jug and Clemency)
+    - type: Remove
+      message: Removed all the UNJ ships (the Framework gets a pass).
+    - type: Tweak
+      message: Cargo crates are swag and cool again.
+  id: 234
+  time: '2025-05-09T18:43:35.0000000+00:00'
+- author: starch70
+  changes:
+    - type: Fix
+      message: >-
+        Fixed Europa wiring, Tethys and Vega shipyard, Legionnaire missing warp
+        point spawn point and GCS, and Littora blast door rotation.
+  id: 235
+  time: '2025-05-09T21:27:42.0000000+00:00'
