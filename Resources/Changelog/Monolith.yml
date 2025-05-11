@@ -2069,3 +2069,9 @@ Entries:
         and Rogues can spawn.
   id: 247
   time: '2025-05-11T03:03:47.0000000+00:00'
+- author: Ark
+  changes:
+    - type: Tweak
+      message: Shuttle console scan is now instant.
+  id: 248
+  time: '2025-05-11T08:54:58.0000000+00:00'

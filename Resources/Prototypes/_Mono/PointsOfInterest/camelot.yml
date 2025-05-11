@@ -19,6 +19,9 @@
   addComponents:
   - type: IFF
     color: "#ccaa55"
+  - type: SolarPoweredGrid
+    trackOnInit: true
+    doNotCull: true
 
 - type: gameMap
   id: Camelot
