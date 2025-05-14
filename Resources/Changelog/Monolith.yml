@@ -2240,3 +2240,43 @@ Entries:
       message: Fixed reinforced hull plating being indestructible.
   id: 267
   time: '2025-05-14T11:08:59.0000000+00:00'
+- author: Redrover1760
+  changes:
+    - type: Add
+      message: Added Compact Defib to TSF Brigmedic Uplink for 3 FUCs.
+    - type: Add
+      message: Added a non-bundled separate Interdyne Defib to pirate uplink for 12 DB.
+    - type: Add
+      message: >-
+        Added Compact Defibs to the T2 Advanced Treatment tech, now buildable in
+        the Medfab and Protolathe.
+    - type: Add
+      message: DoC gets a Compact Defib in their locker.
+    - type: Tweak
+      message: Interdyne Defibs are now C3 Syndie Contra.
+  id: 268
+  time: '2025-05-14T16:59:44.0000000+00:00'
+- author: Ghost581
+  changes:
+    - type: Tweak
+      message: Killing people with hatchets and whatnot is now viable.
+  id: 269
+  time: '2025-05-14T17:02:08.0000000+00:00'
+- author: EctoplasmIsGood
+  changes:
+    - type: Add
+      message: Marine privates now get an uplink
+  id: 270
+  time: '2025-05-14T17:02:36.0000000+00:00'
+- author: Ark
+  changes:
+    - type: Add
+      message: Ships will now be hidden from radar during FTL.
+  id: 271
+  time: '2025-05-14T17:03:11.0000000+00:00'
+- author: Ghost581
+  changes:
+    - type: Add
+      message: 'the Viper Group is now whitelisted. '
+  id: 272
+  time: '2025-05-14T17:32:53.0000000+00:00'

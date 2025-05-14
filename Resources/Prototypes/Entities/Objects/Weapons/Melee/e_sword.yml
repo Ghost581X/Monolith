@@ -41,12 +41,12 @@
     activatedDamage:
       types:
         Slash: 15
-        Heat: 15
+        Heat: 20
         Structural: 20
   - type: MeleeWeapon
     heavyStaminaCost: 2.5 # goob edit
     wideAnimationRotation: -135
-    attackRate: 1
+    attackRate: 1.15
     damage:
       types:
         Blunt: 4.5
@@ -267,8 +267,8 @@
   - type: ItemToggleMeleeWeapon
     activatedDamage:
       types:
-        Slash: 10
-        Heat: 12
+        Slash: 15
+        Heat: 20
         Structural: 15
     deactivatedSecret: true
   - type: Sprite
@@ -308,9 +308,9 @@
         variation: 0.250
     activatedDamage:
       types:
-        Slash: 12
-        Heat: 12
-        Structural: 15
+        Slash: 10
+        Heat: 20
+        Structural: 25
   - type: ItemToggleActiveSound
     activeSound:
       path: /Audio/Weapons/ebladehum.ogg
@@ -328,7 +328,7 @@
   - type: MeleeWeapon
     heavyStaminaCost: 0 # goob edit
     wideAnimationRotation: -135
-    attackRate: 1.5
+    attackRate: 1.3
     angle: 100
     damage:
       types:
@@ -373,8 +373,8 @@
     activatedDamage:
       types:
         Slash: 20
-        Heat: 20
-        Structural: 20
+        Heat: 25
+        Structural: 25
   - type: MeleeRequiresWield
   - type: HeldSpeedModifier #slowdown is what balances this compared to a dsword
     walkModifier: 0.6

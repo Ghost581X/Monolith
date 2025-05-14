@@ -15,6 +15,21 @@
       - PirateUplink
 
 - type: listing
+  id: UplinkPirateInterdyneDefibrillator
+  name:  uplink-pirate-interdyne-defibrillator-name
+  description: uplink-pirate-interdyne-defibrillator-desc
+  productEntity: DefibrillatorSyndicate
+  cost:
+    Doubloon: 12
+  categories:
+  - UplinkPirateUtility
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - PirateUplink
+
+- type: listing
   id: UplinkPirateRogueCommsComputerCircuitboard
   name:  uplink-pirate-comms-computer-circuitboard-name
   description: uplink-pirate-comms-computer-circuitboard-desc
