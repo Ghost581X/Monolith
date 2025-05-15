@@ -2312,3 +2312,15 @@ Entries:
       message: CMO Hardsuit has no slowdown and 15% resistances
   id: 276
   time: '2025-05-15T01:48:19.0000000+00:00'
+- author: Ark
+  changes:
+    - type: Fix
+      message: You should be able to fully construct mechs now.
+  id: 277
+  time: '2025-05-15T11:26:10.0000000+00:00'
+- author: Ark
+  changes:
+    - type: Tweak
+      message: Ship guns now face towards the direction they are firing. Rejoice!
+  id: 278
+  time: '2025-05-15T11:28:18.0000000+00:00'
