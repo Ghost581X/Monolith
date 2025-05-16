@@ -2324,3 +2324,112 @@ Entries:
       message: Ship guns now face towards the direction they are firing. Rejoice!
   id: 278
   time: '2025-05-15T11:28:18.0000000+00:00'
+- author: Redrover1760
+  changes:
+    - type: Tweak
+      message: >-
+        TSF tech (gear) vender now has weapon recharger flatpacks and multitools
+        in stock.
+  id: 279
+  time: '2025-05-16T05:56:07.0000000+00:00'
+- author: gusxyz
+  changes:
+    - type: Add
+      message: Added two new bluespace drives.
+    - type: Add
+      message: A DriveVend can now be found at the Colonial Outpost.
+    - type: Tweak
+      message: >-
+        Emergency Broadcast is no longer the alternative action on the shuttle
+        console, to prevent accidental activation.
+    - type: Tweak
+      message: PDA's will now be able to unlock your shuttle console as well.
+  id: 280
+  time: '2025-05-16T06:20:34.0000000+00:00'
+- author: Ark
+  changes:
+    - type: Tweak
+      message: Ship guns are now able to tank more hits.
+  id: 281
+  time: '2025-05-16T07:09:54.0000000+00:00'
+- author: Redrover1760
+  changes:
+    - type: Add
+      message: >-
+        Re-adds like 90% of the stuff Frontier took out of the syndicate
+        uplink/contraband. Notable mentions include high explosives, the real
+        china lake, syndicate borg modules, and energy shields.
+    - type: Add
+      message: >-
+        You can now buy Dark Gygaxes and Maulers at semi-reasonable TC prices in
+        a contravend.
+    - type: Add
+      message: >-
+        You can now buy syndicate uplink implanters for 10 TC for a portable
+        uplink.
+    - type: Tweak
+      message: Decreases TC cost of almost all syndicate weaponry.
+    - type: Tweak
+      message: Melee mech weapons do more structural damage.
+    - type: Remove
+      message: Removes the EMP China Lake from the syndicate uplink.
+  id: 282
+  time: '2025-05-16T15:28:58.0000000+00:00'
+- author: tzTZtzTZqwq
+  changes:
+    - type: Add
+      message: added weapon ranges of batteries to guidebook
+  id: 283
+  time: '2025-05-16T15:29:27.0000000+00:00'
+- author: DisguisedBear
+  changes:
+    - type: Remove
+      message: >-
+        Removed rules preventing dungeon bosses from boarding shuttles and
+        leaving their dungeons
+  id: 284
+  time: '2025-05-16T15:30:12.0000000+00:00'
+- author: Redrover1760
+  changes:
+    - type: Add
+      message: 'TSF Encryption Key bounty. '
+    - type: Add
+      message: >-
+        Freelancer Encryption Keys, Freelance Radio Implanter, Rogue Comms
+        Computer, and the Burner Rifle are now High Value Rogue Contraband,
+        worth 4 FUCs. Make sure to pop out the key first before selling, as the
+        headset itself is now worth no FUCs.
+    - type: Add
+      message: >-
+        Experimental TSF Weapons bounty. Annie, Pulse Carbine, Antique Laser
+        Guns, and X-01 Multiphase guns can be turned for a sizeable reward of 12
+        DB.
+    - type: Tweak
+      message: >-
+        PMC bounty replaced with general Standard TSF/PMC Longarms bounty. Any
+        PMC SMG/Rifle works, as well as most TSF guns including energy weapons.
+    - type: Tweak
+      message: SCAF suit bounty replaced with a bounty for any Merc/PMC/SCAF suits.
+    - type: Tweak
+      message: >-
+        KFBlade bounty adjusted to be a TSF Energy Weapons bounty. Includes
+        Energy Swords and TSF Energy Shields. This includes syndicate energy
+        swords as well.
+    - type: Tweak
+      message: No more bounty chests. Just throw the stuff on the pad and it works.
+    - type: Tweak
+      message: De-pirated some flavor text for the Bounty console.
+    - type: Tweak
+      message: >-
+        Tweaked the numbers on some of the bounties. Bionics/RTG should feel
+        less worthless now if you get the tech.
+    - type: Remove
+      message: Air Canister Bounty.
+    - type: Remove
+      message: >-
+        Duplicate Fent bounty, the smaller one for 3 Fent crystals. To
+        compensate for Fent enjoyers the 6 Fent Crystal bounty is now 5 DB.
+    - type: Fix
+      message: 'Rogue VT-7s are now displayed as C3 Contraband now. '
+  id: 285
+  time: '2025-05-16T15:34:17.0000000+00:00'
