@@ -1619,7 +1619,7 @@
   discountDownTo:
     Telecrystal: 4
   cost:
-    Telecrystal: 8
+    Telecrystal: 7 # 8->7 Mono
   categories:
   - UplinkWearables
 
