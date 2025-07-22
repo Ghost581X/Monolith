@@ -1,3 +1,11 @@
+# SPDX-FileCopyrightText: 2025 Ark
+# SPDX-FileCopyrightText: 2025 Daniel Lenrd
+# SPDX-FileCopyrightText: 2025 cheetah1984
+# SPDX-FileCopyrightText: 2025 sleepyyapril
+# SPDX-FileCopyrightText: 2025 starch
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 # Nfsd
 - type: roleLoadout
   id: JobCadet
@@ -10,6 +18,7 @@
   - TsfmcOuterClothing
   - TsfmcShoes
   - TsfmcFace
+  - TsfmcBalaclava
   - TsfmcGlasses
   - TsfmcBelt
   - TsfmcEars
@@ -17,7 +26,7 @@
   - CadetPDA
   - ContractorWallet
   - ContractorCartridge
-  - ContractorImplanter
+#  - ContractorImplanter # Mono - TSF has a skill issue sometimes
   - ContractorEncryptionKey
   - ContractorFun
   - ContractorTrinkets
@@ -37,6 +46,7 @@
   - TsfmcOuterClothing
   - TsfmcShoes
   - TsfmcFace
+  - TsfmcBalaclava
   - TsfmcGlasses
   - TsfmcBelt
   - TsfmcEars
@@ -44,7 +54,6 @@
   - DeputyPDA
   - ContractorWallet
   - ContractorCartridge
-  - ContractorImplanter
   - ContractorEncryptionKey
   - ContractorFun
   - ContractorTrinkets
@@ -56,14 +65,15 @@
 - type: roleLoadout
   id: JobBrigmedic
   groups:
-  - TsfmcHead
-  - TsfmcNeck
+  - TsfmcHeadMedic
+  - TsfmcNeckMedic
   - TsfmcJumpsuit
   - TsfmcBrigmedicGloves
   - TsfmcBackpack
   - TsfmcOuterClothing
   - TsfmcShoes
   - TsfmcFace
+  - TsfmcBalaclava
   - TsfmcBrigmedicGlasses
   - TsfmcBrigmedicBelt
   - TsfmcEars
@@ -71,7 +81,6 @@
   - BrigmedicPDA
   - ContractorWallet
   - ContractorCartridge
-  - ContractorImplanter
   - ContractorEncryptionKey
   - ContractorFun
   - ContractorTrinkets
@@ -91,6 +100,7 @@
   - TsfmcOuterClothing
   - TsfmcShoes
   - TsfmcFace
+  - TsfmcBalaclava
   - TsfmcGlasses
   - TsfmcBelt
   - TsfmcEarsSenior
@@ -98,7 +108,6 @@
   - BailiffPDA
   - ContractorWallet
   - ContractorCartridge
-  - ContractorImplanter
   - ContractorEncryptionKey
   - ContractorFun
   - SeniorOfficerTrinkets
@@ -118,6 +127,7 @@
   - TsfmcOuterClothing
   - TsfmcShoes
   - TsfmcFace
+  - TsfmcBalaclava
   - TsfmcGlasses
   - TsfmcBelt
   - TsfmcEarsSenior
@@ -125,7 +135,6 @@
   - SeniorOfficerPDA
   - ContractorWallet
   - ContractorCartridge
-  - ContractorImplanter
   - ContractorEncryptionKey
   - ContractorFun
   - SeniorOfficerTrinkets
@@ -145,6 +154,7 @@
   - TsfmcOuterClothing
   - TsfmcShoes
   - TsfmcFace
+  - TsfmcBalaclava
   - TsfmcGlasses
   - TsfmcBelt
   - TsfmcEarsCommander
@@ -152,10 +162,34 @@
   - SheriffPDA
   - ContractorWallet
   - ContractorCartridge
-  - ContractorImplanter
   - ContractorFun
   - SeniorOfficerTrinkets
   - NfsdSpeciesSpecific
-  - TsfmcFirearm
+  - TsfmcFirearmColonel
   - TsfmcMag
+  canCustomizeName: true
+
+- type: roleLoadout
+  id: JobTsfEngineer
+  groups:
+  - TsfmcHeadEngi
+  - TsfmcNeckEngi
+  - TsfmcJumpsuitEngi
+  - TsfmcGloves
+  - TsfmcEngiModsuit
+  - TsfmcOuterClothing
+  - TsfmcShoes
+  - TsfmcFace
+  - TsfmcBalaclava
+  - TsfmcEngiGlasses
+  - TsfmcUtilBelt
+  - TsfmcEars
+  - NfsdBoxSurvival
+  - TsfEngiPDA
+  - ContractorWallet
+  - ContractorCartridge
+  - ContractorEncryptionKey
+  - ContractorFun
+  - ContractorTrinkets
+  - NfsdSpeciesSpecific
   canCustomizeName: true

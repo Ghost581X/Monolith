@@ -43,10 +43,16 @@ chat-manager-send-admin-dead-chat-wrap-message = {$adminChannelName}: [bold]([Bu
 chat-manager-send-admin-chat-wrap-message = {$adminChannelName}: [bold]{$playerName}:[/bold] {$message}
 chat-manager-send-admin-announcement-wrap-message = [bold]{$adminChannelName}: {$message}[/bold]
 
-chat-manager-send-hook-ooc-wrap-message = OOC: [bold](D){$senderName}:[/bold] {$message}
+chat-manager-send-hook-ooc-wrap-message = OOC: [bold](DC) {$senderName}:[/bold] {$message}
+chat-manager-send-hook-admin-wrap-message = ADMIN: [bold](DC) {$senderName}:[/bold] {$message}
+chat-manager-send-hook-dead-wrap-message = ADMIN: [bold](DC) {$senderName}:[/bold] {$message}
 
 chat-manager-dead-channel-name = DEAD
 chat-manager-admin-channel-name = ADMIN
+
+chat-manager-send-collective-mind-chat-wrap-message = {$channel} collective mind: {$message}
+chat-manager-send-collective-mind-chat-wrap-message-admin = {$source} ({$channel} collective mind): {$message}
+chat-manager-collective-mind-channel-name = collective mind
 
 chat-manager-rate-limited = You are sending messages too quickly!
 chat-manager-rate-limit-admin-announcement = Player { $player } breached chat rate limits. Watch them if this is a regular occurence.

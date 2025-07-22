@@ -1,3 +1,30 @@
+// SPDX-FileCopyrightText: 2022 Jezithyr
+// SPDX-FileCopyrightText: 2022 Moony
+// SPDX-FileCopyrightText: 2022 SpaceManiac
+// SPDX-FileCopyrightText: 2022 corentt
+// SPDX-FileCopyrightText: 2023 Checkraze
+// SPDX-FileCopyrightText: 2023 DrSmugleaf
+// SPDX-FileCopyrightText: 2023 Emisse
+// SPDX-FileCopyrightText: 2023 Kara
+// SPDX-FileCopyrightText: 2023 Leon Friedrich
+// SPDX-FileCopyrightText: 2023 TemporalOroboros
+// SPDX-FileCopyrightText: 2023 Visne
+// SPDX-FileCopyrightText: 2023 metalgearsloth
+// SPDX-FileCopyrightText: 2024 Cojoke
+// SPDX-FileCopyrightText: 2024 Dvir
+// SPDX-FileCopyrightText: 2024 GreaseMonk
+// SPDX-FileCopyrightText: 2024 Jake Huxell
+// SPDX-FileCopyrightText: 2024 Nemanja
+// SPDX-FileCopyrightText: 2024 Pieter-Jan Briers
+// SPDX-FileCopyrightText: 2024 Tayrtahn
+// SPDX-FileCopyrightText: 2024 Whatstone
+// SPDX-FileCopyrightText: 2024 checkraze
+// SPDX-FileCopyrightText: 2025 Alkheemist
+// SPDX-FileCopyrightText: 2025 Ark
+// SPDX-FileCopyrightText: 2025 Redrover1760
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Content.Server.Administration;
 using Content.Server.Body.Systems;
 using Content.Server.Cargo.Components;
@@ -17,6 +44,7 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Server.Materials.Components; // Frontier
+using Content.Server._Mono.VendingMachine; // Mono
 using System.Linq;
 using Content.Shared.Research.Prototypes;
 
@@ -27,12 +55,12 @@ namespace Content.Server.Cargo.Systems;
 /// </summary>
 public sealed class PricingSystem : EntitySystem
 {
-    [Dependency] private readonly IComponentFactory _factory = default!;
     [Dependency] private readonly IConsoleHost _consoleHost = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly BodySystem _bodySystem = default!;
     [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] private readonly VendingMachinePurchaseSystem _vendingPurchase = default!; // Mono
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -283,9 +311,54 @@ public sealed class PricingSystem : EntitySystem
         return price;
     }
 
+    /// <summary>
+    /// Mono: Appraises an entity with vending machine discounts applied if applicable.
+    /// This method should be used by cargo systems when selling items.
+    /// </summary>
+    /// <param name="uid">The entity to appraise</param>
+    /// <param name="currentGrid">The grid where the entity is being sold</param>
+    /// <param name="includeContents">Whether to include contained entities</param>
+    /// <returns>The price with vending machine discount applied if applicable</returns>
+    public double GetPriceWithVendingDiscount(EntityUid uid, EntityUid currentGrid, bool includeContents = true)
+    {
+        var ev = new PriceCalculationEvent();
+        ev.Price = 0;
+        RaiseLocalEvent(uid, ref ev);
+
+        if (ev.Handled)
+            return ev.Price;
+
+        var price = ev.Price;
+        price += GetMaterialsPrice(uid);
+        price += GetSolutionsPrice(uid);
+
+        // Can't use static price with stackprice
+        var oldPrice = price;
+        price += GetStackPrice(uid);
+
+        if (oldPrice.Equals(price))
+        {
+            // Use the vending machine discount version of static price
+            price += GetStaticPriceWithVendingDiscount(uid, currentGrid);
+        }
+
+        if (includeContents && TryComp<ContainerManagerComponent>(uid, out var containers))
+        {
+            foreach (var container in containers.Containers.Values)
+            {
+                foreach (var ent in container.ContainedEntities)
+                {
+                    price += GetPriceWithVendingDiscount(ent, currentGrid);
+                }
+            }
+        }
+
+        return price;
+    }
+
     // Begin Frontier - GetPrice variant that uses predicate
     /// <summary>
-    /// Appraises an entity, returning its price. Respects predicate - an entity that is excluded will be removed from the 
+    /// Appraises an entity, returning its price. Respects predicate - an entity that is excluded will be removed from the
     /// </summary>
     /// <param name="uid">The entity to appraise.</param>
     /// <param name="includeContents">Whether to examine its contents.</param>
@@ -333,13 +406,13 @@ public sealed class PricingSystem : EntitySystem
     {
         double price = 0;
 
-        if (prototype.Components.ContainsKey(_factory.GetComponentName(typeof(MaterialComponent))) &&
-            prototype.Components.TryGetValue(_factory.GetComponentName(typeof(PhysicalCompositionComponent)), out var composition))
+        if (prototype.Components.ContainsKey(Factory.GetComponentName<MaterialComponent>()) &&
+            prototype.Components.TryGetValue(Factory.GetComponentName<PhysicalCompositionComponent>(), out var composition))
         {
             var compositionComp = (PhysicalCompositionComponent) composition.Component;
             var matPrice = GetMaterialPrice(compositionComp);
 
-            if (prototype.Components.TryGetValue(_factory.GetComponentName(typeof(StackComponent)), out var stackProto))
+            if (prototype.Components.TryGetValue(Factory.GetComponentName<StackComponent>(), out var stackProto))
             {
                 matPrice *= ((StackComponent) stackProto.Component).Count;
             }
@@ -366,7 +439,7 @@ public sealed class PricingSystem : EntitySystem
     {
         var price = 0.0;
 
-        if (prototype.Components.TryGetValue(_factory.GetComponentName(typeof(SolutionContainerManagerComponent)), out var solManager))
+        if (prototype.Components.TryGetValue(Factory.GetComponentName<SolutionContainerManagerComponent>(), out var solManager))
         {
             var solComp = (SolutionContainerManagerComponent) solManager.Component;
             price += GetSolutionPrice(solComp);
@@ -393,9 +466,9 @@ public sealed class PricingSystem : EntitySystem
     {
         var price = 0.0;
 
-        if (prototype.Components.TryGetValue(_factory.GetComponentName(typeof(StackPriceComponent)), out var stackpriceProto) &&
-            prototype.Components.TryGetValue(_factory.GetComponentName(typeof(StackComponent)), out var stackProto) &&
-            !prototype.Components.ContainsKey(_factory.GetComponentName(typeof(MaterialComponent))))
+        if (prototype.Components.TryGetValue(Factory.GetComponentName<StackPriceComponent>(), out var stackpriceProto) &&
+            prototype.Components.TryGetValue(Factory.GetComponentName<StackComponent>(), out var stackProto) &&
+            !prototype.Components.ContainsKey(Factory.GetComponentName<MaterialComponent>()))
         {
             var stackPrice = (StackPriceComponent) stackpriceProto.Component;
             var stack = (StackComponent) stackProto.Component;
@@ -417,11 +490,31 @@ public sealed class PricingSystem : EntitySystem
         return price;
     }
 
+    /// <summary>
+    /// Mono: Gets the static price with vending machine discounts applied if applicable.
+    /// This method should be used by cargo systems when selling items.
+    /// </summary>
+    /// <param name="uid">The entity to price</param>
+    /// <param name="currentGrid">The grid where the entity is being sold</param>
+    /// <returns>The price with vending machine discount applied if applicable</returns>
+    public double GetStaticPriceWithVendingDiscount(EntityUid uid, EntityUid currentGrid)
+    {
+        // Check if this entity has a vending machine discount
+        var discountPrice = _vendingPurchase.GetVendingMachineDiscountPrice(uid, currentGrid);
+        if (discountPrice.HasValue)
+        {
+            return discountPrice.Value;
+        }
+
+        // Fall back to normal static price
+        return GetStaticPrice(uid);
+    }
+
     private double GetStaticPrice(EntityPrototype prototype)
     {
         var price = 0.0;
 
-        if (prototype.Components.TryGetValue(_factory.GetComponentName(typeof(StaticPriceComponent)), out var staticProto))
+        if (prototype.Components.TryGetValue(Factory.GetComponentName<StaticPriceComponent>(), out var staticProto))
         {
             var staticPrice = (StaticPriceComponent) staticProto.Component;
             price += staticPrice.Price;
@@ -437,13 +530,13 @@ public sealed class PricingSystem : EntitySystem
         var price = 0.0;
 
         // Prefer static price to stack price component, take the first positive value read.
-        if (prototype.Components.TryGetValue(_factory.GetComponentName(typeof(StaticPriceComponent)), out var staticProto))
+        if (prototype.Components.TryGetValue(Factory.GetComponentName(typeof(StaticPriceComponent)), out var staticProto))
         {
             var staticComp = (StaticPriceComponent) staticProto.Component;
             if (staticComp.VendPrice > 0.0)
                 price += staticComp.VendPrice;
         }
-        if (price == 0.0 && prototype.Components.TryGetValue(_factory.GetComponentName(typeof(StackPriceComponent)), out var stackProto))
+        if (price == 0.0 && prototype.Components.TryGetValue(Factory.GetComponentName(typeof(StackPriceComponent)), out var stackProto))
         {
             var stackComp = (StackPriceComponent) stackProto.Component;
             if (stackComp.VendPrice > 0.0)

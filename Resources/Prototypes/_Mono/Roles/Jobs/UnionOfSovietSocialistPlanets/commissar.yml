@@ -24,6 +24,8 @@
   weight: 40
   displayWeight: 40
   special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, UsspTrackingImplant ]
   - !type:AddComponentSpecial
     components:
     - type: MailDisabled
@@ -40,4 +42,7 @@
   id: USSPCommissarGear
   equipment:
     pocket1: WeaponRevolverMatebaAP
-    pocket2: SpeedLoaderMagnumAP
+    pocket2: SpeedLoader45_magnumAP
+  storage:
+    back:
+    - RadioHandheldNF

@@ -1,3 +1,25 @@
+# SPDX-FileCopyrightText: 2023 Alexander Evgrashin
+# SPDX-FileCopyrightText: 2023 Cheackraze
+# SPDX-FileCopyrightText: 2023 Emisse
+# SPDX-FileCopyrightText: 2023 Mnemosyne
+# SPDX-FileCopyrightText: 2023 RealIHaveANameOfficial
+# SPDX-FileCopyrightText: 2023 metalgearsloth
+# SPDX-FileCopyrightText: 2024 Dvir
+# SPDX-FileCopyrightText: 2024 ErhardSteinhauer
+# SPDX-FileCopyrightText: 2024 ThatOneGoblin25
+# SPDX-FileCopyrightText: 2024 TsjipTsjip
+# SPDX-FileCopyrightText: 2024 Tych0
+# SPDX-FileCopyrightText: 2025 Alice "Arimah" Heurlin
+# SPDX-FileCopyrightText: 2025 Checkraze
+# SPDX-FileCopyrightText: 2025 Onezero0
+# SPDX-FileCopyrightText: 2025 RikuTheKiller
+# SPDX-FileCopyrightText: 2025 ark1368
+# SPDX-FileCopyrightText: 2025 core-mene
+# SPDX-FileCopyrightText: 2025 revoemagcoconut
+# SPDX-FileCopyrightText: 2025 significant harassment
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 meta:
   format: 7
   category: Grid
@@ -434,7 +456,6 @@ entities:
       shape: Ring
       scale: 0
       radarColor: '#00DEFEFF'
-    - type: CircularShieldRadar
   - uid: 209
     components:
     - type: MetaData
@@ -447,7 +468,6 @@ entities:
       shape: Ring
       scale: 0
       radarColor: '#00DEFEFF'
-    - type: CircularShieldRadar
   - uid: 245
     components:
     - type: MetaData
@@ -460,7 +480,6 @@ entities:
       shape: Ring
       scale: 0
       radarColor: '#00DEFEFF'
-    - type: CircularShieldRadar
   - uid: 300
     components:
     - type: MetaData
@@ -473,7 +492,6 @@ entities:
       shape: Ring
       scale: 0
       radarColor: '#00DEFEFF'
-    - type: CircularShieldRadar
   - uid: 498
     components:
     - type: MetaData
@@ -486,7 +504,6 @@ entities:
       shape: Ring
       scale: 0
       radarColor: '#00DEFEFF'
-    - type: CircularShieldRadar
   - uid: 577
     components:
     - type: MetaData
@@ -499,7 +516,6 @@ entities:
       shape: Ring
       scale: 0
       radarColor: '#00DEFEFF'
-    - type: CircularShieldRadar
   - uid: 610
     components:
     - type: MetaData
@@ -512,7 +528,6 @@ entities:
       shape: Ring
       scale: 0
       radarColor: '#00DEFEFF'
-    - type: CircularShieldRadar
   - uid: 631
     components:
     - type: MetaData
@@ -525,7 +540,6 @@ entities:
       shape: Ring
       scale: 0
       radarColor: '#00DEFEFF'
-    - type: CircularShieldRadar
 - proto: AirAlarm
   entities:
   - uid: 592
@@ -751,8 +765,6 @@ entities:
       pos: -1.5,-0.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 594
@@ -762,8 +774,6 @@ entities:
       pos: -0.5,-3.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 595
@@ -773,8 +783,6 @@ entities:
       pos: -4.5,-2.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 596
@@ -784,8 +792,6 @@ entities:
       pos: -1.5,3.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 597
@@ -795,8 +801,6 @@ entities:
       pos: -1.5,11.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 598
@@ -812,8 +816,6 @@ entities:
       pos: -5.5,7.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 600
@@ -823,8 +825,6 @@ entities:
       pos: 2.5,7.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 609
@@ -833,8 +833,6 @@ entities:
       pos: 1.5,-1.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
 - proto: AmeController
@@ -1221,7 +1219,7 @@ entities:
     - type: Transform
       pos: 2.5,-9.5
       parent: 2
-- proto: BoxBeanbag
+- proto: AmmoBox12_gaugeBeanbag
   entities:
   - uid: 533
     components:
@@ -2222,16 +2220,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -4.5,5.5
       parent: 2
-- proto: CircularShieldConsole
-  entities:
-  - uid: 222
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -2.5,10.5
-      parent: 2
-    - type: ApcPowerReceiver
-      powerLoad: 5
 - proto: ClosetWallO2N2Filled
   entities:
   - uid: 527
@@ -2278,7 +2266,7 @@ entities:
       - device-button-6
       - device-button-7
       - device-button-8
-- proto: ComputerTabletopAdvancedRadar
+- proto: ComputerTabletopRadar
   entities:
   - uid: 226
     components:
@@ -2404,8 +2392,6 @@ entities:
       pos: -2.5,8.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
 - proto: FirelockGlass
@@ -2416,8 +2402,6 @@ entities:
       pos: -4.5,-1.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 602
@@ -2426,8 +2410,6 @@ entities:
       pos: -0.5,-1.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 603
@@ -2436,8 +2418,6 @@ entities:
       pos: 0.5,0.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 604
@@ -2446,8 +2426,6 @@ entities:
       pos: -1.5,1.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 605
@@ -2456,8 +2434,6 @@ entities:
       pos: -1.5,5.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 606
@@ -2466,8 +2442,6 @@ entities:
       pos: -3.5,7.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 607
@@ -2476,8 +2450,6 @@ entities:
       pos: 0.5,7.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 608
@@ -2486,8 +2458,6 @@ entities:
       pos: 2.5,10.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
 - proto: GasOutletInjector
@@ -2925,8 +2895,6 @@ entities:
     - type: AtmosPipeColor
       color: '#0055CCFF'
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 280
@@ -2937,8 +2905,6 @@ entities:
     - type: AtmosPipeColor
       color: '#0055CCFF'
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 299
@@ -2950,8 +2916,6 @@ entities:
     - type: AtmosPipeColor
       color: '#0055CCFF'
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
 - proto: GasVentScrubber
@@ -2965,8 +2929,6 @@ entities:
     - type: AtmosPipeColor
       color: '#990000FF'
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 279
@@ -2977,8 +2939,6 @@ entities:
     - type: AtmosPipeColor
       color: '#990000FF'
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
   - uid: 323
@@ -2989,8 +2949,6 @@ entities:
     - type: AtmosPipeColor
       color: '#990000FF'
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 592
 - proto: GravityGeneratorMini
@@ -3074,17 +3032,13 @@ entities:
       rot: 3.141592653589793 rad
       pos: 3.5,11.5
       parent: 2
-- proto: GunneryServer
+- proto: GunneryServerLow
   entities:
   - uid: 175
     components:
     - type: Transform
       pos: -5.5,-7.5
       parent: 2
-    - type: ApcPowerReceiver
-      powerLoad: 5
-    - type: Battery
-      startingCharge: 0
 - proto: Gyroscope
   entities:
   - uid: 110

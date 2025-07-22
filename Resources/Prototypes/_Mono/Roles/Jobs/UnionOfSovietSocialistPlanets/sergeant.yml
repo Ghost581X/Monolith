@@ -1,3 +1,11 @@
+# SPDX-FileCopyrightText: 2025 Daniel Lenrd
+# SPDX-FileCopyrightText: 2025 HungryCuban
+# SPDX-FileCopyrightText: 2025 Redrover1760
+# SPDX-FileCopyrightText: 2025 core-mene
+# SPDX-FileCopyrightText: 2025 starch
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 - type: job
   id: USSPSergeant
   name: job-name-ussp-sergeant
@@ -18,6 +26,8 @@
   weight: 30
   displayWeight: 30
   special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, UsspTrackingImplant ]
   - !type:AddComponentSpecial
     components:
     - type: MailDisabled
@@ -34,7 +44,7 @@
   id: USSPSergeantGear
   equipment:
     pocket1: WeaponPistolPollock
-    pocket2: MagazinePistol
+    pocket2: Magazine9x19mmPistolFMJ
   storage:
     back:
-    - WeaponRifleAK502
+    - RadioHandheldNF

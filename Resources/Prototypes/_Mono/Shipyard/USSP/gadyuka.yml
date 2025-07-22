@@ -1,9 +1,15 @@
+# SPDX-FileCopyrightText: 2025 Redrover1760
+# SPDX-FileCopyrightText: 2025 grandalff
+# SPDX-FileCopyrightText: 2025 starch
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 - type: vessel
   id: Gadyuka
   parent: BaseVesselAntag
   name: NCS Gadyuka
   description: A small attack craft, ideal for dealing with small threats.
-  price: 21520 # WALMARTMOBILE 2
+  price: 27520 # WALMARTMOBILE 2
   category: Small
   group: Ussp
   access: USSPGadyuka
@@ -13,7 +19,9 @@
   - Pursuit
   engine:
   - Uranium
-
+  cloakHunter: true
+  company:
+  - USSP
 - type: gameMap
   id: Gadyuka
   mapName: 'Gadyuka'

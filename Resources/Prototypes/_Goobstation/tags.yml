@@ -1,14 +1,22 @@
-- type: Tag
-  id: MagazineLightRifleSubsonic
+# SPDX-FileCopyrightText: 2025 Ark
+# SPDX-FileCopyrightText: 2025 Aviu00
+# SPDX-FileCopyrightText: 2025 ScyronX
+# SPDX-FileCopyrightText: 2025 core-mene
+# SPDX-FileCopyrightText: 2025 starch
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
 
 - type: Tag
-  id: MagazineHighCaliber
+  id: Magazine7.62x39mmSubsonic
 
 - type: Tag
-  id: CartridgeLightRifleSubsonic
+  id: Magazine12.7x99mm
 
 - type: Tag
-  id: CartridgeHighCaliber
+  id: Cartridge7.62x39mmSubsonic
+
+- type: Tag
+  id: Cartridge12.7x99mm
 
 # Mechs
 
@@ -116,6 +124,27 @@
   id: Gygax
 
 - type: Tag
+  id: LaserLMG
+
+- type: Tag
+  id: LaserLMGBackpack
+
+- type: Tag
+  id: MilitaryPowerCell
+
+- type: Tag
+  id: MilitaryPowerCellLMG
+
+- type: Tag
+  id: MilitaryPowerCellRevolver
+
+- type: Tag
+  id: MilitaryPowerCellSniper
+
+- type: Tag
+  id: MilitaryPowerCellSMG
+
+- type: Tag
   id: ModsuitPart
 
 - type: Tag
@@ -139,3 +168,17 @@
 - type: Tag
   id: ModsuitPlatingExternal
 
+- type: Tag
+  id: StasisBattery
+
+- type: Tag
+  id: StasisCage
+
+- type: Tag
+  id: CartridgeSmart
+
+- type: Tag
+  id: MagazineSmart
+
+- type: Tag
+  id: MagazineSmartLMG

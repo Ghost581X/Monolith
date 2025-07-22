@@ -1,3 +1,12 @@
+# SPDX-FileCopyrightText: 2024 Dvir
+# SPDX-FileCopyrightText: 2024 ErhardSteinhauer
+# SPDX-FileCopyrightText: 2024 Whatstone
+# SPDX-FileCopyrightText: 2025 Blu
+# SPDX-FileCopyrightText: 2025 BoskiYourk
+# SPDX-FileCopyrightText: 2025 starch
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 - type: npcFaction
   id: Pibble
   hostile:
@@ -28,6 +37,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: Dwarf
@@ -86,6 +97,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: WizFedFaction
@@ -119,6 +132,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: BloodCultNF
@@ -152,6 +167,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: PirateNF
@@ -185,6 +202,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: ArtifactConstruct
@@ -218,6 +237,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: StreetGangNF
@@ -251,6 +272,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: DinosaursNF
@@ -284,6 +307,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: ExplorersExpeditionNF
@@ -317,6 +342,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: MercenariesExpeditionNF
@@ -350,6 +377,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: SiliconsExpeditionNF
@@ -383,6 +412,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: AberrantFleshExpeditionNF
@@ -416,6 +447,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: ContrabandClothing
@@ -449,6 +482,8 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono
 
 - type: npcFaction
   id: ContrabandDetection
@@ -493,3 +528,5 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  - USSPTurret # Mono
+  - MD # Mono

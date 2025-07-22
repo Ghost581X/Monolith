@@ -1,6 +1,11 @@
+# SPDX-FileCopyrightText: 2024 Dvir
+# SPDX-FileCopyrightText: 2025 core-mene
+# SPDX-FileCopyrightText: 2025 starch
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 # Rubber
 - type: entity
-  name: Drozd
   parent: WeaponSubMachineGunDrozd
   id: WeaponSubMachineGunDrozdRubber
   suffix: Non-Lethal
@@ -9,18 +14,18 @@
       slots:
         gun_magazine:
           name: Magazine
-          startingItem: MagazinePistolSubMachineGunRubber
+          startingItem: Magazine45_ACPSubMachineGunRubber
           insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
           ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
           priority: 2
           whitelist:
             tags:
-              - MagazinePistolSubMachineGun
+              - Magazine45_ACPSubMachineGunFMJ
           whitelistFailPopup: gun-magazine-whitelist-fail
         gun_chamber:
           name: Chamber
-          startingItem: CartridgePistolRubber
+          startingItem: Cartridge45_ACPRubber
           priority: 1
           whitelist:
             tags:
-              - CartridgePistol
+              - Cartridge45_ACPFMJ

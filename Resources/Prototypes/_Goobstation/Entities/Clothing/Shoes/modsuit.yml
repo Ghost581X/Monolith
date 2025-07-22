@@ -1,3 +1,11 @@
+# SPDX-FileCopyrightText: 2025 Blu
+# SPDX-FileCopyrightText: 2025 NotActuallyMarty
+# SPDX-FileCopyrightText: 2025 Redrover1760
+# SPDX-FileCopyrightText: 2025 ark1368
+# SPDX-FileCopyrightText: 2025 starch
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 - type: entity
   parent: ClothingShoesBase
   id: ClothingModsuitBootsStandard
@@ -25,13 +33,21 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
-  - type: NoSlip
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: ToggleClothing
+    action: ActionToggleMagboots
+    mustEquip: false
+  - type: ComponentToggler
+    components:
+    - type: NoSlip
   - type: Magboots
   - type: SealableClothingVisuals
-    visualLayers:
+    spriteLayer: sealed
+    clothingVisuals:
       shoes:
       - state: equipped-FEET-sealed
-        shader: unshaded
 
 - type: entity
   parent: ClothingShoesBase
@@ -60,10 +76,19 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.95
     sprintModifier: 0.95
-  - type: NoSlip
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: ToggleClothing
+    action: ActionToggleMagboots
+    mustEquip: false
+  - type: ComponentToggler
+    components:
+    - type: NoSlip
   - type: Magboots
   - type: SealableClothingVisuals
-    visualLayers:
+    spriteLayer: sealed
+    clothingVisuals:
       shoes:
       - state: equipped-FEET-sealed
 
@@ -94,10 +119,19 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.95
     sprintModifier: 0.95
-  - type: NoSlip
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: ToggleClothing
+    action: ActionToggleMagboots
+    mustEquip: false
+  - type: ComponentToggler
+    components:
+    - type: NoSlip
   - type: Magboots
   - type: SealableClothingVisuals
-    visualLayers:
+    spriteLayer: sealed
+    clothingVisuals:
       shoes:
       - state: equipped-FEET-sealed
 
@@ -128,10 +162,19 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.95
     sprintModifier: 0.95
-  - type: NoSlip
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: ToggleClothing
+    action: ActionToggleMagboots
+    mustEquip: false
+  - type: ComponentToggler
+    components:
+    - type: NoSlip
   - type: Magboots
   - type: SealableClothingVisuals
-    visualLayers:
+    spriteLayer: sealed
+    clothingVisuals:
       shoes:
       - state: equipped-FEET-sealed
 
@@ -162,10 +205,19 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.85
-  - type: NoSlip
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: ToggleClothing
+    action: ActionToggleMagboots
+    mustEquip: false
+  - type: ComponentToggler
+    components:
+    - type: NoSlip
   - type: Magboots
   - type: SealableClothingVisuals
-    visualLayers:
+    spriteLayer: sealed
+    clothingVisuals:
       shoes:
       - state: equipped-FEET-sealed
 
@@ -196,10 +248,19 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.85
-  - type: NoSlip
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: ToggleClothing
+    action: ActionToggleMagboots
+    mustEquip: false
+  - type: ComponentToggler
+    components:
+    - type: NoSlip
   - type: Magboots
   - type: SealableClothingVisuals
-    visualLayers:
+    spriteLayer: sealed
+    clothingVisuals:
       shoes:
       - state: equipped-FEET-sealed
 
@@ -230,10 +291,19 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.85
-  - type: NoSlip
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: ToggleClothing
+    action: ActionToggleMagboots
+    mustEquip: false
+  - type: ComponentToggler
+    components:
+    - type: NoSlip
   - type: Magboots
   - type: SealableClothingVisuals
-    visualLayers:
+    spriteLayer: sealed
+    clothingVisuals:
       shoes:
       - state: equipped-FEET-sealed
 
@@ -264,9 +334,18 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.90
     sprintModifier: 0.90
-  - type: NoSlip
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: ToggleClothing
+    action: ActionToggleMagboots
+    mustEquip: false
+  - type: ComponentToggler
+    components:
+    - type: NoSlip
   - type: Magboots
   - type: SealableClothingVisuals
-    visualLayers:
+    spriteLayer: sealed
+    clothingVisuals:
       shoes:
       - state: equipped-FEET-sealed

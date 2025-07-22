@@ -1,9 +1,51 @@
+// SPDX-FileCopyrightText: 2022 Flipp Syder
+// SPDX-FileCopyrightText: 2022 Nemanja
+// SPDX-FileCopyrightText: 2022 Paul Ritter
+// SPDX-FileCopyrightText: 2022 Rane
+// SPDX-FileCopyrightText: 2022 Visne
+// SPDX-FileCopyrightText: 2022 metalgearsloth
+// SPDX-FileCopyrightText: 2022 themias
+// SPDX-FileCopyrightText: 2023 AJCM-git
+// SPDX-FileCopyrightText: 2023 Arendian
+// SPDX-FileCopyrightText: 2023 Chief-Engineer
+// SPDX-FileCopyrightText: 2023 Ilya Chvilyov
+// SPDX-FileCopyrightText: 2023 Kara
+// SPDX-FileCopyrightText: 2023 MendaxxDev
+// SPDX-FileCopyrightText: 2023 Slava0135
+// SPDX-FileCopyrightText: 2023 TaralGit
+// SPDX-FileCopyrightText: 2023 and_a
+// SPDX-FileCopyrightText: 2023 deltanedas
+// SPDX-FileCopyrightText: 2023 deltanedas <@deltanedas:kde.org>
+// SPDX-FileCopyrightText: 2024 Aviu00
+// SPDX-FileCopyrightText: 2024 Bixkitts
+// SPDX-FileCopyrightText: 2024 Cojoke
+// SPDX-FileCopyrightText: 2024 DrSmugleaf
+// SPDX-FileCopyrightText: 2024 Dvir
+// SPDX-FileCopyrightText: 2024 Ed
+// SPDX-FileCopyrightText: 2024 Jake Huxell
+// SPDX-FileCopyrightText: 2024 Jessica M
+// SPDX-FileCopyrightText: 2024 LordCarve
+// SPDX-FileCopyrightText: 2024 RiceMar1244
+// SPDX-FileCopyrightText: 2024 Sigil
+// SPDX-FileCopyrightText: 2024 VividPups
+// SPDX-FileCopyrightText: 2024 Whatstone
+// SPDX-FileCopyrightText: 2024 beck-thompson
+// SPDX-FileCopyrightText: 2024 eoineoineoin
+// SPDX-FileCopyrightText: 2024 keronshb
+// SPDX-FileCopyrightText: 2024 nikthechampiongr
+// SPDX-FileCopyrightText: 2025 Ark
+// SPDX-FileCopyrightText: 2025 Leon Friedrich
+// SPDX-FileCopyrightText: 2025 SlamBamActionman
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using System.Linq;
 using System.Numerics;
 using Content.Server._Mono.FireControl;
 using Content.Server.Cargo.Systems;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Weapons.Ranged.Components;
+using Content.Shared._Mono;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
@@ -25,7 +67,7 @@ using Robust.Shared.Utility;
 using Robust.Shared.Containers;
 using Content.Shared.Interaction; // Frontier
 using Content.Shared.Examine; // Frontier
-using Content.Shared._Mono;
+using Content.Shared.Hands.Components;
 using Content.Shared.Power;
 using Robust.Shared.Physics.Components; // Frontier
 
@@ -33,14 +75,14 @@ namespace Content.Server.Weapons.Ranged.Systems;
 
 public sealed partial class GunSystem : SharedGunSystem
 {
-    [Dependency] private readonly IComponentFactory _factory = default!;
-    [Dependency] private readonly BatterySystem _battery = default!;
     [Dependency] private readonly DamageExamineSystem _damageExamine = default!;
     [Dependency] private readonly PricingSystem _pricing = default!;
     [Dependency] private readonly SharedColorFlashEffectSystem _color = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly StaminaSystem _stamina = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private readonly RequireProjectileTargetSystem _requireProjectileTarget = default!;
 
     private const float DamagePitchVariation = 0.05f;
 
@@ -188,11 +230,13 @@ public sealed partial class GunSystem : SharedGunSystem
                             // Check if laser is shot from in a container
                             if (!_container.IsEntityOrParentInContainer(lastUser))
                             {
-                                // Checks if the laser should pass over unless targeted by its user
+                                // Use the same collision logic as projectiles
                                 foreach (var collide in rayCastResults)
                                 {
-                                    if (collide.HitEntity != gun.Target &&
-                                        CompOrNull<RequireProjectileTargetComponent>(collide.HitEntity)?.Active == true)
+                                    var isTargeted = collide.HitEntity == gun.Target;
+
+                                    // Use shared logic to determine if collision should be prevented
+                                    if (_requireProjectileTarget.ShouldPreventCollision(collide.HitEntity, user, isTargeted))
                                     {
                                         continue;
                                     }
@@ -205,9 +249,9 @@ public sealed partial class GunSystem : SharedGunSystem
                             var hit = result.HitEntity;
                             lastHit = hit;
 
-                            FireEffects(fromEffect, result.Distance, dir.Normalized().ToAngle(), hitscan, hit);
+                            FireEffects(fromEffect, result.Distance, dir.Normalized().ToAngle(), hitscan, hit, user);
 
-                            var ev = new HitScanReflectAttemptEvent(user, gunUid, hitscan.Reflective, dir, false);
+                            var ev = new HitScanReflectAttemptEvent(user, gunUid, hitscan.Reflective, dir, false, hitscan.Damage); // WD EDIT
                             RaiseLocalEvent(hit, ref ev);
 
                             if (!ev.Reflected)
@@ -260,7 +304,7 @@ public sealed partial class GunSystem : SharedGunSystem
                     }
                     else
                     {
-                        FireEffects(fromEffect, hitscan.MaxLength, dir.ToAngle(), hitscan);
+                        FireEffects(fromEffect, hitscan.MaxLength, dir.ToAngle(), hitscan, null, user);
                     }
 
                     Audio.PlayPredicted(gun.SoundGunshotModified, gunUid, user);
@@ -412,8 +456,14 @@ public sealed partial class GunSystem : SharedGunSystem
     // TODO: Pseudo RNG so the client can predict these.
     #region Hitscan effects
 
-    private void FireEffects(EntityCoordinates fromCoordinates, float distance, Angle angle, HitscanPrototype hitscan, EntityUid? hitEntity = null)
+    private void FireEffects(EntityCoordinates fromCoordinates, float distance, Angle angle, HitscanPrototype hitscan, EntityUid? hitEntity = null, EntityUid? user = null)
     {
+        // Raise custom event for radar tracking
+        // Use the actual user as shooter instead of trying to derive from coordinates
+        var shooter = user ?? GetShooterFromCoordinates(fromCoordinates);
+        var radarEv = new _Mono.Radar.HitscanRadarSystem.HitscanFireEffectEvent(fromCoordinates, distance, angle, hitscan, hitEntity, shooter);
+        RaiseLocalEvent(radarEv);
+
         // Lord
         // Forgive me for the shitcode I am about to do
         // Effects tempt me not
@@ -470,6 +520,30 @@ public sealed partial class GunSystem : SharedGunSystem
                 Sprites = sprites,
             }, Filter.Pvs(fromCoordinates, entityMan: EntityManager));
         }
+    }
+
+    // Helper method to find the shooter from coordinates, typically a gun or the coordinate's entity
+    private EntityUid? GetShooterFromCoordinates(EntityCoordinates coordinates)
+    {
+        var entity = coordinates.EntityId;
+
+        // Check if the entity is a gun
+        if (HasComp<GunComponent>(entity))
+            return entity;
+
+        // Try to find a parent that might be the shooter
+        if (TryComp<TransformComponent>(entity, out var transform) && transform.ParentUid != EntityUid.Invalid)
+        {
+            if (HasComp<GunComponent>(transform.ParentUid))
+                return transform.ParentUid;
+
+            // If parent has hands, it might be the shooter
+            if (HasComp<HandsComponent>(transform.ParentUid))
+                return transform.ParentUid;
+        }
+
+        // Default to the entity itself
+        return entity;
     }
 
     #endregion
