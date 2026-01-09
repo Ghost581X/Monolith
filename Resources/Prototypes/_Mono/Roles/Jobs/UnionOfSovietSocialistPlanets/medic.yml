@@ -1,11 +1,3 @@
-# SPDX-FileCopyrightText: 2025 Daniel Lenrd
-# SPDX-FileCopyrightText: 2025 HungryCuban
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 core-mene
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: job
   id: USSPMedic
   name: job-name-ussp-medic
@@ -23,6 +15,7 @@
   icon: "JobIconBrigmedic" # TODO - new USSP icons
   supervisors: job-supervisors-ussp-sergeant
   canBeAntag: false
+  guides: [ BasicLore, UnitedSovietSocialistPlanets ] # Mono
   weight: 15
   displayWeight: 15
   special:
@@ -36,6 +29,11 @@
     - type: NpcFactionMember
       factions:
       - USSP
+  - !type:AddLanguageSpecial
+    languagesSpoken:
+    - NovaCygniBasic
+    languagesUnderstood:
+    - NovaCygniBasic
   accessGroups:
   - GeneralAccess
   - USSPLow

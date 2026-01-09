@@ -1,13 +1,3 @@
-# SPDX-FileCopyrightText: 2025 EctoplasmIsGood
-# SPDX-FileCopyrightText: 2025 HungryCuban
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 ScyronX
-# SPDX-FileCopyrightText: 2025 Your Name
-# SPDX-FileCopyrightText: 2025 core-mene
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: listing
   id: UplinkSecurityAnnie
   name:  uplink-security-annie-name
@@ -39,12 +29,12 @@
       - SecurityUplink
 
 - type: listing
-  id: UplinkSecurityMR8C
-  name:  uplink-security-mr8c-name
-  description: uplink-security-mr8c-desc
-  productEntity: WeaponRifleMR8C
+  id: UplinkSecurityMk290
+  name:  uplink-security-sentry-mk290-name
+  description: uplink-security-sentry-mk290-desc
+  productEntity: WeaponTurretMk290Packed
   cost:
-    FederationMilitaryCredit: 125
+    FederationMilitaryCredit: 100
   categories:
   - UplinkSecurityWeapons
   conditions:
@@ -54,12 +44,12 @@
       - SecurityUplink
 
 - type: listing
-  id: UplinkSecurityMR8B
-  name:  uplink-security-mr8b-name
-  description: uplink-security-mr8b-desc
-  productEntity: WeaponLMGMR8B
+  id: UplinkSecurityMR8C
+  name:  uplink-security-mr8c-name
+  description: uplink-security-mr8c-desc
+  productEntity: WeaponRifleMR8C
   cost:
-    FederationMilitaryCredit: 250
+    FederationMilitaryCredit: 125
   categories:
   - UplinkSecurityWeapons
   conditions:
@@ -140,7 +130,7 @@
 #  id: UplinkSecurityMagazineSubsonic
 #  name:  uplink-subsonic-mag-name
 #  description: uplink-subsonic-mag-desc
-#  productEntity: Magazine7.62x39mmSubsonic
+#  productEntity: Magazine762x39mmSubsonic
 #  cost:
 #    FederationMilitaryCredit: 3
 #  categories:
@@ -155,7 +145,7 @@
 #  id: UplinkSecurityBoxSubsonic
 #  name:  uplink-subsonic-box-name
 #  description: uplink-subsonic-box-desc
-#  productEntity: AmmoBox7.62x39mmSubsonic
+#  productEntity: AmmoBox762x39mmSubsonic
 #  cost:
 #    FederationMilitaryCredit: 10
 #  categories:
@@ -182,12 +172,12 @@
       - SecurityUplink
 
 - type: listing
-  id: UplinkSecurityMagazineBox8x65mm
-  name: uplink-security-8x65mm-boxmag-name
-  description: uplink-security-8x65mm-boxmag-desc
-  productEntity: Magazine8x65mmSKRBox
+  id: UplinkSecurityBoxSKR
+  name:  uplink-security-8x65mm-box-name
+  description: uplink-security-8x65mm-box-desc
+  productEntity: AmmoBox8x65mmSKR
   cost:
-    FederationMilitaryCredit: 20
+    FederationMilitaryCredit: 12
   categories:
   - UplinkSecurityAmmo
   conditions:
@@ -197,12 +187,27 @@
       - SecurityUplink
 
 - type: listing
-  id: UplinkSecurityBoxSKR
-  name:  uplink-security-8x65mm-box-name
-  description: uplink-security-8x65mm-box-desc
-  productEntity: AmmoBox8x65mmSKR
+  id: UplinkSecurityMagazine68x52mm
+  name:  uplink-security-68x52mm-magazine-name
+  description: uplink-security-68x52mm-magazine-desc
+  productEntity: Magazine68x52mmCaseless
   cost:
-    FederationMilitaryCredit: 12
+    FederationMilitaryCredit: 2
+  categories:
+  - UplinkSecurityAmmo
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - SecurityUplink
+
+- type: listing
+  id: UplinkSecurityBox68x52mm
+  name:  uplink-security-68x52mm-box-name
+  description: uplink-security-68x52mm-box-desc
+  productEntity: AmmoBox68x52mmCaselessBig
+  cost:
+    FederationMilitaryCredit: 8
   categories:
   - UplinkSecurityAmmo
   conditions:
@@ -331,3 +336,24 @@
 #     whitelist:
 #       tags:
 #       - SecurityUplink
+
+- type: listing
+  id: UplinkSecurityPulseRifle
+  name:  uplink-security-pulserifle-name
+  description: uplink-security-pulserifle-desc
+  productEntity: WeaponPulseRifle
+  icon: { sprite: Objects/Weapons/Guns/Battery/pulse_rifle.rsi, state: base }
+  cost:
+    FederationMilitaryCredit: 100
+  categories:
+    - UplinkSecurityWeapons
+  conditions:
+    - !type:StoreWhitelistCondition
+      whitelist:
+        tags:
+          - SecurityUplink
+    - !type:BuyerJobCondition
+      whitelist:
+        - Sheriff
+        - Bailiff
+        - SeniorOfficer 

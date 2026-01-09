@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: GasPressurePump
   id: GasPressurePumpOn
   suffix: On
@@ -186,6 +186,10 @@
   - type: IconSmooth
     key: walls
     mode: NoSprite
+  # Mono
+  - type: Construction
+    graph: AirlockShuttle
+    node: gaslock
 
 - type: entity
   parent: [BaseStructureDynamic, BasePressurePumpGaslock]

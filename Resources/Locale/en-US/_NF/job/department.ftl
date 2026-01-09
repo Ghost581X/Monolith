@@ -1,5 +1,5 @@
 # Below: Department name - should match department.ID, may collide with upstream definitions
-department-Antag = Rogue Sector
+department-Antag = Phaethon Dynasty Imperial Vanguard
 department-Command = Central Command
-department-Frontier = TSF Rogue Frontier
-department-Security = Trans-Solar Federation Marine Corps
+department-Frontier = Colossus Frontier Colonization
+department-Security = TSF Marine Corps Detachment

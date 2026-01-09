@@ -205,7 +205,6 @@
   flavor: sour
   color: "#48b3b8"
   physicalDesc: reagent-physical-desc-ferrous
-  slippery: false
   metabolisms:
     Drink:
       effects:
@@ -229,6 +228,8 @@
   color: "#5050ff"
   boilingPoint: 165
   meltingPoint: -87
+  tileReactions: # Mono - alien romulus
+  - !type:PryTileReaction
   reactiveEffects:
     Acidic:
       methods: [ Touch ]

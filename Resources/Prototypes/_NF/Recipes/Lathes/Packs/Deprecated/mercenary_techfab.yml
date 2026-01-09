@@ -1,6 +1,3 @@
-# The mercenary techfab made into packs.
-# TODO: Reorganize these into common packs.
-
 - type: latheRecipePack
   id: NFMercenaryTechfabDeprecatedStatic
   recipes:
@@ -43,6 +40,7 @@
   - AirTank
 # Mercenary techfab
 ## Clothing / Armor
+  - ArmorPlateLight #Mono
   - RiotShield
   - ClothingNeckIFFNeutral
   - ClothingNeckIFFGreen
@@ -84,8 +82,10 @@
   - WeaponRevolverArgenti
   - WeaponPistolMk58NF
   - WeaponShotgunDoubleBarreled
+  - WeaponShotgunHelepolis
   - WeaponRifleNovaliteC1
   - WeaponRifleGestio
+  - WeaponSubMachineGunKnallstock # Mono
   - BaseBallBatNF
   - CrossbowModern
   - WeaponPistolPollock
@@ -103,9 +103,12 @@
   - JetpackVoid
   - PowerCellHigh
   # - PowerCellHyperNF
+  - PowerCellCombat # Mono edit
   - PowerCellMicroreactor
 # Mercenary techfab
 ## Armor
+  - ArmorPlateMedium #Mono
+  - ArmorPlateTactical #Mono
   - TelescopicShield
   - ClothingOuterArmorBulletproofNF
   - ClothingOuterCoatBHTrench
@@ -130,6 +133,7 @@
   - ClothingOuterHardsuitMercenary
   - ClothingOuterHardsuitPrivateSecurity
   - ClothingOuterHardsuitScaf
+  - ClothingModsuitMercenaryPowerCell # Mono edit
   - ClothingShoesBootsMagSecurity
   - ClothingShoesBootsMagMercenary
 ## Utilities
@@ -165,7 +169,33 @@
   - WeaponDisablerSMG
   - WeaponLaserCannon
   - WeaponXrayCannon
-## Ammo boxes
+#Mono start
+  - WeaponLMGRatel
+  - WeaponShotgunBigBuddy
+  - WeaponShotgunBigJohnny
+  - WeaponShotgunEnforcerMerc
+  - WeaponRifleVulcanMerc
+  - WeaponRiflePrometheus
+  - WeaponRifleVulcanFCMC
+  - WeaponSubMachineGunWt550
+  - WeaponSubMachineGunFirestarter
+  - WeaponSubMachineGunVector9x19mm
+  - WeaponSubMachineGunFirestarter
+  - WeaponSubMachineGunWt550
+  - WeaponRifleNtsfLtr
+  - WeaponSubMachineGunVectorNtsfHclm
+  - WeaponRadAx
+  - WeaponRifleAk
+  - UllmanHardsuitPilot
+  - UllmanHardsuitEngineer
+  - UllmanHardsuitEnforcer
+  - UllmanHardsuitEnforcerMKII
+  - UllmanWeaponPulsePistol
+  - UllmanWeaponSmartMagnum
+  - UllmanWeaponPulseRifle
+  - UllmanWeaponPulseSniper
+  - UllmanMeleePlasmaBlade
+#Mono end
 
 - type: latheRecipePack
   id: NFMercenaryTechfabDeprecatedEmag

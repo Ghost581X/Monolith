@@ -23,10 +23,10 @@ APCBasicEmpImmune: APCBasic
 Ashtray: NFAshtray
 
 # 2024-05-25
-BoxSurvival: BoxSurvivalNFOxygen
-BoxSurvivalEngineering: BoxSurvivalNFOxygenExtended
-BoxSurvivalMedical: BoxSurvivalNFOxygen
-BoxHug: BoxSurvivalNFOxygen
+BoxSurvival: BoxSurvivalMonoOxygenExtended
+BoxSurvivalEngineering: BoxSurvivalMonoOxygenExtended
+BoxSurvivalMedical: BoxSurvivalMonoOxygenExtended
+BoxHug: BoxSurvivalMonoOxygenExtended
 
 # 2024-07-19
 ComputerTabletopComputerIFFPOI: ComputerTabletopIFFPOI
@@ -108,7 +108,7 @@ RandomPosterContrabandDeadDrop: RandomPosterContraband
 PosterContrabandFreeTontoDD: PosterContrabandFreeTonto
 PosterContrabandAtmosiaDeclarationIndependenceDD: PosterContrabandAtmosiaDeclarationIndependence
 PosterContrabandFunPoliceDD: PosterContrabandFunPolice
-PosterContrabandLustyExomorphDD: PosterContrabandLustyExomorph
+PosterContrabandLurkingExomorphDD: PosterContrabandLurkingExomorph #Mono: Not funny nothing happen
 PosterContrabandSyndicateRecruitmentDD: PosterContrabandSyndicateRecruitment
 PosterContrabandClownDD: PosterContrabandClown
 PosterContrabandSmokeDD: PosterContrabandSmoke
@@ -165,10 +165,10 @@ PosterContrabandDonkDD: PosterContrabandDonk
 PosterContrabandEnlistGorlexDD: PosterContrabandEnlistGorlex
 PosterContrabandInterdyneDD: PosterContrabandInterdyne
 PosterContrabandWaffleCorpDD: PosterContrabandWaffleCorp
-NFPosterContrabandFsbStasisDD: NFPosterContrabandFsbStasis
-NFPosterContrabandFsbApothecaryDD: NFPosterContrabandFsbApothecary
-NFPosterContrabandFsbLogoDD: NFPosterContrabandFsbLogo
-NFPosterContrabandFsbSpiritDD: NFPosterContrabandFsbSpirit
+NFPosterContrabandFsbStasisDD: RandomPosterContraband # Mono
+NFPosterContrabandFsbApothecaryDD: RandomPosterContraband # Mono
+NFPosterContrabandFsbLogoDD: RandomPosterContraband # Mono
+NFPosterContrabandFsbSpiritDD: RandomPosterContraband # Mono
 NFPosterContrabandEmsCoordsDD: NFPosterContrabandEmsCoords
 
 # 2024-12-09 Wreck

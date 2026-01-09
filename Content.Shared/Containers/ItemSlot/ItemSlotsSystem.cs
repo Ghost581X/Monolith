@@ -145,7 +145,7 @@ namespace Content.Shared.Containers.ItemSlots
         {
             itemSlot = null;
 
-            if (!Resolve(uid, ref component))
+            if (!Resolve(uid, ref component, false)) // Goobstation - sane API
                 return false;
 
             return component.Slots.TryGetValue(slotId, out itemSlot);
@@ -256,7 +256,7 @@ namespace Content.Shared.Containers.ItemSlots
             }
 
             // Drop the held item onto the floor. Return if the user cannot drop.
-            if (!_handsSystem.TryDrop(args.User, args.Used, handsComp: hands))
+            if (_handsSystem.IsHolding(args.User, args.Used) && !_handsSystem.TryDrop(args.User, args.Used, handsComp: hands)) // Goobstation - don't try to drop if not holding
                 return;
 
             slots.Sort(SortEmpty);

@@ -1,0 +1,24 @@
+## Static
+
+- type: latheRecipePack
+  id: GasMiningStatic
+  recipes:
+  - GasMiningDrillFlatpack
+  - GaslockFrameFlatpack
+
+- type: latheRecipePack
+  id: AutomationStatic
+  recipes:
+  - RoboticArmCircuitboard
+  - ConstructorCircuitboard
+  - StorageBinCircuitboard
+  - InteractorCircuitboard
+  - UpgradeKitAutomation
+
+## Dynamic
+
+- type: latheRecipePack
+  id: RCD
+  recipes:
+  - RCD
+  - RCDAmmo

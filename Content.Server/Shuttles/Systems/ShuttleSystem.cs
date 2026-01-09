@@ -7,6 +7,7 @@ using Content.Server.GameTicking;
 using Content.Server.Parallax;
 using Content.Server.Procedural;
 using Content.Server.Shuttles.Components;
+using Content.Server.Shuttles.Events;
 using Content.Server.Station.Systems;
 using Content.Server.Stunnable;
 using Content.Shared.Buckle.Components;
@@ -14,6 +15,7 @@ using Content.Shared.Damage;
 using Content.Shared.GameTicking;
 using Content.Shared.Inventory;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Movement.Events;
 using Content.Shared.Salvage;
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.Throwing;
@@ -52,6 +54,7 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     [Dependency] private readonly DockingSystem _dockSystem = default!;
     [Dependency] private readonly DungeonSystem _dungeon = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly FixtureSystem _fixtures = default!;
     [Dependency] private readonly InventorySystem _inventorySystem = default!;
     [Dependency] private readonly MapLoaderSystem _loader = default!;
@@ -93,6 +96,9 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
 
         SubscribeLocalEvent<ShuttleComponent, ComponentStartup>(OnShuttleStartup);
         SubscribeLocalEvent<ShuttleComponent, ComponentShutdown>(OnShuttleShutdown);
+        SubscribeLocalEvent<ShuttleComponent, TileFrictionEvent>(OnTileFriction);
+        SubscribeLocalEvent<ShuttleComponent, FTLStartedEvent>(OnFTLStarted);
+        SubscribeLocalEvent<ShuttleComponent, FTLCompletedEvent>(OnFTLCompleted);
 
         SubscribeLocalEvent<GridInitializeEvent>(OnGridInit);
         SubscribeLocalEvent<FixturesComponent, GridFixtureChangeEvent>(OnGridFixtureChange);
@@ -140,49 +146,52 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
         {
             Enable(uid, component: physicsComponent, shuttle: component);
         }
+
+        component.DampingModifier = component.BodyModifier;
     }
 
-    public void Toggle(EntityUid uid, ShuttleComponent component)
+    public void Toggle(EntityUid uid, ShuttleComponent component,
+                       bool force = false) // Mono - add force
     {
         if (!EntityManager.TryGetComponent(uid, out PhysicsComponent? physicsComponent))
             return;
 
-        if (HasComp<PreventGridAnchorChangesComponent>(uid)) // Frontier
+        if (HasComp<PreventGridAnchorChangesComponent>(uid) && !force) // Frontier // Mono
             return; // Frontier
 
         component.Enabled = !component.Enabled;
 
         if (component.Enabled)
         {
-            Enable(uid, component: physicsComponent, shuttle: component);
+            Enable(uid, component: physicsComponent, shuttle: component, force: force);
         }
         else
         {
-            Disable(uid, component: physicsComponent);
+            Disable(uid, component: physicsComponent, force: force);
         }
     }
 
-    public void Enable(EntityUid uid, FixturesComponent? manager = null, PhysicsComponent? component = null, ShuttleComponent? shuttle = null)
+    public void Enable(EntityUid uid, FixturesComponent? manager = null, PhysicsComponent? component = null, ShuttleComponent? shuttle = null,
+                       bool force = false) // Mono - add force
     {
         if (!Resolve(uid, ref manager, ref component, ref shuttle, false))
             return;
 
-        if (HasComp<PreventGridAnchorChangesComponent>(uid)) // Frontier
+        if (HasComp<PreventGridAnchorChangesComponent>(uid) && !force) // Frontier // Mono
             return; // Frontier
 
         _physics.SetBodyType(uid, BodyType.Dynamic, manager: manager, body: component);
         _physics.SetBodyStatus(uid, component, BodyStatus.InAir);
         _physics.SetFixedRotation(uid, false, manager: manager, body: component);
-        _physics.SetLinearDamping(uid, component, shuttle.LinearDamping);
-        _physics.SetAngularDamping(uid, component, shuttle.AngularDamping);
     }
 
-    public void Disable(EntityUid uid, FixturesComponent? manager = null, PhysicsComponent? component = null)
+    public void Disable(EntityUid uid, FixturesComponent? manager = null, PhysicsComponent? component = null,
+                        bool force = false) // Mono - add force
     {
         if (!Resolve(uid, ref manager, ref component, false))
             return;
 
-        if (HasComp<PreventGridAnchorChangesComponent>(uid)) // Frontier
+        if (HasComp<PreventGridAnchorChangesComponent>(uid) && !force) // Frontier // Mono
             return; // Frontier
 
         _physics.SetBodyType(uid, BodyType.Static, manager: manager, body: component);
@@ -197,5 +206,55 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
             return;
 
         Disable(uid);
+    }
+
+    private void OnTileFriction(Entity<ShuttleComponent> ent, ref TileFrictionEvent args)
+    {
+        args.Modifier *= ent.Comp.DampingModifier;
+    }
+
+    private void OnFTLStarted(Entity<ShuttleComponent> ent, ref FTLStartedEvent args)
+    {
+        var gridUid = args.Entity;
+
+        ent.Comp.DampingModifier = 0f;
+
+        var dockedShuttles = new HashSet<EntityUid>();
+        GetAllDockedShuttles(gridUid, dockedShuttles);
+
+        // Process each docked ship (excluding the main ship which we already processed)
+        foreach (var dockedUid in dockedShuttles)
+        {
+            if (dockedUid == gridUid)
+                continue;
+
+            if (_entityManager.TryGetComponent<ShuttleComponent>(dockedUid, out var dockedComp))
+            {
+                dockedComp.DampingModifier = 0f;
+            }
+        }
+    }
+
+    private void OnFTLCompleted(Entity<ShuttleComponent> ent, ref FTLCompletedEvent args)
+    {
+        var gridUid = args.Entity;
+
+        ent.Comp.DampingModifier = ent.Comp.BodyModifier;
+
+        // Todo: Account for scenarios where shuttles undock mid-FTL
+        var dockedShuttles = new HashSet<EntityUid>();
+        GetAllDockedShuttles(gridUid, dockedShuttles);
+
+        // Process each docked ship (excluding the main ship which we already processed)
+        foreach (var dockedUid in dockedShuttles)
+        {
+            if (dockedUid == gridUid)
+                continue;
+
+            if (_entityManager.TryGetComponent<ShuttleComponent>(dockedUid, out var dockedComp))
+            {
+                dockedComp.DampingModifier = dockedComp.BodyModifier;
+            }
+        }
     }
 }

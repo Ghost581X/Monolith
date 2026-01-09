@@ -1,38 +1,29 @@
-# SPDX-FileCopyrightText: 2025 Blu
-# SPDX-FileCopyrightText: 2025 Disguised Bear
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 RikuTheKiller
-# SPDX-FileCopyrightText: 2025 core-mene
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 # VESPERA
 
 - type: entity
   id: ShipMissileASM417
-  name: ASM-417 Mini Missile
+  name: ASM-417 50mm Mini Missile
   parent: BaseBulletTrigger
   categories: [ HideSpawnMenu ]
   components:
   - type: Projectile
     damage:
       types:
-        Structural: 450
-        Blunt: 65
-        Heat: 10
+        Structural: 20
+        Blunt: 20
+        Heat: 30
   - type: Sprite
     sprite: _Mono/Objects/SpaceArtillery/mini_rocket.rsi
     layers:
     - state: mini-rocket
   - type: Ammo
-    muzzleFlash: null
+    muzzleFlash: MuzzleFlashEffectSmall
   - type: ShipWeaponProjectile
   - type: RadarBlip
     radarColor: "#FCBA03"
     scale: 1
     requireNoGrid: true
-    shape: triangle
+    shape: hexagon
   - type: TimedDespawn
     lifetime: 3.5
   - type: PointLight
@@ -41,33 +32,33 @@
     energy: 0.5
   - type: ExplodeOnTrigger
   - type: Explosive
-    explosionType: DefaultShipGun
-    totalIntensity: 75
+    explosionType: Default
+    totalIntensity: 15
     intensitySlope: 8
-    maxIntensity: 25
+    maxIntensity: 8
   - type: GatheringProjectile
   - type: MiningGatheringSoft
   - type: MiningGatheringHard
   - type: TargetSeeking
-    acceleration: 150
-    detectionRange: 300
-    scanArc: 70
-    launchSpeed: 300
-    maxSpeed: 360
-    trackDelay: 0.3
+    acceleration: 300
+    detectionRange: 500
+    scanArc: 35
+    launchSpeed: 150
+    maxSpeed: 180
+    trackDelay: 0.1
 
 # ASM-302
 
 - type: entity
   id: ShipMissileASM302
-  name: ASM-302 missile
+  name: ASM-302 150mm missile
   parent: BaseBulletTrigger
   categories: [ HideSpawnMenu ]
   components:
   - type: Projectile
     damage:
       types:
-        Structural: 1000
+        Structural: 300
         Blunt: 175
         Heat: 50
   - type: Sprite
@@ -75,84 +66,35 @@
     layers:
     - state: frag
   - type: Ammo
-    muzzleFlash: null
+    muzzleFlash: MuzzleFlashEffectSmall
   - type: ShipWeaponProjectile
   - type: RadarBlip
     radarColor: "#FCBA03"
     scale: 1.5
     requireNoGrid: true
-    shape: triangle
+    shape: hexagon
   - type: TimedDespawn
-    lifetime: 3
+    lifetime: 4.5
   - type: PointLight
     radius: 3.5
     color: orange
     energy: 0.5
   - type: ExplodeOnTrigger
   - type: Explosive
-    explosionType: DefaultShipGun
-    totalIntensity: 150
+    explosionType: Default
+    totalIntensity: 25
     intensitySlope: 10
-    maxIntensity: 55
+    maxIntensity: 15
   - type: GatheringProjectile
   - type: MiningGatheringSoft
   - type: MiningGatheringHard
   - type: TargetSeeking
     acceleration: 200
-    detectionRange: 450
-    scanArc: 70
-    launchSpeed: 180
-    maxSpeed: 420
-    trackDelay: 0.7
-
-# ASM-501
-
-- type: entity
-  id: ShipMissileASM501
-  name: ASM-501 missile
-  parent: BaseBulletTrigger
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Projectile
-    damage:
-      types:
-        Structural: 15000
-        Blunt: 2000
-        Heat: 500
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
-    layers:
-    - state: frag
-  - type: Ammo
-    muzzleFlash: null
-  - type: ShipWeaponProjectile
-  - type: RadarBlip
-    radarColor: "#FCBA03"
-    scale: 4
-    requireNoGrid: true
-    shape: triangle
-  - type: TimedDespawn
-    lifetime: 10
-  - type: PointLight
-    radius: 5
-    color: orange
-    energy: 2
-  - type: ExplodeOnTrigger
-  - type: Explosive
-    explosionType: DefaultShipGun
-    maxIntensity: 6000
-    intensitySlope: 30
-    totalIntensity: 6000
-  - type: GatheringProjectile
-  - type: MiningGatheringSoft
-  - type: MiningGatheringHard
-  - type: TargetSeeking
-    acceleration: 50
-    detectionRange: 300
-    scanArc: 50
-    launchSpeed: 50
-    maxSpeed: 60
-    trackDelay: 4
+    detectionRange: 600
+    scanArc: 40
+    launchSpeed: 90
+    maxSpeed: 210
+    trackDelay: 0.2
 
 # TOVEK
 
@@ -165,23 +107,22 @@
   - type: Projectile
     damage:
       types:
-        Structural: 7500
+        Structural: 100
         Heat: 30
-        Ion: 2500
   - type: Sprite
     sprite: _Mono/Objects/SpaceArtillery/hybrid_missile.rsi
     layers:
     - state: hybrid-missile
   - type: Ammo
-    muzzleFlash: null
+    muzzleFlash: MuzzleFlashEffectSmall
   - type: ShipWeaponProjectile
   - type: RadarBlip
     radarColor: "#FB00FF"
     scale: 1
     requireNoGrid: true
-    shape: triangle
+    shape: hexagon
   - type: TimedDespawn
-    lifetime: 4.2
+    lifetime: 6.5
   - type: PointLight
     radius: 3.5
     color: orange
@@ -192,18 +133,67 @@
     disableDuration: 5
   - type: ExplodeOnTrigger
   - type: Explosive
-    explosionType: DefaultShipGun
-    totalIntensity: 100
+    explosionType: Default
+    totalIntensity: 20
     intensitySlope: 10
-    maxIntensity: 50
+    maxIntensity: 15
     maxTileBreak: 1
   - type: GatheringProjectile
   - type: MiningGatheringSoft
   - type: MiningGatheringHard
   - type: TargetSeeking
-    acceleration: 80
-    detectionRange: 450
-    scanArc: 80
-    launchSpeed: 100
-    maxSpeed: 250
-    trackDelay: 1.2
+    acceleration: 200
+    detectionRange: 600
+    scanArc: 45
+    launchSpeed: 50
+    maxSpeed: 125
+    trackDelay: 0.6
+
+# Serpent Torpedo
+
+- type: entity
+  id: ShipMissileSerpent
+  name: serpent torpedo
+  parent: BaseTorpedo
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Structural: 200
+        Blunt: 10
+        Heat: 30
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+    layers:
+    - state: frag
+  - type: Ammo
+    muzzleFlash: null
+  - type: ShipWeaponProjectile
+  - type: RadarBlip
+    radarColor: "#FCBA03"
+    scale: 4
+    requireNoGrid: true
+    shape: hexagon
+  - type: TimedDespawn
+    lifetime: 15
+  - type: PointLight
+    radius: 5
+    color: orange
+    energy: 2
+  - type: ExplodeOnTrigger
+  - type: Explosive
+    explosionType: Default
+    maxIntensity: 10
+    intensitySlope: 3
+    totalIntensity: 75
+  - type: GatheringProjectile
+  - type: MiningGatheringSoft
+  - type: MiningGatheringHard
+  - type: TargetSeeking
+    acceleration: 50
+    detectionRange: 600
+    scanArc: 30
+    launchSpeed: 25
+    maxSpeed: 30
+    trackDelay: 2

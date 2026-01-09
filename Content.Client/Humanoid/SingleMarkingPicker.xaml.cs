@@ -11,6 +11,8 @@ namespace Content.Client.Humanoid;
 public sealed partial class SingleMarkingPicker : BoxContainer
 {
     [Dependency] private readonly MarkingManager _markingManager = default!;
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+
 
     /// <summary>
     ///     What happens if a marking is selected.
@@ -226,6 +228,7 @@ public sealed partial class SingleMarkingPicker : BoxContainer
                 HorizontalExpand = true
             };
             selector.Color = marking.MarkingColors[i];
+            selector.SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv; // defaults color selector to HSV
 
             var colorIndex = i;
             selector.OnColorChanged += color =>

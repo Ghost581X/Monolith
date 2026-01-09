@@ -27,7 +27,7 @@
         shape:
           !type:PhysShapeCircle
           radius: 0.35
-        density: 150
+        density: 300
         mask:
         - MobMask
         layer:
@@ -47,8 +47,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
-      200: Dead
+      150: Critical # Monolith
+      250: Dead # Monolith
     stateAlertDict:
       Alive: BorgHealth
       Critical: BorgCrit
@@ -75,6 +75,8 @@
       # Only used for NT borgs that can switch type, defined here to avoid copy-pasting the rest of this component.
       enum.BorgSwitchableTypeUiKey.SelectBorgType:
         type: BorgSelectTypeUserInterface
+      enum.RadarConsoleUiKey.Key: # Mono
+        type: RadarConsoleBoundUserInterface
   - type: ActivatableUI
     key: enum.BorgUiKey.Key
   - type: SiliconLawBound
@@ -97,24 +99,25 @@
   - type: IntrinsicRadioTransmitter
     channels:
     - Traffic
-    - Binary
     - Common
     - Science
   - type: ActiveRadio
     channels:
     - Traffic
-    - Binary
     - Common
     - Science
+  - type: CollectiveMind
+    channels:
+    - Binary
+    defaultChannel: Binary
   - type: ZombieImmune
   - type: Repairable
     doAfterDelay: 10
-    allowSelfRepair: false
+    allowSelfRepair: true
   - type: BorgChassis
   - type: LockingWhitelist
     blacklist:
       components:
-      - BorgChassis
       - RoboticsConsole
   - type: WiresPanel
   - type: ActivatableUIRequiresPanel
@@ -133,7 +136,9 @@
     onActivate: false # You should not be able to turn off a borg temporarily.
     activated: false # gets activated when a mind is added
     onUse: false # no item-borg toggling sorry
-  - type: ItemTogglePointLight
+  #- type: ItemTogglePointLight # Mono - Light removal PR: Borg Adjustments
+  - type: NightVision # Mono
+    color: "#808080"
   - type: AccessToggle
   # TODO: refactor movement to just be based on toggle like speedboots but for the boots themselves
   # TODO: or just have sentient speedboots be fast idk
@@ -156,10 +161,14 @@
   - type: Speech
     speechVerb: Robotic
     speechSounds: Borg
+    allowedEmotes: # Goobstation - Cyborg emote sounds
+    - Laugh
+    - Sigh
+    - Crying
+    - Whistle
   - type: Vocal
     sounds:
       Unsexed: UnisexSilicon
-    screamAction: null
   - type: UnblockableSpeech
   - type: FootstepModifier
     footstepSoundCollection:
@@ -177,6 +186,7 @@
   - type: LockedWiresPanel
   - type: Damageable
     damageContainer: Silicon
+    damageModifierSet: BaseBorgChassis
   - type: Destructible
     thresholds:
     - trigger:
@@ -190,7 +200,7 @@
             volume: 5
     - trigger:
         !type:DamageTrigger
-        damage: 300
+         damage: 350 # Monolith
       behaviors:
       - !type:PlaySoundBehavior
         sound:
@@ -202,34 +212,34 @@
         - cell_slot
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
-  - type: HandheldLight
-    toggleOnInteract: false
-    wattage: 0.2
-    blinkingBehaviourId: blinking
-    radiatingBehaviourId: radiating
-  - type: LightBehaviour
-    behaviours:
-    - !type:FadeBehaviour
-      id: radiating
-      maxDuration: 2.0
-      startValue: 3.0
-      endValue: 2.0
-      isLooped: true
-      reverseWhenFinished: true
-    - !type:PulseBehaviour
-      id: blinking
-      interpolate: Nearest
-      maxDuration: 1.0
-      minValue: 0.1
-      maxValue: 2.0
-      isLooped: true
-  - type: ToggleableLightVisuals
-  - type: PointLight
-    enabled: false
-    mask: /Textures/Effects/LightMasks/cone.png
-    autoRot: true
-    radius: 4
-    netsync: false
+  #- type: HandheldLight # Mono - Light removal PR: Borg Adjustments
+  #  toggleOnInteract: false
+  #  wattage: 0.2
+  #  blinkingBehaviourId: blinking
+  #  radiatingBehaviourId: radiating
+  #- type: LightBehaviour
+  #  behaviours:
+  #  - !type:FadeBehaviour
+  #    id: radiating
+  #    maxDuration: 2.0
+  #    startValue: 3.0
+  #    endValue: 2.0
+  #    isLooped: true
+  #    reverseWhenFinished: true
+  #  - !type:PulseBehaviour
+  #    id: blinking
+  #    interpolate: Nearest
+  #    maxDuration: 1.0
+  #    minValue: 0.1
+  #    maxValue: 2.0
+  #    isLooped: true
+  #- type: ToggleableLightVisuals
+  #- type: PointLight
+  #  enabled: false
+  #  mask: /Textures/Effects/LightMasks/cone.png
+  #  autoRot: true
+  #  radius: 4
+  #  netsync: false 
   - type: Pullable
   - type: Puller
     needsHands: false
@@ -244,12 +254,37 @@
     guides:
     - Cyborgs
     - Robotics
+  - type: LanguageKnowledge # Einstein Engines - Languages
+    speaks:
+    - TauCetiBasic
+    - RobotTalk
+    understands:
+    - TauCetiBasic
+    - RobotTalk
   - type: ProtectedFromStepTriggers
   - type: DamageOnInteractProtection
     damageProtection:
       flatReductions:
         Heat: 10 # capable of touching light bulbs and stoves without feeling pain!
   - type: PreventDropOnDowned # Frontier: borgs don't drop items when falling (e.g. critical/dead)
+  # <Mono>
+  - type: ToggleableSignature
+    blip:
+      radarColor: CornflowerBlue
+      scale: 0.5
+  - type: Magboots
+  - type: AccessGrantable
+  - type: MovementAlwaysTouching
+  - type: IntrinsicUI
+    uis:
+      enum.RadarConsoleUiKey.Key:
+        toggleAction: ActionObserverShowRadar
+  - type: RadarConsole
+    followEntity: true
+  - type: DetectionRangeMultiplier # same as mass scanner
+    infraredMultiplier: 0.5
+    visualMultiplier: 0.75
+  # </Mono>
 
 - type: entity
   abstract: true
@@ -324,25 +359,32 @@
     channels:
     - Traffic
     - Common
-    - Binary
     - Syndicate
   - type: ActiveRadio
     channels:
     - Common
-    - Binary
     - Traffic
     - Syndicate
+  - type: CollectiveMind
+    channels:
+    - Binary
+    defaultChannel: Binary
   - type: ShowSyndicateIcons
   - type: MovementAlwaysTouching
   - type: Speech
     speechSounds: SyndieBorg
     allowedEmotes:
     - Laugh
+    # Goobstation - Cyborg emote sounds
+    - Sigh
+    - Crying
+    - Whistle
+    # end Goobstation - Cyborg emote sounds
   - type: Vocal
     sounds:
       Unsexed: UnisexSiliconSyndicate
-  - type: PointLight
-    color: "#dd200b"
+  #- type: PointLight Mono - Light removal PR: Borg Adjustments
+  #  color: "#dd200b"
 
 - type: entity
   id: BaseBorgChassisDerelict

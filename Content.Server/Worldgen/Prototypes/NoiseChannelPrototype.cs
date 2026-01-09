@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using Robust.Shared.Noise;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Array;
@@ -79,7 +79,7 @@ public class NoiseChannelConfig
     public float Minimum { get; private set; }
 }
 
-[Prototype("noiseChannel")]
+[Prototype]
 public sealed partial class NoiseChannelPrototype : NoiseChannelConfig, IPrototype, IInheritingPrototype
 {
     /// <inheritdoc />

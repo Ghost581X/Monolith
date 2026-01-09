@@ -123,6 +123,30 @@
       Steel: 5
 
 - type: entity
+  id: ThrusterUSSPMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: USSP thruster machine board
+  components:
+  - type: MachineBoard
+    prototype: ThrusterUSSP
+    requirements:
+      Capacitor: 3
+    stackRequirements:
+      Steel: 5
+
+- type: entity
+  id: ThrusterRogueMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: Rogue thruster machine board
+  components:
+  - type: MachineBoard
+    prototype: ThrusterRogue
+    requirements:
+      Capacitor: 3
+    stackRequirements:
+      Steel: 5
+
+- type: entity
   id: SmallThrusterMachineCircuitboard
   parent: BaseMachineCircuitboard
   name: small thruster machine board
@@ -227,7 +251,7 @@
 
 - type: entity
   id: PortableGeneratorDKMachineCircuitboard
-  parent: [ BaseMachineCircuitboard, BaseC2ContrabandUnredeemable ]
+  parent: BaseMachineCircuitboard
   name: D-K-type portable generator machine board
   description: A machine printed circuit board for a D-K-type portable generator.
   components:
@@ -249,7 +273,7 @@
 
 - type: entity
   id: PortableGeneratorDKJrMachineCircuitboard
-  parent: [ BaseMachineCircuitboard, BaseC1Contraband ]
+  parent: BaseMachineCircuitboard
   name: D-K Jr.-type portable generator machine board
   description: A machine printed circuit board for a D-K Jr.-type portable generator.
   components:

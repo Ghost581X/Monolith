@@ -15,11 +15,11 @@ using Content.Shared.Humanoid;
 using Content.Shared._Shitmed.Body.Events;
 using Content.Shared._Shitmed.Body.Part;
 using Content.Shared._Shitmed.BodyEffects;
-using Content.Shared._Shitmed.Targeting.Events;
-using Content.Shared.Humanoid;
 using Content.Shared.Inventory;
 using Content.Shared.Random;
-using Content.Shared._Shitmed.Targeting.Events;
+
+// Mono
+using Content.Shared._White.Standing;
 
 namespace Content.Shared.Body.Systems;
 
@@ -373,6 +373,8 @@ public partial class SharedBodySystem
             bodyEnt.Comp.LegEntities.Add(legEnt);
             UpdateMovementSpeed(bodyEnt);
             Dirty(bodyEnt, bodyEnt.Comp);
+            // Mono
+            Standing.Stand(bodyEnt, force: !HasComp<LayingDownComponent>(bodyEnt));
         }
     }
 
@@ -386,7 +388,8 @@ public partial class SharedBodySystem
             bodyEnt.Comp.LegEntities.Remove(legEnt);
             UpdateMovementSpeed(bodyEnt);
             Dirty(bodyEnt, bodyEnt.Comp);
-            Standing.Down(bodyEnt); // Shitmed Change
+            if (bodyEnt.Comp.LegEntities.Count == 0 && bodyEnt.Comp.RequiredLegs > 0) // Mono
+                Standing.Down(bodyEnt); // Shitmed Change
         }
     }
 

@@ -1,7 +1,7 @@
 using Content.Server.DeviceLinking.Components;
-using Content.Server.DeviceLinking.Events;
 using Content.Shared.UserInterface;
 using Content.Shared.Access.Systems;
+using Content.Shared.DeviceLinking.Events;
 using Content.Shared.MachineLinking;
 using Content.Shared.TextScreen;
 using Robust.Server.GameObjects;
@@ -52,8 +52,7 @@ public sealed class SignalTimerSystem : EntitySystem
         if (_ui.HasUi(uid, SignalTimerUiKey.Key))
         {
             _ui.SetUiState(uid, SignalTimerUiKey.Key, new SignalTimerBoundUserInterfaceState(component.Label,
-                TimeSpan.FromSeconds(component.Delay).Minutes.ToString("D2"),
-                TimeSpan.FromSeconds(component.Delay).Seconds.ToString("D2"),
+                TimeSpan.FromSeconds(component.Delay), // Mono
                 component.Repeat, // Frontier: Repeat value
                 component.CanEditLabel,
                 time,
@@ -75,8 +74,7 @@ public sealed class SignalTimerSystem : EntitySystem
         if (_ui.HasUi(uid, SignalTimerUiKey.Key))
         {
             _ui.SetUiState(uid, SignalTimerUiKey.Key, new SignalTimerBoundUserInterfaceState(signalTimer.Label,
-                TimeSpan.FromSeconds(signalTimer.Delay).Minutes.ToString("D2"),
-                TimeSpan.FromSeconds(signalTimer.Delay).Seconds.ToString("D2"),
+                TimeSpan.FromSeconds(signalTimer.Delay), // Mono
                 signalTimer.Repeat, // Frontier: Repeat value
                 signalTimer.CanEditLabel,
                 TimeSpan.Zero,

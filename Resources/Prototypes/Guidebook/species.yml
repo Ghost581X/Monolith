@@ -17,11 +17,12 @@
   - Felinid # DeltaV
   - Oni # DeltaV
   - Chitinid # DeltaV
-  - Resomi
-  - Protogen
-  - IPC
-  - Yowie # Goobstation
-  #- Rodentia # DeltaV
+  - Resomi # Floof
+  - Protogen # Mono
+  - IPC # EE
+  - Rodentia # DeltaV
+  - Tajaran # Goobstation
+  - Hydrakin # Monolith/Obelisk
 
 - type: guideEntry
   id: Arachnid
@@ -79,6 +80,11 @@
   text: "/ServerInfo/Guidebook/Mobs/IPCs.xml"
 
 - type: guideEntry
-  id: Yowie
-  name: species-name-yowie
-  text: "/ServerInfo/Guidebook/Mobs/Yowie.xml"
+  id: Tajaran
+  name: species-name-tajaran
+  text: "/ServerInfo/Guidebook/Mobs/Tajaran.xml"
+
+- type: guideEntry
+  id: Hydrakin
+  name: species-name-hydrakin
+  text: "/ServerInfo/Guidebook/Mobs/Hydrakin.xml"

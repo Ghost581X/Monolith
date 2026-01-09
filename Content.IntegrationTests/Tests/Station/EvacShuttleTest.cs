@@ -18,6 +18,7 @@ public sealed class EvacShuttleTest
     /// Ensure that the emergency shuttle can be called, and that it will travel to centcomm
     /// </summary>
     [Test]
+    [Ignore("We don't have an evac shuttle on Mono")] // Mono change: disable test... we ain't getting a flight back to cc
     public async Task EmergencyEvacTest()
     {
         await using var pair = await PoolManager.GetServerClient(new PoolSettings { DummyTicker = true, Dirty = true });

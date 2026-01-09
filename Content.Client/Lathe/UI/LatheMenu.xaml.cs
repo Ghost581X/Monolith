@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Text;
 using Content.Client.Materials;
+using Content.Client.Stylesheets; // Mono
 using Content.Shared.Lathe;
 using Content.Shared.Lathe.Prototypes;
 using Content.Shared.Research.Prototypes;
@@ -11,11 +12,12 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
+using Content.Client.UserInterface.Controls;
 
 namespace Content.Client.Lathe.UI;
 
 [GenerateTypedNameReferences]
-public sealed partial class LatheMenu : DefaultWindow
+public sealed partial class LatheMenu : FancyWindow
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
@@ -26,6 +28,11 @@ public sealed partial class LatheMenu : DefaultWindow
 
     public event Action<BaseButton.ButtonEventArgs>? OnServerListButtonPressed;
     public event Action<string, int>? RecipeQueueAction;
+    // <Mono>
+    public event Action<bool>? OnLoopCheckboxPressed;
+    public event Action<bool>? OnSkipCheckboxPressed;
+    public event Action<int>? OnRecipeCancelled;
+    // </Mono>
 
     public List<ProtoId<LatheRecipePrototype>> Recipes = new();
 
@@ -56,6 +63,11 @@ public sealed partial class LatheMenu : DefaultWindow
         FilterOption.OnItemSelected += OnItemSelected;
 
         ServerListButton.OnPressed += a => OnServerListButtonPressed?.Invoke(a);
+
+        // <Mono>
+        LoopCheckbox.OnPressed += _ => OnLoopCheckboxPressed?.Invoke(LoopCheckbox.Pressed);
+        SkipCheckbox.OnPressed += _ => OnSkipCheckboxPressed?.Invoke(SkipCheckbox.Pressed);
+        // </Mono>
     }
 
     public void SetEntity(EntityUid uid)
@@ -249,6 +261,13 @@ public sealed partial class LatheMenu : DefaultWindow
                 queuedRecipeLabel.Text = $"{idx}. {_lathe.GetRecipeName(batch.Recipe)}";
             // End Frontier
             queuedRecipeBox.AddChild(queuedRecipeLabel);
+            // <Mono>
+            var cancelButton = new Button();
+            cancelButton.Text = "X";
+            cancelButton.StyleClasses.Add(StyleBase.ButtonCaution);
+            cancelButton.OnPressed += _ => OnRecipeCancelled?.Invoke(batch.Index);
+            queuedRecipeBox.AddChild(cancelButton);
+            // </Mono>
             QueueList.AddChild(queuedRecipeBox);
             idx++;
         }
@@ -265,6 +284,18 @@ public sealed partial class LatheMenu : DefaultWindow
 
         NameLabel.Text = _lathe.GetRecipeName(recipe);
     }
+
+    // <Mono>
+    public void SetLooping(bool loop)
+    {
+        LoopCheckbox.Pressed = loop;
+    }
+
+    public void SetSkipping(bool skip)
+    {
+        SkipCheckbox.Pressed = skip;
+    }
+    // </Mono>
 
     public Control GetRecipeDisplayControl(LatheRecipePrototype recipe)
     {

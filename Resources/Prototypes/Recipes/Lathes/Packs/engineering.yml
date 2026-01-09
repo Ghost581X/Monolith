@@ -9,6 +9,7 @@
   - Wrench
   - CrowbarGreen
   - Multitool
+  - MaintenanceJack #Mono
   # - NetworkConfigurator # Frontier: downgrade vs. multitool
   - Signaller
   - SprayPainter
@@ -58,6 +59,7 @@
   - PowerDrill
   - WelderExperimental
   - JawsOfLife
+  - ExperimentalNaniteApplicator
   # - Fulton # Frontier
   # - FultonBeacon # Frontier
 
@@ -88,6 +90,8 @@
   - PortableGeneratorSuperPacmanMachineCircuitboard
   - PortableGeneratorJrPacmanMachineCircuitboard
   - EmitterCircuitboard
+  - ContainmentFieldGeneratorCircuitboard # Mono
   - TelecomServerCircuitboard
   - SMESAdvancedMachineCircuitboard
+  - CrystallizerMachineCircuitboard # Mono/Funky
   # - HolopadMachineCircuitboard # Frontier: use NF variant

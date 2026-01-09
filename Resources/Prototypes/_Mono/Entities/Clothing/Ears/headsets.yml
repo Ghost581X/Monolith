@@ -45,8 +45,44 @@
 
 - type: entity
   parent: ClothingHeadsetAlt
+  id: ClothingHeadsetAltTsfmcMarsoc
+  name: TSFMC MARSOC over-ear headset
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyCommand
+      - EncryptionKeyCommon
+      - EncryptionKeyNfsd
+      - EncryptionKeyTraffic
+      - EncryptionKeyMedical
+      - EncryptionKeySecurity
+      - EncryptionKeyCentCom
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/security.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/security.rsi
+
+- type: entity
+  parent: ClothingHeadsetAlt
+  id: ClothingHeadsetAltTsfmcMarsocFtl
+  name: TSFMC MARSOC command over-ear headset
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyStationMaster
+      - EncryptionKeyCentCom
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/security.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/security.rsi
+
+- type: entity
+  parent: ClothingHeadsetAlt
   id: ClothingHeadsetUSSPCommand
   name: USSP command headset
+  description: A modular headset issued exclusively to high ranking USSP personnel. This headset will accept standard encryption keys and comes prefitted with a key for USSP Tactical Communications. Switching to the Strategic channel produces only static.
   components:
   - type: Sprite
     sprite: Clothing/Ears/Headsets/security.rsi
@@ -57,12 +93,12 @@
       key_slots:
       - EncryptionKeyCommon
       - EncryptionKeyUssp
-      - EncryptionKeyUsspCommand
 
 - type: entity
   parent: ClothingHeadsetAlt
   id: ClothingHeadsetUSSP
   name: USSP headset
+  description: The standard-issue headset of the USSP Defensive Navy for decades. This headset will accept standard encryption keys and comes prefitted with a key for USSP Tactical Communications. 
   components:
   - type: Sprite
     sprite: Clothing/Ears/Headsets/security.rsi

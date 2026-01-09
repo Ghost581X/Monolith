@@ -1,11 +1,11 @@
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: latheRecipe
   abstract: true
   id: MonoHardsuitT1Recipe
   parent: NFBaseEVASuitRecipe
+  categories:
+  - EVASuits
+  - CombatEva
+  - ArmorNF
   completetime: 15
   materials:
     Glass: 200

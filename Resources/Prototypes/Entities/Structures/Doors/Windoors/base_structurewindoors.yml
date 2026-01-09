@@ -167,6 +167,10 @@
   - type: StaticPrice
     price: 100 # Frontier: 150<100 - TODO: material value rework
   - type: PryUnpowered
+  # Mono
+  - type: ShipRepairable
+    repairTime: 3
+    repairCost: 6
 
 - type: entity
   id: BaseSecureWindoor
@@ -304,6 +308,7 @@
     price: 170 # Frontier: 500<170 - TODO: material value rework
   - type: RadiationBlocker
     resistance: 2
+  - type: HitscanDiffractTarget # Mono - Causes diffraction
 
 - type: entity
   id: BaseSecurePlasmaWindoor
@@ -374,7 +379,7 @@
     tags:
       - SecurePlasmaWindoor
       # This tag is used to nagivate the Airlock construction graph. It's needed because the construction graph is shared between Airlock, AirlockGlass, and HighSecDoor
-
+  - type: HitscanDiffractTarget # Mono - Causes diffraction
 
 #Uranium Windoors
 - type: entity

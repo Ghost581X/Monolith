@@ -1,26 +1,3 @@
-# SPDX-FileCopyrightText: 2025 Ark
-# SPDX-FileCopyrightText: 2025 Blu
-# SPDX-FileCopyrightText: 2025 DieselMohawk
-# SPDX-FileCopyrightText: 2025 Disguised Bear
-# SPDX-FileCopyrightText: 2025 Ghost581
-# SPDX-FileCopyrightText: 2025 HacksLua
-# SPDX-FileCopyrightText: 2025 Junerisms
-# SPDX-FileCopyrightText: 2025 LukeZurg22
-# SPDX-FileCopyrightText: 2025 Nope1356
-# SPDX-FileCopyrightText: 2025 Onezero0
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 ThomasJacksondds
-# SPDX-FileCopyrightText: 2025 Tmanzxd
-# SPDX-FileCopyrightText: 2025 UnicornOnLSD
-# SPDX-FileCopyrightText: 2025 gixer94
-# SPDX-FileCopyrightText: 2025 marklyfie4
-# SPDX-FileCopyrightText: 2025 marklyfied
-# SPDX-FileCopyrightText: 2025 pumpkin-pwr
-# SPDX-FileCopyrightText: 2025 significant harassment
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 # "None" - DO NOT REMOVE!
 - type: company
   id: None
@@ -29,6 +6,9 @@
   color: "#FFFFFF"
 
 # ====DO NOT TOUCH - ADMIN COMPANIES====
+# On a less serious note, these are just companies that are auto-assigned to jobs.
+# You can add to this in CompanySystem.cs in Content.Server
+
 - type: company
   id: TSF
   form: Protagonist
@@ -37,17 +17,10 @@
   disabled: true
 
 - type: company
-  id: Rogue
+  id: PDV
   form: Antagonist
-  name: Rogue
-  color: "#8B0000"
-  disabled: true
-
-- type: company
-  id: USSP
-  form: Antagonist
-  name: USSP
-  color: "#B01340"
+  name: PDV
+  color: "#D2B48C"
   disabled: true
 
 - type: company
@@ -58,6 +31,13 @@
   disabled: true
 
 - type: company
+  id: Colonial
+  form: Protagonist
+  name: Colonial Staff
+  color: "#279659"
+  disabled: true
+
+- type: company
   id: TSFHighComm
   form: Protagonist
   name: Winter Solstice
@@ -65,15 +45,23 @@
   color: "#008CE3"
   disabled: true
   logins: # admins only here !!! or your PR will be CLOSED!!!! also serves as a example for ur whitelisted factions
-  - starch
-  - localhost@starch
   - localhost@Ark
   - Ark
-  - Tikibomb
   - DisguisedBear
   - JuneCat
-  - Erol509
-  - SuperJoelDood
+  - AwareFoxy
+  - Avalon_Proto
+  - Archylle
+  - Arcticular
+  - ArtemisYK
+  - NigelSugar
+  - Reverence
+  - BluHNT
+  - DrOktober
+  - Archylle
+  - neoscav
+  - UnhipPaladin
+  - Onezero0
 # DO NOT TOUCH
 
 # ====TSF / Protag. Companies====
@@ -112,6 +100,13 @@
   color: "#FF2E2E"
   image: /Textures/_Mono/Companies/MACo.png
 
+- type: company
+  id: USSP
+  form: Antagonist
+  name: USSP
+  color: "#B01340"
+  disabled: false # Mercs are now USSP-pilled.
+  description: ussp-description
 
 # Major companies
 
@@ -183,20 +178,20 @@
 
 # Religious groups
 
-- type: company
-  id: ZealotsOfBalaam
-  form: Protagonist
-  name: Zealots Of Balaam
-  description: zealots-of-balaam-description
-  color: "#BC7F58"
+#- type: company
+#  id: ZealotsOfBalaam
+#  form: Protagonist
+#  name: Zealots Of Balaam
+#  description: zealots-of-balaam-description
+#  color: "#BC7F58"
 
-- type: company
-  id: CultOfTheMachineGod
-  form: Protagonist
-  name: Cult of the Machine God
-  description: cult-of-the-machine-god-description
-  color: "#DEBC50"
-  image: /Textures/_Mono/Companies/CMG.png
+#- type: company
+#  id: CultOfTheMachineGod
+#  form: Protagonist
+#  name: Cult of the Machine God
+#  description: cult-of-the-machine-god-description
+#  color: "#DEBC50"
+#   image: /Textures/_Mono/Companies/CMG.png
 
 - type: company
   id: TheHive
@@ -215,17 +210,24 @@
   color: "#7a0303"
 
 - type: company
-  id: cerberussurplusprovisions
+  id: CerberusSurplusProvisions
   form: Antagonist
   name: Cerberus Surplus Provisionaries
   description: cerberus-surplus-provisions
   color: "#aa1010"
   image: /Textures/_Mono/Companies/CSP.png
+  disabled: true
   logins:
     - GoobieWoob
     - Coolzman
     - Lumpy_the_Clown
     - coolfied
+    - Callington
+    - Operator_Talon5
+    - CdrGreenwall
+    - MarssSett18
+    - Administratorx # Hopefully this doesnt get denied because it has adminstrator in it smh
+    - MSMarvin
 
 # ====Rogue / Antag. Companies====
 - type: company

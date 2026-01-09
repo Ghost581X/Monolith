@@ -1,11 +1,11 @@
 name: Publish
 
-concurrency:
-  group: publish
-
 on:
   workflow_dispatch:
-  # Frontier: re-enabled autopublish
+  # Frontier: re-enabled autopublish bawk
+
+concurrency:
+  group: publish
 
 jobs:
   build:

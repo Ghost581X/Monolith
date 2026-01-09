@@ -53,6 +53,9 @@
   - type: Appearance
   - type: Strap
     unbuckleDistanceSquared: 0.09 # (30 cm)^2
+  - type: Tag # Mono
+    tags:
+    - DoorBumpOpener
 
 - type: entity
   parent: VehicleSkeletonMotorcycle
@@ -78,6 +81,9 @@
         type: StorageBoundUserInterface
   - type: Strap
     unbuckleDistanceSquared: 0.09 # (30 cm)^2
+  - type: Tag # Mono
+    tags:
+    - DoorBumpOpener
 
 # New Frontier vehicles
 - type: entity
@@ -86,7 +92,6 @@
   name: hoverbike
   description: A turbine with bike handles. Very safe.
   components:
-  - type: MovementIgnoreGravity
   - type: MovementAlwaysTouching
   - type: CanMoveInAir
   - type: AmbientSound
@@ -98,10 +103,14 @@
     buckleOffset: "0.1, -0.05"
     # maxBuckleDistance: 1 # Umbra - buckling fix
   - type: MovementSpeedModifier
-    acceleration: 2
-    friction: 1.5
-    baseWalkSpeed: 4.5
-    baseSprintSpeed: 7
+    baseAcceleration: 1.5
+    baseFriction: 1
+    baseWalkSpeed: 3.5
+    baseSprintSpeed: 6
+    baseWeightlessAcceleration: 1
+    baseWeightlessFriction: 0.05
+    weightlessFrictionNoInput: 0.05
+    baseWeightlessModifier: 3
   - type: Sprite
     sprite: _NF/Objects/Vehicles/hoverbike.rsi
     layers:
@@ -151,6 +160,9 @@
   - type: PointLight
     radius: 7
     energy: 3
+  - type: Tag # Mono
+    tags:
+    - DoorBumpOpener
 
 - type: entity
   parent: VehicleHoverbikeNF
@@ -275,6 +287,7 @@
   - type: Tag
     tags:
       - Wringer
+      - DoorBumpOpener # Mono
   - type: Drink
     solution: bucket
   - type: ContainerContainer
@@ -332,7 +345,6 @@
   name: mail carrier hoverbike
   description: You better run, better run, faster than my mail.
   components:
-  - type: MovementIgnoreGravity
   - type: MovementAlwaysTouching
   - type: CanMoveInAir
   - type: AmbientSound
@@ -340,6 +352,15 @@
     range: 8
     volume: 5
     enabled: false
+  - type: MovementSpeedModifier
+    baseAcceleration: 1.5
+    baseFriction: 1
+    baseWalkSpeed: 3.5
+    baseSprintSpeed: 6
+    baseWeightlessAcceleration: 1
+    baseWeightlessFriction: 0.05
+    weightlessFrictionNoInput: 0.05
+    baseWeightlessModifier: 3
   - type: Sprite
     sprite: _NF/Objects/Vehicles/hoverbike.rsi
     layers:
@@ -383,6 +404,9 @@
     enabled: false
     radius: 6
     energy: 3
+  - type: Tag # Mono
+    tags:
+    - DoorBumpOpener
 
 - type: entity
   parent: VehicleHoverbikeMailcarrier
@@ -415,7 +439,6 @@
 - type: entity
   parent:
   - VehicleHoverbikeMailcarrier
-  - BaseC2ContrabandUnredeemable
   id: VehicleHoverbikeNfsd
   name: TSFMC hoverbike
   description: An TSFMC issued turbine with bike handles. Very safe.
@@ -428,11 +451,6 @@
     southOverride: 0.1
     hornSound:
       path: /Audio/Effects/Vehicle/policesiren.ogg
-  - type: MovementSpeedModifier # Very petty on my end
-    acceleration: 1.9
-    friction: 1.4
-    baseWalkSpeed: 4.3
-    baseSprintSpeed: 6.8
   - type: Sprite
     sprite: _NF/Objects/Vehicles/hoverbike.rsi
     layers:
@@ -512,7 +530,6 @@
 - type: entity
   parent:
   - VehicleHoverbikeMailcarrier
-  - BaseC3PirateContraband
   id: VehicleHoverbikePirate
   name: pirate hoverbike
   description: Yarr! Dis be me sovereign space shuttle. Now, whaur me rum?
@@ -592,7 +609,6 @@
 - type: entity
   parent:
   - VehicleHoverbikeMailcarrier
-  - BaseC3SyndicateContraband
   id: VehicleHoverbikeSyndicate
   name: syndicate hoverbike
   description: This thing screams style. And war crimes.

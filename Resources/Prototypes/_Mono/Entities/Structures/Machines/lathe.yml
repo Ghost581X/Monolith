@@ -1,8 +1,3 @@
-# SPDX-FileCopyrightText: 2025 HungryCuban
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: entity
   id: FactionLathe
   parent: BaseLatheLube
@@ -27,13 +22,16 @@
     producingSound: /Audio/Machines/circuitprinter.ogg
     idleState: icon
     runningState: icon
+    staticPacks:
+    - StaticAmmoRecipePack
+    - NFMercenaryTechfabDeprecatedStatic
+    # - RoundstartShipgunAmmo
     dynamicPacks:
     # rogue start
     - MonoRogueWeaponsDynamicMelee
     - MonoRogueWeaponsDynamicRanged
     - MonoRogueVouchersDynamic
     - MonoRogueMiscDynamic
-    - MonoRogueAmmo
     - MonoRogueGearDynamic
     - MonoRogueGearProDynamic
     # TSF start
@@ -41,19 +39,23 @@
     - MonoTSFWeaponsDynamicRanged
     - MonoTSFVouchersDynamic
     - MonoTSFMiscDynamic
-    - MonoTSFAmmo
     - MonoTSFGearDynamic
-    - MonoTSFStructuresDynamic
     # USSP start
     - MonoUSSPVouchersDynamic
     - MonoUSSPArmorDynamic
     - MonoUSSPMiscDynamic
     - MonoUSSPWeaponsDynamicRanged
-    - MonoUSSPAmmo
     # Universal shit (stuff like shipgun ammo)
     - UniversalRailgunAmmo
-    - UniversalTorpedoAmmo
+    - UniversalMissileAmmo
     - UniversalShellAmmo
+    - UniversalOrdinance
+    - DynamicAmmoRecipePack
+    - NFMercenaryTechfabDeprecated
+    # Civ military tech
+    - ResearchedExplosives
+    - SecurityEquipment
+    - SmartGun
   - type: MaterialStorage
     whitelist:
       tags:

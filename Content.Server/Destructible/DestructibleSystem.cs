@@ -1,27 +1,3 @@
-// SPDX-FileCopyrightText: 2021 Acruid
-// SPDX-FileCopyrightText: 2021 Javier Guardia Fernández
-// SPDX-FileCopyrightText: 2021 Vera Aguilera Puerto
-// SPDX-FileCopyrightText: 2022 Alex Evgrashin
-// SPDX-FileCopyrightText: 2022 DrSmugleaf
-// SPDX-FileCopyrightText: 2022 Jezithyr
-// SPDX-FileCopyrightText: 2022 Leon Friedrich
-// SPDX-FileCopyrightText: 2022 Mervill
-// SPDX-FileCopyrightText: 2022 Moony
-// SPDX-FileCopyrightText: 2022 mirrorcult
-// SPDX-FileCopyrightText: 2022 wrexbe
-// SPDX-FileCopyrightText: 2023 Chief-Engineer
-// SPDX-FileCopyrightText: 2023 Emisse
-// SPDX-FileCopyrightText: 2023 Kara
-// SPDX-FileCopyrightText: 2023 Pieter-Jan Briers
-// SPDX-FileCopyrightText: 2023 Vordenburg
-// SPDX-FileCopyrightText: 2024 Cojoke
-// SPDX-FileCopyrightText: 2024 Nemanja
-// SPDX-FileCopyrightText: 2024 TemporalOroboros
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 metalgearsloth
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using System.Diagnostics.CodeAnalysis;
 using Content.Server.Administration.Logs;
 using Content.Server.Atmos.Components;
@@ -95,12 +71,8 @@ namespace Content.Server.Destructible
                         return b.GetType().Name;
                     }));
 
-                    bool spaceOrigin = false;
                     // Check if the damage is from space (barotrauma)
-                    if (args.Origin != null && EntityManager.TryGetComponent<BarotraumaComponent>(args.Origin.Value, out _))
-                    {
-                        spaceOrigin = true;
-                    }
+                    var spaceOrigin = args.Origin != null && EntityManager.HasComponent<BarotraumaComponent>(args.Origin.Value);
 
                     if (args.Origin != null)
                     {
@@ -120,16 +92,6 @@ namespace Content.Server.Destructible
                 if (EntityManager.IsQueuedForDeletion(uid) || EntityManager.Deleted(uid))
                     return;
             }
-        }
-
-        public void BreakEntity(EntityUid uid)
-        {
-            RaiseLocalEvent(uid, new BreakageEventArgs(), true);
-        }
-
-        public void DestroyEntity(EntityUid uid)
-        {
-            EntityManager.QueueDeleteEntity(uid);
         }
 
         // FFS this shouldn't be this hard. Maybe this should just be a field of the destructible component. Its not

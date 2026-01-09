@@ -1,7 +1,7 @@
 - type: entity
   id: BluespaceSalvage
   parent: BaseStationEventShortDelay
-  name: NT Bluespace Monitoring # This name shows up in the radio messages.
+  name: Colossus Sector Bluespace Monitoring # This name shows up in the radio messages.
   categories: [ HideSpawnMenu ]
   components:
   - type: StationEvent
@@ -27,10 +27,12 @@
         - type: IFF
           color: "#AAAAAA"
         - type: LinkedLifecycleGridParent
-        - type: ProtectedGrid
-          preventArtifactTriggers: true
-        - type: PreventPilot
-        paths:
+        # Mono
+        #- type: ProtectedGrid
+        #  preventArtifactTriggers: true
+        #- type: PreventPilot
+        - type: ClaimableGrid # Mono
+        paths: #Mono TODO: Create and add Mono scrap ships.
         - /Maps/_NF/Shuttles/Scrap/bison.yml
 #        - /Maps/_NF/Shuttles/Scrap/canister.yml # Too small
         - /Maps/_NF/Shuttles/Scrap/disciple.yml

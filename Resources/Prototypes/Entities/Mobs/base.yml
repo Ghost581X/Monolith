@@ -8,6 +8,7 @@
   - type: Sprite
     noRot: true
     drawdepth: Mobs
+  - type: MobCollision
   - type: Physics
     bodyType: KinematicController
   - type: Fixtures
@@ -44,6 +45,10 @@
   - type: RequireProjectileTarget
     active: False
   - type: AnimatedEmotes # goob edit - animated emotes
+  - type: LanguageSpeaker # Einstein Engines - Language. This component is required to support speech, but it does not define known languages.
+  - type: PassiveThermalSignature # Mono
+    signature: 225 # if nothing else is generating heat, 30m radius, 60m with 4 mobs, 120 with 16
+  - type: ThermalSignature # Mono
 
 - type: entity
   save: false
@@ -115,7 +120,7 @@
       path: /Audio/Effects/hit_kick.ogg
   - type: Pullable
   - type: LightningTarget
-    priority: 2
+    priority: 1 # Mono
     lightningExplode: false
 
 # Used for mobs that can enter combat mode and can attack.
@@ -174,7 +179,7 @@
     sweatHeatRegulation: 500
     shiveringHeatRegulation: 500
     normalBodyTemperature: 310.15
-    thermalRegulationTemperatureThreshold: 25
+    thermalRegulationTemperatureThreshold: 2
   - type: Temperature
     heatDamageThreshold: 325
     coldDamageThreshold: 260

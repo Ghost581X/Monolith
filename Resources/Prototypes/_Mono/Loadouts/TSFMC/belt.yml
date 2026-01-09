@@ -1,18 +1,14 @@
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: loadout
   id: TsfmcCombatWebbing
   name: chest rig
   equipment:
-    belt: ClothingBeltWebbingsNormalBlack
+    belt: ClothingBeltWebbingsNormalTSFMC
 
 - type: loadout
   id: TsfmcCombatWebbingLarge
   name: large chest rig
   equipment:
-    belt: ClothingBeltWebbingsBigBlack
+    belt: ClothingBeltWebbingsBigTSFMC
 
 # Brigmedic
 - type: loadout

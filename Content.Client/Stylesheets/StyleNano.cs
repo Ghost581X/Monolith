@@ -44,8 +44,7 @@ namespace Content.Client.Stylesheets
                     $"/Fonts/NotoSans{ds}/NotoSans{ds}-{sv}.ttf",
                     $"/Fonts/NotoSans/NotoSansSymbols-{sv}.ttf",
                     "/Fonts/NotoSans/NotoSansSymbols2-Regular.ttf",
-                    // Removing Chinese font since it's missing
-                    // "/Fonts/NotoSans/NotoSansSC-Regular.ttf",
+                    "/Fonts/NotoSans/NotoSansSC-Regular.ttf",
                 },
                 size
             );
@@ -60,8 +59,7 @@ namespace Content.Client.Stylesheets
                     path,
                     $"/Fonts/NotoSans/NotoSansSymbols-Regular.ttf",
                     "/Fonts/NotoSans/NotoSansSymbols2-Regular.ttf",
-                    // Removing Chinese font since it's missing
-                    // "/Fonts/NotoSans/NotoSansSC-Regular.ttf",
+                    "/Fonts/NotoSans/NotoSansSC-Regular.ttf",
                 },
                 size
             );
@@ -174,6 +172,7 @@ namespace Content.Client.Stylesheets
 
         //Background
         public const string StyleClassBackgroundBaseDark = "PanelBackgroundBaseDark";
+        public const string StyleClassBackgroundBaseLight = "PanelBackgroundBaseLight"; // Goob Station
 
         //Buttons
         public const string StyleClassCrossButtonRed = "CrossButtonRed";
@@ -1466,6 +1465,10 @@ namespace Content.Client.Stylesheets
                 Element<PanelContainer>().Class("PanelBackgroundBaseDark")
                     .Prop("panel", new StyleBoxTexture(BaseButtonOpenBoth) { Padding = default })
                     .Prop(Control.StylePropertyModulateSelf, Color.FromHex("#212121")),
+
+                Element<PanelContainer>().Class("PanelBackgroundBaseLight") // Goob Station
+                    .Prop("panel", new StyleBoxTexture(BaseButtonOpenBoth) { Padding = default })
+                    .Prop(Control.StylePropertyModulateSelf, Color.FromHex("#2d2d39")),
 
                 Element<PanelContainer>().Class("PanelBackgroundLight")
                     .Prop("panel", new StyleBoxTexture(BaseButtonOpenBoth) { Padding = default })

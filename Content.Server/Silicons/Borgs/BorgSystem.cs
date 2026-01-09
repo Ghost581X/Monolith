@@ -183,6 +183,11 @@ public sealed partial class BorgSystem : SharedBorgSystem
     private void OnMindAdded(EntityUid uid, BorgChassisComponent component, MindAddedMessage args)
     {
         BorgActivate(uid, component);
+
+        // Goobstation: Customizable borgs sprites
+        if (TryComp<BorgSwitchableTypeComponent>(uid, out var switchable))
+            if (switchable.SelectedBorgType == null)
+                _ui.TryOpenUi(uid, BorgSwitchableTypeUiKey.SelectBorgType, uid);
     }
 
     private void OnMindRemoved(EntityUid uid, BorgChassisComponent component, MindRemovedMessage args)
@@ -304,24 +309,6 @@ public sealed partial class BorgSystem : SharedBorgSystem
         Popup.PopupEntity(Loc.GetString("borg-mind-added", ("name", Identity.Name(uid, EntityManager))), uid);
 
         Toggle.TryActivate(uid);
-
-        // Frontier: add cyborg access
-        if (TryComp<AccessComponent>(uid, out var oldAccess))
-        {
-            var access = oldAccess.Tags.ToList();
-
-            access.Clear();
-            access.Add($"Captain");
-            access.Add($"Maintenance");
-            access.Add($"External");
-            access.Add($"Medical");
-            access.Add($"Pilot");
-            access.Add($"Mercenary");
-
-            _access.TrySetTags(uid, access);
-        }
-        _access.SetAccessEnabled(uid, true);
-        // End Frontier
 
         if (_powerCell.HasDrawCharge(uid))
         {

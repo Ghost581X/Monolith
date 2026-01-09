@@ -62,12 +62,25 @@
   - type: ContainerContainer
     containers:
       Paper: !type:ContainerSlot
+  - type: AutomationSlots # Goobstation
+    slots:
+    - !type:AutomatedItemSlot
+      input: AutomationSlotPaper
+      output: AutomationSlotPaper
+      slotId: Paper
+    - !type:AutomatedPorts
+      sinks:
+      - FaxCopy
   - type: DeviceNetworkRequiresPower
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: Fax
     transmitFrequencyId: Fax
   - type: RequireProjectileTarget
+  # Mono
+  - type: ShipRepairable
+    repairTime: 2
+    repairCost: 4
 
 # Special
 - type: entity

@@ -1,20 +1,3 @@
-// SPDX-FileCopyrightText: 2022 Moony
-// SPDX-FileCopyrightText: 2022 Pieter-Jan Briers
-// SPDX-FileCopyrightText: 2023 DrSmugleaf
-// SPDX-FileCopyrightText: 2023 Flipp Syder
-// SPDX-FileCopyrightText: 2023 ShadowCommander
-// SPDX-FileCopyrightText: 2023 Tom Leys
-// SPDX-FileCopyrightText: 2023 Visne
-// SPDX-FileCopyrightText: 2024 Dvir
-// SPDX-FileCopyrightText: 2024 Errant
-// SPDX-FileCopyrightText: 2024 Krunklehorn
-// SPDX-FileCopyrightText: 2024 Leon Friedrich
-// SPDX-FileCopyrightText: 2024 Whatstone
-// SPDX-FileCopyrightText: 2024 metalgearsloth
-// SPDX-FileCopyrightText: 2025 ark1368
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using Content.Server.GameTicking;
 using Content.Server.Spawners.Components;
 using Content.Server.Station.Systems;
@@ -102,7 +85,10 @@ public sealed class SpawnPointSystem : EntitySystem
             }
             else
             {
-                Log.Error($"No spawn points were available for station {args.Station}!");
+                if (TryComp<MetaDataComponent>(args.Station, out var data) && data.EntityPrototype != null)
+                    Log.Error($"No spawn points were available for station {data.EntityPrototype}! (uid: {args.Station}, name: {data.EntityName})");
+                else
+                    Log.Error($"No spawn points were available for station {args.Station}!, station prototype is null.");
                 return;
             }
         }

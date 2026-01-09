@@ -1,4 +1,4 @@
-﻿using Robust.Shared.Prototypes;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
 namespace Content.Server.GameTicking.Prototypes;
@@ -6,7 +6,7 @@ namespace Content.Server.GameTicking.Prototypes;
 /// <summary>
 /// Prototype for a lobby background the game can choose.
 /// </summary>
-[Prototype("lobbyBackground")]
+[Prototype]
 public sealed partial class LobbyBackgroundPrototype : IPrototype
 {
     /// <inheritdoc/>

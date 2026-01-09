@@ -1,14 +1,10 @@
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: entity
   parent: DoorElectronics
   id: DoorElectronicsUSSP
   suffix: USSP, Locked
   components:
   - type: AccessReader
-    access: [["USSP"]]
+    access: [["Mercenary"]]
 
 - type: entity
   parent: DoorElectronics
@@ -16,7 +12,7 @@
   suffix: USSP Secure, Locked
   components:
   - type: AccessReader
-    access: [["USSPHigh"]]
+    access: [["Mercenary"]]
 
 - type: entity
   parent: DoorElectronics
@@ -24,7 +20,7 @@
   suffix: USSP Command, Locked
   components:
   - type: AccessReader
-    access: [["USSPCommand"]]
+    access: [["Mercenary"]]
 
 - type: entity
   parent: DoorElectronics
@@ -33,3 +29,11 @@
   components:
   - type: AccessReader
     access: [["TsfmcEngineering"]]
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsRogueCommander
+  suffix: Rogue Command, Locked
+  components:
+  - type: AccessReader
+    access: [["RogueCommander"]]

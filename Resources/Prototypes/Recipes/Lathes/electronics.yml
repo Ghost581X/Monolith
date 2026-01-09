@@ -61,7 +61,7 @@
     Steel: 100
     Glass: 500
     Bananium: 100
-    
+
 - type: latheRecipe
   abstract: true
   parent: BaseCircuitboardRecipe
@@ -215,11 +215,13 @@
   result: ProtolatheMachineCircuitboard
 
 - type: latheRecipe
+  abstract: true # DeltaV
   parent: BaseGoldCircuitboardRecipe
   id: AutolatheHyperConvectionMachineCircuitboard
   result: AutolatheHyperConvectionMachineCircuitboard
 
 - type: latheRecipe
+  abstract: true # DeltaV
   parent: BaseGoldCircuitboardRecipe
   id: ProtolatheHyperConvectionMachineCircuitboard
   result: ProtolatheHyperConvectionMachineCircuitboard
@@ -230,6 +232,7 @@
   result: CircuitImprinterMachineCircuitboard
 
 - type: latheRecipe
+  abstract: true # DeltaV
   parent: BaseGoldCircuitboardRecipe
   id: CircuitImprinterHyperConvectionMachineCircuitboard
   result: CircuitImprinterHyperConvectionMachineCircuitboard
@@ -279,12 +282,10 @@
   id: AnomalyVesselExperimentalCircuitboard
   result: AnomalyVesselExperimentalCircuitboard
 
-# Frontier: no recipes for the anomaly synchronizer
-# - type: latheRecipe
-#   parent: BaseSilverCircuitboardRecipe
-#   id: AnomalySynchronizerCircuitboard
-#   result: AnomalySynchronizerCircuitboard
-# End Frontier
+- type: latheRecipe
+  parent: BaseSilverCircuitboardRecipe
+  id: AnomalySynchronizerCircuitboard
+  result: AnomalySynchronizerCircuitboard
 
 - type: latheRecipe
   parent: BaseCircuitboardRecipe
@@ -306,12 +307,10 @@
   id: AnalysisComputerCircuitboard
   result: AnalysisComputerCircuitboard
 
-# Frontier: no tech disk recipes
-# - type: latheRecipe
-#   parent: BaseGoldCircuitboardRecipe
-#   id: TechDiskComputerCircuitboard
-#   result: TechDiskComputerCircuitboard
-# End Frontier
+- type: latheRecipe
+  parent: BaseGoldCircuitboardRecipe
+  id: TechDiskComputerCircuitboard
+  result: TechDiskComputerCircuitboard
 
 - type: latheRecipe
   parent: BaseGoldCircuitboardRecipe
@@ -618,8 +617,14 @@
   parent: BaseCircuitboardRecipe
   id: HolopadMachineCircuitboard
   result: HolopadMachineCircuitboard
-  
+
 - type: latheRecipe
   parent: BaseBluespaceCircuitboardRecipe
   id: AiCoreElectronics
   result: AiCoreElectronics
+
+# Assmos - Crystallizer
+- type: latheRecipe
+  parent: BaseCircuitboardRecipe
+  id: CrystallizerMachineCircuitboard
+  result: CrystallizerMachineCircuitboard

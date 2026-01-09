@@ -48,6 +48,24 @@ public sealed partial record PolymorphConfiguration
     public int Delay = 60;
 
     /// <summary>
+    /// Whether or not the target is polymorphed above critical status.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool PolymorphTheLiving = true;
+
+    /// <summary>
+    /// Whether or not the target is polymorphed below critical status but above dead status.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool PolymorphTheCritical = true;
+
+    /// <summary>
+    /// Whether or not the target is polymorphed while dead.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool PolymorphTheDead = false;
+
+    /// <summary>
     /// The duration of the transformation in seconds
     /// can be null if there is not one
     /// </summary>
@@ -128,6 +146,19 @@ public sealed partial record PolymorphConfiguration
     /// </summary>
     [DataField]
     public SoundSpecifier? ExitPolymorphSound;
+
+    // Einstein Engines - Language begin
+    /// <summary>
+    /// The exact names of components to copy over when this polymorph is applied.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public HashSet<string> CopiedComponents = new()
+    {
+        "LanguageKnowledge",
+        "LanguageSpeaker",
+        "Grammar"
+    };
+    // Einstein Engines - Language end
 }
 
 public enum PolymorphInventoryChange : byte

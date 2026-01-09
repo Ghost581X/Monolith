@@ -1,7 +1,7 @@
 - type: entity
   id: BluespaceDungeonBase
   parent: BaseStationEventShortDelay
-  name: NT Bluespace Monitoring # This name shows up in the radio messages.
+  name: Colossus Sector Bluespace Monitoring # This name shows up in the radio messages.
   abstract: true
   components:
   - type: StationEvent
@@ -29,21 +29,23 @@
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
         minimumDistance: 1500
-        maximumDistance: 2500
+        maximumDistance: 5000 # Mono
         addComponents: &dungeonComponents
         - type: Gravity
           enabled: true
           inherent: true
         - type: IFF
         - type: LinkedLifecycleGridParent
-        - type: ProtectedGrid
-          preventArtifactTriggers: true
-        - type: PreventPilot
-        # FIXME: the dungeon dosen't pass FTL events even though it should FTL in
-        #        and we don't get a MapInitEvent, so this just forces static physics
-        - type: Physics
-          bodyType: Static
-          bodyStatus: OnGround
+        # Mono - make it movable
+        #- type: ProtectedGrid
+        #  preventArtifactTriggers: true
+        #- type: PreventPilot
+        ## FIXME: the dungeon dosen't pass FTL events even though it should FTL in
+        ##        and we don't get a MapInitEvent, so this just forces static physics
+        #- type: Physics
+        #  bodyType: Static
+        #  bodyStatus: OnGround
+        - type: ClaimableGrid # Mono
         protos:
         - NFVGRoidBasalt
 
@@ -57,7 +59,7 @@
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
         minimumDistance: 1500
-        maximumDistance: 2500
+        maximumDistance: 5000 # Mono
         addComponents: *dungeonComponents
         protos:
         - NFVGRoidSnow
@@ -72,7 +74,7 @@
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
         minimumDistance: 1500
-        maximumDistance: 2500
+        maximumDistance: 5000 # Mono
         addComponents: *dungeonComponents
         protos:
         - NFVGRoidCave
@@ -87,7 +89,7 @@
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
         minimumDistance: 1500
-        maximumDistance: 2500
+        maximumDistance: 5000 # Mono
         addComponents: *dungeonComponents
         protos:
         - NFVGRoidChromite
@@ -102,7 +104,7 @@
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
         minimumDistance: 1500
-        maximumDistance: 2500
+        maximumDistance: 5000 # Mono
         addComponents: *dungeonComponents
         protos:
         - NFVGRoidScrap

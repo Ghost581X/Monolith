@@ -1,81 +1,73 @@
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: technology
   id: TsfBasicGuns
   name: research-technology-tsfmc-guns
-  icon:
-    sprite: _Mono/Objects/Weapons/Guns/Rifles/lecter.rsi
-    state: icon
+  entityIcon: WeaponRifleLecter
   discipline: TsfmcWeaponry
   tier: 1
-  cost: 20000
+  cost: 25000
   recipeUnlocks:
   - WeaponRifleLecterTSF
   - WeaponRifleVulcanTSF
   - WeaponSubMachineGunDrozdTSF
   - WeaponRifleMR3CTSF
-  - Magazine5.56x45mmFMJ
-  - Magazine5.56x45mmEmpty
-  - AmmoBox5.56x45mmFMJ
-  - Magazine7.62x51mmFMJ
-  - Magazine7.62x51mmEmpty
-  - AmmoBox7.62x51mmFMJ
-  - Magazine45_ACPSubMachineGunFMJ
-  - Magazine45_ACPSubMachineGunEmpty
-  - AmmoBox45_ACPFMJ
-  - Magazine8x65mmSKR
-  - Magazine8x65mmEmpty
-  - AmmoBox8x65mmSKR
+  technologyPrerequisites:
+  - UniversalMaterialResearchT1
+  position: 12, 2
 
 - type: technology
   id: TsfAnnie
   name: research-technology-tsfmc-annie
-  icon:
-    sprite: _Mono/Objects/Weapons/Guns/Rifles/annie.rsi
-    state: icon
+  entityIcon: WeaponRifleAnnie
   discipline: TsfmcWeaponry
   tier: 2
-  cost: 15000
+  cost: 25000
   recipeUnlocks:
   - WeaponRifleAnnieTSF
-  - Magazine7.62x39mmFMJ
-  - Magazine7.62x39mmEmpty
-  - AmmoBox7.62x39mmFMJ
   technologyPrerequisites:
   - TsfBasicGuns
+  - UniversalMaterialResearchT2
+  position: 12, 7
+
+- type: technology
+  id: TsfGrizzly
+  name: research-technology-tsfmc-grizzly
+  entityIcon: WeaponLMGGrizzly
+  discipline: TsfmcWeaponry
+  tier: 2
+  cost: 40000
+  recipeUnlocks:
+  - WeaponLMGGrizzlyTSF
+  technologyPrerequisites:
+  - TsfAnnie
+  - UniversalMaterialResearchT2
+  position: 12, 8
 
 - type: technology
   id: TsfMarsocGuns
   name: research-technology-tsfmc-mr8
-  icon:
-    sprite: _Mono/Objects/Weapons/Guns/LMGs/mr8b.rsi
-    state: icon
+  entityIcon: WeaponRifleMR8C
   discipline: TsfmcWeaponry
   tier: 3
-  cost: 75000
+  cost: 40000 # Raise back to 75k when MR-8B is balanced (never)
   recipeUnlocks:
-  - WeaponLMGMR8BTSF
+  #- WeaponLMGMR8BTSF
   - WeaponRifleMR8CTSF
-  - Magazine8x65mmSKRBox
-  - Magazine8x65mmEmptyBox
+  #- Magazine8x65mmSKRBox
+  #- Magazine8x65mmEmptyBox
   technologyPrerequisites:
-  - TsfBasicGuns
-  - TsfSynthalloy
+  - TsfAnnie
+  - UniversalMaterialResearchT3
+  position: 12, 12
 
 - type: technology
   id: TsfIcws
   name: research-technology-tsfmc-xlr556
-  icon:
-    sprite: _Mono/Objects/Weapons/Guns/Rifles/xlr556.rsi
-    state: icon
+  entityIcon: WeaponRifleXlr556
   discipline: TsfmcWeaponry
   tier: 3
-  cost: 15000
+  cost: 30000
   recipeUnlocks:
   - WeaponRifleXlr556Tsf
   technologyPrerequisites:
-  - TsfBasicGuns
-  - TsfSynthalloy
   - TsfMarsocGuns
+  position: 12, 13

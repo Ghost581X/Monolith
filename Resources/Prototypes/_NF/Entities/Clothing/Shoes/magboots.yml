@@ -11,6 +11,8 @@
     sprite: _NF/Clothing/Shoes/Boots/magboots-security.rsi
   - type: Magboots
     magbootsAlert: MagbootsSecurity
+  - type: ClothingSlowOnDamageModifier # Mono
+    modifier: 0.75 # Mono
 
 - type: entity
   parent: ClothingShoesBootsMagSecurity
@@ -53,12 +55,12 @@
     sprite: _NF/Clothing/Shoes/Boots/magboots-nfsd.rsi
   - type: Magboots
     magbootsAlert: MagbootsNfsd
-  - type: ClothingSpeedModifier
-    walkModifier: 0.95
-    sprintModifier: 0.9
+#  - type: ClothingSpeedModifier
+#    walkModifier: 0.95
+#    sprintModifier: 0.9
 
 - type: entity
-  parent: [BaseC3PirateContraband, ClothingShoesBootsMagNfsd]
+  parent: ClothingShoesBootsMagNfsd
   id: ClothingShoesBootsMagPirate
   name: pirate magboots
   description: Pirate magnetic boots, often used during extravehicular activity to ensure the user remains safely attached to the vehicle.

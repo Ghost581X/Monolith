@@ -19,6 +19,7 @@
   weight: 110
   displayWeight: 20
   canBeAntag: false
+  guides: [ BasicLore, TransSolarFederation ] # Mono
   setPreference: false # mono
   access:
   - Detective
@@ -32,6 +33,11 @@
       - TSFMC
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant, TrackingImplant ]
+  - !type:AddLanguageSpecial # Monolith - Languages
+    languagesSpoken:
+    - SolCommon
+    languagesUnderstood:
+    - SolCommon
   - !type:GiveItemOnHolidaySpecial
     holiday: FrontierBirthday
     prototype: FrontierBirthdayGift

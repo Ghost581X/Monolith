@@ -1,16 +1,7 @@
-// SPDX-FileCopyrightText: 2024 Mervill
-// SPDX-FileCopyrightText: 2024 Plykiya
-// SPDX-FileCopyrightText: 2024 SlamBamActionman
-// SPDX-FileCopyrightText: 2024 metalgearsloth
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 Redrover1760
-// SPDX-FileCopyrightText: 2025 RikuTheKiller
-// SPDX-FileCopyrightText: 2025 gus
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
+using Content.Server.Power.EntitySystems; // Mono
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
+using Content.Shared._Mono.Ships;
 using Content.Shared.Popups;
 using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Events;
@@ -28,9 +19,12 @@ public sealed partial class ShuttleConsoleSystem
     [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly SharedShuttleSystem _sharedShuttle = default!;
 
-    private const float ShuttleFTLRange = 100f;
-    private const float ShuttleFTLMassThreshold = 50f;
+    private const float ShuttleFTLRange = 512f;
+    private const float ShuttleFTLMassThreshold = 100f; // Mono: now a soft limit, ships under the limit just stop you from shorter distance
 
+    private const float MassConstant = 50f; // Arbitrary, at this value massMultiplier = 0.65
+    private const float MassMultiplierMin = 0.5f;
+    private const float MassMultiplierMax = 5f;
     private void InitializeFTL()
     {
         SubscribeLocalEvent<FTLBeaconComponent, ComponentStartup>(OnBeaconStartup);
@@ -218,13 +212,18 @@ public sealed partial class ShuttleConsoleSystem
             }
         }
 
-        foreach (var other in _mapManager.FindGridsIntersecting(xform.MapID, bounds))
+        // Mono
+        foreach (var (console, consoleComp) in _lookup.GetEntitiesInRange<ShuttleConsoleComponent>(_transform.GetMapCoordinates(xform), ShuttleFTLRange))
         {
-            if (other.Owner == shuttleUid.Value ||
-                dockedGrids.Contains(other.Owner) || // Skip grids that are docked to us or to the same parent grid
-                !bodyQuery.TryGetComponent(other.Owner, out var body) ||
-                body.Mass < ShuttleFTLMassThreshold ||
-                !HasComp<StationMemberComponent>(other.Owner)) // Skip entities without a StationMember component
+            var consoleXform = Transform(console);
+            var consGrid = consoleXform.GridUid;
+            if (consGrid == null ||
+                consGrid == shuttleUid ||
+                dockedGrids.Contains(consGrid.Value) || // Skip grids that are docked to us or to the same parent grid
+                !bodyQuery.TryGetComponent(consGrid, out var body) ||
+                body.Mass < ShuttleFTLMassThreshold
+                    && (_transform.GetWorldPosition(consGrid.Value) - _transform.GetWorldPosition(consoleXform)).Length() > ShuttleFTLRange * body.Mass / ShuttleFTLMassThreshold ||
+                !this.IsPowered(console, EntityManager))
             {
                 continue;
             }
@@ -242,10 +241,32 @@ public sealed partial class ShuttleConsoleSystem
 
         var ev = new ShuttleConsoleFTLTravelStartEvent(ent.Owner);
         RaiseLocalEvent(ref ev);
-        if(_sharedShuttle.TryGetFTLDrive(shuttleUid.Value, out _, out var drive))
-            _shuttle.FTLToCoordinates(shuttleUid.Value, shuttleComp, adjustedCoordinates, targetAngle, drive.StartupTime, drive.HyperSpaceTime);
+        if (_sharedShuttle.TryGetFTLDrive(shuttleUid.Value, out _, out var drive)) // Mono Begin
+        {
+            MassAdjustFTLStart(shuttlePhysics,
+                drive,
+                out var massAdjustedStartupTime,
+                out var massAdjustedHyperSpaceTime);
+            _shuttle.FTLToCoordinates(shuttleUid.Value, shuttleComp, adjustedCoordinates, targetAngle, massAdjustedStartupTime, massAdjustedHyperSpaceTime);
+        }
     }
 
+    // Mono Begin
+    private void MassAdjustFTLStart(PhysicsComponent shuttlePhysics, FTLDriveComponent drive, out float massAdjustedStartupTime, out float massAdjustedHyperSpaceTime)
+    {
+        if (drive.MassAffectedDrive == false)
+        {
+            massAdjustedHyperSpaceTime = drive.HyperSpaceTime;
+            massAdjustedStartupTime = drive.StartupTime;
+            return;
+        }
+        var adjustedMass = shuttlePhysics.Mass * drive.DriveMassMultiplier;
+        var massMultiplier = float.Log(float.Sqrt(adjustedMass / MassConstant + float.E));
+        massMultiplier = float.Clamp(massMultiplier, MassMultiplierMin, MassMultiplierMax);
+        massAdjustedStartupTime = drive.StartupTime * massMultiplier;
+        massAdjustedHyperSpaceTime = drive.HyperSpaceTime * massMultiplier;
+    }
+    // Mono End
     private void UpdateConsoles(EntityUid uid, ShuttleComponent? component = null)
     {
         if (!Resolve(uid, ref component))

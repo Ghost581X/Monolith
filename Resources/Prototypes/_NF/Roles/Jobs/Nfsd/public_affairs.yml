@@ -17,6 +17,7 @@
   icon: "JobIconPublicAffairsLiaison"
   supervisors: job-supervisors-cadet
   canBeAntag: false
+  guides: [ BasicLore, TransSolarFederation ] # Mono
   weight: 105
   displayWeight: 16
   setPreference: false # mono
@@ -30,6 +31,11 @@
       - TSFMC
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant, TrackingImplant ]
+  - !type:AddLanguageSpecial # Monolith - Languages
+    languagesSpoken:
+    - SolCommon
+    languagesUnderstood:
+    - SolCommon
   - !type:GiveItemOnHolidaySpecial
     holiday: FrontierBirthday
     prototype: FrontierBirthdayGift

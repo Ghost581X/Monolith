@@ -419,7 +419,7 @@
   solids:
     FoodBreadBun: 1
     MobMothroach: 1
-  recipeType: Oven # Frontier
+  recipeType: Microwave # Mono: Deviating to match the item description and restore the humor
 
 #Breads & Sandwiches
 
@@ -648,7 +648,9 @@
   solids:
     FoodBreadPlainSlice: 1
     FoodFlyAmanita: 1
-  recipeType: Microwave # Frontier
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
 
 - type: microwaveMealRecipe
   id: RecipeTwoBreadSlice
@@ -660,7 +662,9 @@
     Wine: 5
   solids:
     FoodBreadPlainSlice: 2
-  recipeType: Microwave # Frontier
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
 
 - type: microwaveMealRecipe
   id: RecipeOnionRings
@@ -796,7 +800,9 @@
     Flour: 15
     Egg: 6
     OilOlive: 5
-  recipeType: Microwave # Frontier
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
 
 - type: microwaveMealRecipe
   id: RecipePastaTomato
@@ -857,8 +863,10 @@
     Water: 10
   solids:
     FoodBowlBig: 1
-  recipeType: Microwave # Frontier
-
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
+  
 - type: microwaveMealRecipe
   id: RecipeBoiledRice
   name: boiled rice recipe
@@ -870,7 +878,9 @@
     Water: 10
   solids:
     FoodBowlBig: 1
-  recipeType: Microwave # Frontier
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
 
 - type: microwaveMealRecipe
   id: RecipeRicePudding
@@ -884,7 +894,9 @@
     Sugar: 5
   solids:
     FoodBowlBig: 1
-  recipeType: Microwave # Frontier
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
 
 - type: microwaveMealRecipe
   id: RecipeRicePork
@@ -895,7 +907,9 @@
   solids:
     FoodRiceBoiled: 1
     FoodMeatCutlet: 3
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeRiceGumbo
@@ -907,7 +921,9 @@
     FoodRiceBoiled: 1
     FoodMeatCutlet: 3
     FoodChiliPepper: 2
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeEggRice
@@ -920,7 +936,9 @@
   solids:
     FoodRiceBoiled: 1
     FoodCarrot: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeCopypasta
@@ -946,7 +964,9 @@
     FoodTomato: 1
     FoodMushroom: 1
     FoodMeatFish: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeMeatballSoup
@@ -961,7 +981,9 @@
     FoodMeatMeatball: 1
     FoodCarrot: 1
     FoodPotato: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeNettleSoup
@@ -976,7 +998,9 @@
     FoodBowlBig: 1
     Nettle: 1
     FoodPotato: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeEyeballSoup
@@ -991,7 +1015,9 @@
     OrganHumanEyes: 1
     FoodCarrot: 1
     FoodPotato: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeAmanitaJelly
@@ -1004,7 +1030,9 @@
     Vodka: 5
   solids:
     FoodFlyAmanita: 3
-  recipeType: Microwave # Frontier
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
 
 - type: microwaveMealRecipe
   id: RecipeOnionSoup
@@ -1018,7 +1046,9 @@
     FoodBowlBig: 1
     FoodOnionSlice: 5
     FoodCheeseSlice: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeMushroomSoup
@@ -1032,7 +1062,9 @@
   solids:
     FoodBowlBig: 1
     FoodMushroom: 2
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeStewSoup
@@ -1050,7 +1082,9 @@
     FoodCarrot: 1
     FoodEggplant: 1
     FoodMushroom: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeTomatoSoup
@@ -1063,7 +1097,9 @@
   solids:
     FoodBowlBig: 1
     FoodTomato: 2
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeTomatoBloodSoup
@@ -1076,7 +1112,9 @@
   solids:
     FoodBowlBig: 1
     FoodBloodTomato: 2
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeWingFangChuSoup
@@ -1089,7 +1127,9 @@
   solids:
     FoodBowlBig: 1
     FoodMeatXenoCutlet: 2
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeWingFangChuSoupSpider
@@ -1102,7 +1142,9 @@
   solids:
     FoodBowlBig: 1
     FoodMeatSpider: 2
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeVegetableSoup
@@ -1118,7 +1160,9 @@
     FoodCarrot: 1
     FoodPotato: 1
     FoodEggplant: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeClownTearsSoup
@@ -1133,7 +1177,9 @@
     FoodBanana: 1
     ShardGlass: 1
     #idk probably replace shard with someting bananium when #14663 merged
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeMonkeysDelightSoup
@@ -1149,7 +1195,9 @@
     FoodBowlBig: 1
     FoodBanana: 1
     MonkeyCube: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeBungoSoup
@@ -1163,7 +1211,9 @@
     FoodBowlBig: 1
     FoodBungo: 2
     FoodChiliPepper: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeBoiledSnail
@@ -1176,6 +1226,7 @@
   solids:
     FoodMeatSnail: 1
   recipeType: # Frontier
+  - Oven # Mono
   - Microwave # Frontier
 
 - type: microwaveMealRecipe
@@ -1191,7 +1242,9 @@
     FoodOnionSlice: 1
     FoodButter: 1
     FoodMeatSnailCooked: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 #Pies
 
@@ -1426,7 +1479,9 @@
     Cola: 5
   solids:
     FoodSoupMiso: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeLoadedBakedPotato
@@ -1437,7 +1492,9 @@
   solids:
     FoodPotato: 1
     FoodCheeseSlice: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeFries
@@ -1449,7 +1506,9 @@
     TableSalt: 5
   solids:
     FoodPotato: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeCheesyFries
@@ -1462,7 +1521,9 @@
   solids:
     FoodPotato: 1
     FoodCheeseSlice: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeCarrotFries
@@ -1474,7 +1535,9 @@
     TableSalt: 5
   solids:
     FoodCarrot: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeNachos
@@ -1487,6 +1550,9 @@
   solids:
     FoodDoughTortillaFlat: 1
     FoodPlateSmall: 1
+  recipeType: # Mono
+  - Oven # Mono
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeNachosCheesy
@@ -1500,6 +1566,9 @@
     FoodCheeseSlice: 1
     FoodDoughTortillaFlat: 1
     FoodPlateSmall: 1
+  recipeType: # Mono
+  - Oven # Mono
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeNachosCuban
@@ -1513,6 +1582,9 @@
     FoodChiliPepper: 1
     FoodDoughTortillaFlat: 1
     FoodPlateSmall: 1
+  recipeType: # Mono
+  - Oven # Mono
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipePopcorn
@@ -1860,7 +1932,9 @@
     UncookedAnimalProteins: 6
   solids:
     FoodDoughSlice: 3
-  recipeType: Microwave # Frontier
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
 
 - type: microwaveMealRecipe
   id: RecipeBrownies
@@ -1981,7 +2055,9 @@
     FoodMeatCutlet: 1
     FoodOnionSlice: 1
     FoodTomato: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeColdChili
@@ -2006,7 +2082,9 @@
     FoodOnionSlice: 1
     FoodTomato: 1
     BikeHorn: 1
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeChiliClown
@@ -2035,7 +2113,9 @@
   solids:
     FoodChiliPepper: 1
     FoodCheeseSlice: 2
-  recipeType: Oven # Frontier
+  recipeType: # Frontier
+  - Oven # Frontier
+  - Microwave # Mono
 
 - type: microwaveMealRecipe
   id: RecipeRibs
@@ -2369,6 +2449,7 @@
     FoodButter: 1
     LeavesCannabis: 6
   recipeType: # Frontier
+  - Oven # Mono
   - Microwave # Frontier
 
 - type: microwaveMealRecipe
@@ -2597,3 +2678,35 @@
     FoodButterSlice: 1
   recipeType: Oven # Frontier
 
+- type: microwaveMealRecipe
+  id: RecipePlainGrits
+  name: butter grits recipe
+  result: FoodPlainGrits
+  time: 10
+  group: Savory
+  reagents:
+    Cornmeal: 5
+    Water: 10
+  solids:
+    FoodButterSlice: 1
+    FoodBowlBig: 1
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier
+
+- type: microwaveMealRecipe
+  id: RecipeCheeseGrits
+  name: cheese grits recipe
+  result: FoodCheeseGrits
+  time: 10
+  group: Savory
+  reagents:
+    Cornmeal: 5
+    Water: 10
+  solids:
+    FoodCheeseSlice: 1
+    FoodButterSlice: 1
+    FoodBowlBig: 1
+  recipeType: # Frontier
+  - Oven # Mono
+  - Microwave # Frontier

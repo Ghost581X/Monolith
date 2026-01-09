@@ -21,9 +21,6 @@
             - MachineMask
     - type: Transform
       anchored: true
-    - type: Anchorable
-      flags:
-      - Anchorable
     - type: Pullable
     - type: Sprite
       sprite: Structures/Piping/Atmospherics/miners.rsi
@@ -35,6 +32,7 @@
     - type: GuideHelp
       guides:
       - GasMiningAndStorage
+    - type: RequiresGrid # Mono
 
 - type: entity
   name: O2 gas miner
@@ -107,6 +105,7 @@
   components:
     - type: GasMiner
       spawnGas: Plasma
+      maxExternalPressure: 50 # Mono
 
 - type: entity
   name: tritium gas miner
@@ -115,6 +114,7 @@
   components:
     - type: GasMiner
       spawnGas: Tritium
+      maxExternalPressure: 50 # Mono
 
 - type: entity
   name: frezon gas miner
@@ -123,6 +123,7 @@
   components:
     - type: GasMiner
       spawnGas: Frezon
+      maxExternalPressure: 50 # Mono
 
 - type: entity
   name: water vapor gas miner

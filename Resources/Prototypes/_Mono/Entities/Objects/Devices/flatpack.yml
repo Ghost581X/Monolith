@@ -1,11 +1,3 @@
-# SPDX-FileCopyrightText: 2025 Blu
-# SPDX-FileCopyrightText: 2025 HungryCuban
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 gus
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: entity
   parent: BaseFlatpack
   id: L58Flatpack
@@ -49,6 +41,17 @@
     entity: WeaponTurretCharon
   - type: StaticPrice
     price: 700
+
+- type: entity
+  parent: BaseFlatpack
+  id: M25Flatpack
+  name: M25 mining pulsar flatpack
+  description: A flatpack used for constructing an M25 mining pulsar. Useful for breaking up rock.
+  components:
+  - type: Flatpack
+    entity: WeaponTurretM25
+  - type: StaticPrice
+    price: 100
 
 - type: entity
   parent: BaseFlatpack
@@ -174,6 +177,17 @@
 
 - type: entity
   parent: BaseNFFlatpack
+  id: MaterialSiloFlatpack
+  name: Material Silo flatpack
+  description: A flatpack used for constructing a Material Silo.
+  components:
+  - type: Flatpack
+    entity: MachineMaterialSilo
+  - type: StaticPrice
+    price: 400
+
+- type: entity
+  parent: BaseNFFlatpack
   id: OreBoxFlatpack
   name: ore box flatpack
   description: A flatpack used for constructing an ore box.
@@ -182,6 +196,10 @@
     entity: OreBox
   - type: StaticPrice
     price: 500
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 100
+      Glass: 30
 
 - type: entity
   parent: BaseNFFlatpack
@@ -193,4 +211,76 @@
     entity: ConstructionBox
   - type: StaticPrice
     price: 500
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 100
+      Glass: 30
 
+
+- type: entity
+  parent: BaseNFFlatpack
+  id: TegCirculatorFlatpack
+  name: TEG circulator flatpack
+  description: A flatpack used for constructing a TEG circulator.
+  components:
+  - type: Flatpack
+    entity: TegCirculator
+  - type: StaticPrice
+    price: 1000
+
+- type: entity
+  parent: BaseNFFlatpack
+  id: TegCenterFlatpack
+  name: TEG center flatpack
+  description: A flatpack used for constructing a TEG center.
+  components:
+  - type: Flatpack
+    entity: TegCenter
+  - type: StaticPrice
+    price: 2000
+
+- type: entity
+  parent: BaseNFFlatpack
+  id: GasMiningDrillFlatpack
+  name: gas mining drill flatpack
+  description: A flatpack used for constructing a gas mining drill.
+  components:
+  - type: Flatpack
+    entity: GasMiningDrill
+  - type: StaticPrice
+    price: 300
+
+- type: entity
+  parent: BaseNFFlatpack
+  id: GaslockFrameFlatpack
+  name: portable gaslock flatpack
+  description: A flatpack used for constructing a portable gaslock.
+  components:
+  - type: Flatpack
+    entity: GaslockFrame
+  - type: StaticPrice
+    price: 300
+
+- type: entity
+  parent: BaseFlatpack
+  id: LaserDrillFlatpack
+  name: laser drill flatpack
+  description: A flatpack used for constructing an automated laser drill.
+  components:
+  - type: Flatpack
+    entity: LaserDrill
+  - type: StaticPrice
+    price: 3000
+    vendPrice: 20000
+
+- type: entity
+  parent: BaseFlatpack
+  id: ResearchAndDevelopmentServerMercFlatpack
+  name: mercenary R&D server flatpack
+  description: A flatpack used for constructing a mercenary R&D server.
+  components:
+  - type: Flatpack
+    entity: ResearchAndDevelopmentServerMerc
+  - type: StaticPrice
+    price: 4000
+    vendPrice: 10000

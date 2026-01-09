@@ -54,6 +54,7 @@
     - HolofanProjector
     - FireExtinguisher
     - GasDepositLocator
+    - RPED # Mono
   ## Parts
     - MicroManipulatorStockPart
     - MatterBinStockPart
@@ -89,6 +90,7 @@
   ## Clothing
     - UtilityBelt
     - ConstructionBag
+    - MaterialBoxFlatpack # Mono
   ## EVA
     - ClothingOuterEVASuitEngineer
     - ClothingOuterEVASuitAtmosTech

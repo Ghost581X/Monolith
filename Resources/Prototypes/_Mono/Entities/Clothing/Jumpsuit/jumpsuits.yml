@@ -1,19 +1,8 @@
-# SPDX-FileCopyrightText: 2025 Blu
-# SPDX-FileCopyrightText: 2025 Eden077
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 UltimateJester
-# SPDX-FileCopyrightText: 2025 UnicornOnLSD
-# SPDX-FileCopyrightText: 2025 core-mene
-# SPDX-FileCopyrightText: 2025 sleepyyapril
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: entity
   parent: ClothingUniformBase
   id: ClothingUniformTSFMC
-  name: TSFMC uniform
-  description: A black and blue urban camo uniform. Its uncomfortable and cheap, and it probably doesn't blend in with anything other than a ship interior.
+  name: TSFMC type-45U combat uniform
+  description: A combat uniform in TSF Type-45U urban camouflage. Its outfitted with a blue TSF flag armband.
   components:
   - type: Sprite
     sprite: _Mono/Clothing/Uniforms/Jumpsuit/tsfmc.rsi
@@ -25,14 +14,69 @@
 
 - type: entity
   parent: ClothingUniformBase
+  id: ClothingUniformTSFMCDesert
+  name: TSFMC type-47D combat uniform
+  description: A combat uniform in TSF Type-47D desert camouflage. Its outfitted with a blue TSF flag armband.
+  components:
+  - type: Sprite
+    sprite: _Mono/Clothing/Uniforms/Jumpsuit/tsfmc_digital.rsi
+  - type: Clothing
+    sprite: _Mono/Clothing/Uniforms/Jumpsuit/tsfmc_digital.rsi
+  - type: SuitSensor
+    randomMode: false
+    mode: SensorVitals
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTsfmcMopp
+  name: TSFMC type-49C MOPP suit
+  description: A heavy protective suit. It'll slow you down a bit, but it'll make sure nothing you don't want gets in your body. Be the bane of all Chimeras.
+  components:
+  - type: Sprite
+    sprite: _Mono/Clothing/Uniforms/Jumpsuit/mopp-tsfmc.rsi
+  - type: Clothing
+    sprite: _Mono/Clothing/Uniforms/Jumpsuit/mopp-tsfmc.rsi
+    equipDelay: 0.3
+    unequipDelay: 0.3
+  - type: Armor
+    modifiers:
+      coefficients:
+        Poison: 0.3
+        Radiation: 0.8
+        Caustic: 0.6
+  - type: StaminaDamageResistance
+    coefficient: 0.85 # its pretty thick, i think it'd do something
+  - type: ClothingSpeedModifier
+    walkModifier: 0.925
+    sprintModifier: 0.925
+  - type: SuitSensor
+    randomMode: false
+    mode: SensorVitals
+
+- type: entity
+  parent: ClothingUniformBase
   id: ClothingUniformTSFMCEngi
   name: TSFMC engineer uniform
-  description: A black and blue urban camo uniform. Its uncomfortable and cheap, and it probably doesn't blend in with anything other than a ship interior. This one has high-vis markings for engineers.
+  description: A combat uniform in TSF Type-45U urban camouflage. It has high-vis markings for engineers.
   components:
   - type: Sprite
     sprite: _Mono/Clothing/Uniforms/Jumpsuit/tsfmcengi.rsi
   - type: Clothing
     sprite: _Mono/Clothing/Uniforms/Jumpsuit/tsfmcengi.rsi
+  - type: SuitSensor
+    randomMode: false
+    mode: SensorVitals
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTSFMCDress
+  name: TSFMC dress uniform
+  description: A military dress uniform for special occasions, complete with stripes and rank insignia.
+  components:
+  - type: Sprite
+    sprite: _Mono/Clothing/Uniforms/Jumpsuit/tsfmcdressuni.rsi
+  - type: Clothing
+    sprite: _Mono/Clothing/Uniforms/Jumpsuit/tsfmcdressuni.rsi
   - type: SuitSensor
     randomMode: false
     mode: SensorVitals

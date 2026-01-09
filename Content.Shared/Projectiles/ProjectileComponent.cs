@@ -82,6 +82,12 @@ public sealed partial class ProjectileComponent : Component
     public bool ProjectileSpent;
 
     /// <summary>
+    ///     If true, the projectile has hit enough targets and should no longer interact with further collisions pending deletion.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool DamagedEntity;
+
+    /// <summary>
     ///     When a projectile has this threshold set, it will continue to penetrate entities until the damage dealt reaches this threshold.
     /// </summary>
     [DataField]
@@ -99,9 +105,18 @@ public sealed partial class ProjectileComponent : Component
     [DataField]
     public FixedPoint2 PenetrationAmount = FixedPoint2.Zero;
 
+    // Goobstation Start
+    [DataField]
+    public float ArmorPenetration;
+    // Goobstation End
+
     /// <summary>
-    /// Frontier: Chance for a blind effect bonus to occur (1 = 100%).
+    ///     Mono - If true, when going at sufficient velocity to cause raycasts, will significantly decrease velocity to just below raycast threshold to increase stability.
     /// </summary>
     [DataField]
-    public float RandomBlindChance { get; set; } = 0;
+    public bool RaycastResetVelocity = true;
+
+    // Mono
+    [DataField]
+    public float LinearDampening = 0f;
 }

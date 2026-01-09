@@ -1,52 +1,3 @@
-// SPDX-FileCopyrightText: 2020 FL-OZ
-// SPDX-FileCopyrightText: 2020 Sam
-// SPDX-FileCopyrightText: 2020 Tomeno
-// SPDX-FileCopyrightText: 2020 Víctor Aguilera Puerto
-// SPDX-FileCopyrightText: 2020 chairbender
-// SPDX-FileCopyrightText: 2021 Acruid
-// SPDX-FileCopyrightText: 2021 Clyybber
-// SPDX-FileCopyrightText: 2021 Galactic Chimp
-// SPDX-FileCopyrightText: 2021 Moony
-// SPDX-FileCopyrightText: 2021 Paul
-// SPDX-FileCopyrightText: 2021 Pieter-Jan Briers
-// SPDX-FileCopyrightText: 2021 Vera Aguilera Puerto
-// SPDX-FileCopyrightText: 2021 Wrexbe
-// SPDX-FileCopyrightText: 2022 Jacob Tong
-// SPDX-FileCopyrightText: 2022 Paul Ritter
-// SPDX-FileCopyrightText: 2022 Rane
-// SPDX-FileCopyrightText: 2022 WlarusFromDaSpace
-// SPDX-FileCopyrightText: 2022 metalgearsloth
-// SPDX-FileCopyrightText: 2022 wrexbe
-// SPDX-FileCopyrightText: 2023 Checkraze
-// SPDX-FileCopyrightText: 2023 Chief-Engineer
-// SPDX-FileCopyrightText: 2023 DrSmugleaf
-// SPDX-FileCopyrightText: 2023 Ilya Chvilyov
-// SPDX-FileCopyrightText: 2023 Visne
-// SPDX-FileCopyrightText: 2023 Vordenburg
-// SPDX-FileCopyrightText: 2023 Vyacheslav Kovalevsky
-// SPDX-FileCopyrightText: 2023 brainfood1183
-// SPDX-FileCopyrightText: 2023 deltanedas
-// SPDX-FileCopyrightText: 2023 deltanedas <@deltanedas:kde.org>
-// SPDX-FileCopyrightText: 2023 keronshb
-// SPDX-FileCopyrightText: 2024 AJCM-git
-// SPDX-FileCopyrightText: 2024 Jezithyr
-// SPDX-FileCopyrightText: 2024 Kara
-// SPDX-FileCopyrightText: 2024 Leon Friedrich
-// SPDX-FileCopyrightText: 2024 LordCarve
-// SPDX-FileCopyrightText: 2024 Nemanja
-// SPDX-FileCopyrightText: 2024 ShadowCommander
-// SPDX-FileCopyrightText: 2024 Tayrtahn
-// SPDX-FileCopyrightText: 2024 Wiebe Geertsma
-// SPDX-FileCopyrightText: 2024 lunarcomets
-// SPDX-FileCopyrightText: 2024 slarticodefast
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 SlamBamActionman
-// SPDX-FileCopyrightText: 2025 SpaceManiac
-// SPDX-FileCopyrightText: 2025 TemporalOroboros
-// SPDX-FileCopyrightText: 2025 themias
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared._NF.LoggingExtensions;
@@ -77,6 +28,7 @@ using Content.Shared.Timing;
 using Content.Shared.UserInterface;
 using Content.Shared.Verbs;
 using Content.Shared.Wall;
+using Content.Shared._Goobstation.DoAfter; // Goobstation
 using JetBrains.Annotations;
 using Robust.Shared.Containers;
 using Robust.Shared.Input;
@@ -117,6 +69,8 @@ namespace Content.Shared.Interaction
         [Dependency] private readonly SharedStrippableSystem _strippable = default!;
         [Dependency] private readonly SharedPlayerRateLimitManager _rateLimit = default!;
         [Dependency] private readonly ISharedChatManager _chat = default!;
+
+        [Dependency] private readonly INetManager _net = default!; // Mono
 
         private EntityQuery<IgnoreUIRangeComponent> _ignoreUiRangeQuery;
         private EntityQuery<FixturesComponent> _fixtureQuery;
@@ -358,9 +312,29 @@ namespace Content.Shared.Interaction
                 return true;
             }
 
+            // Mono
+            if (_net.IsServer && session != null && Deleted(uid))
+                coords = VelocityCompensateInput(userEntity.Value, coords, session.Channel.Ping * 0.001f);
+
             UserInteraction(userEntity.Value, coords, !Deleted(uid) ? uid : null, checkAccess: ShouldCheckAccess(userEntity.Value));
 
             return false;
+        }
+
+        // Mono - compensate for velocity if target is map
+        // if target is not map assume the user wants to click where they clicked and do nothing
+        private EntityCoordinates VelocityCompensateInput(EntityUid userUid, EntityCoordinates coords, float ping)
+        {
+            var target = coords.EntityId;
+            var ourXform = Transform(userUid);
+            // only trigger if target is map and we're on a grid
+            if (ourXform.MapUid != target || ourXform.GridUid == null || !_physicsQuery.TryComp(ourXform.GridUid, out var gridBody))
+                return coords;
+
+            var grid = ourXform.GridUid.Value;
+            var relCoords = _transform.WithEntityId(coords, grid);
+            var vel = _broadphase.GetLinearVelocity(grid, relCoords.Position, gridBody);
+            return coords.Offset(vel * ping * 3f);
         }
 
         private bool ShouldCheckAccess(EntityUid user)
@@ -514,22 +488,21 @@ namespace Content.Shared.Interaction
             return uid != null && IsDeleted(uid.Value);
         }
 
-        public void InteractHand(EntityUid user, EntityUid target)
+        public bool InteractHand(EntityUid user, EntityUid target) // Goobstation - useful return value
         {
             if (IsDeleted(user) || IsDeleted(target))
-                return;
+                return false; // Goobstation
 
             var complexInteractions = _actionBlockerSystem.CanComplexInteract(user);
             if (!complexInteractions)
             {
-                InteractionActivate(user,
+                return InteractionActivate(user, // Goobstation
                     target,
                     checkCanInteract: false,
                     checkUseDelay: true,
                     checkAccess: false,
                     complexInteractions: complexInteractions,
                     checkDeletion: false);
-                return;
             }
 
             // allow for special logic before main interaction
@@ -538,7 +511,7 @@ namespace Content.Shared.Interaction
             if (ev.Handled)
             {
                 _adminLogger.Add(LogType.InteractHand, LogImpact.Low, $"{ToPrettyString(user):user} interacted with {ToPrettyString(target):target}, but it was handled by another system");
-                return;
+                return false; // Goobstation
             }
 
             DebugTools.Assert(!IsDeleted(user) && !IsDeleted(target));
@@ -552,11 +525,11 @@ namespace Content.Shared.Interaction
             _adminLogger.Add(LogType.InteractHand, LogImpact.Low, $"{ToPrettyString(user):user} interacted with {ToPrettyString(target):target}{extraLogs}");
             DoContactInteraction(user, target, message);
             if (message.Handled)
-                return;
+                return true;
 
             DebugTools.Assert(!IsDeleted(user) && !IsDeleted(target));
             // Else we run Activate.
-            InteractionActivate(user,
+            return InteractionActivate(user,
                 target,
                 checkCanInteract: false,
                 checkUseDelay: true,

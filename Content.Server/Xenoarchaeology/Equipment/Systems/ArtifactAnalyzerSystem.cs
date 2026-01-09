@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server.Construction; //Mono
 using Content.Server.Power.Components;
 using Content.Server.Research.Systems;
 using Content.Shared.UserInterface;
@@ -12,6 +13,7 @@ using Content.Shared.Paper;
 using Content.Shared.Placeable;
 using Content.Shared.Popups;
 using Content.Shared.Power;
+using Content.Shared.Power.EntitySystems;
 using Content.Shared.Research.Components;
 using Content.Shared.Xenoarchaeology.Equipment;
 using Content.Shared.Xenoarchaeology.XenoArtifacts;
@@ -33,15 +35,16 @@ public sealed class ArtifactAnalyzerSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedAmbientSoundSystem _ambientSound = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly ArtifactSystem _artifact = default!;
+    [Dependency] private readonly MetaDataSystem _metaSystem = default!;
     [Dependency] private readonly PaperSystem _paper = default!;
     [Dependency] private readonly ResearchSystem _research = default!;
-    [Dependency] private readonly MetaDataSystem _metaSystem = default!;
+    [Dependency] private readonly SharedAmbientSoundSystem _ambientSound = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedPowerReceiverSystem _receiver = default!;
     [Dependency] private readonly TraversalDistorterSystem _traversalDistorter = default!;
+    [Dependency] private readonly UserInterfaceSystem _ui = default!;
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -70,6 +73,10 @@ public sealed class ArtifactAnalyzerSystem : EntitySystem
         SubscribeLocalEvent<AnalysisConsoleComponent, ResearchClientServerDeselectedMessage>((e, c, _) => UpdateUserInterface(e, c),
             after: new[] { typeof(ResearchSystem) });
         SubscribeLocalEvent<AnalysisConsoleComponent, BeforeActivatableUIOpenEvent>((e, c, _) => UpdateUserInterface(e, c));
+
+        //Mono: Upgradeable scan speed
+        SubscribeLocalEvent<ArtifactAnalyzerComponent, RefreshPartsEvent>(OnRefreshParts);
+        SubscribeLocalEvent<ArtifactAnalyzerComponent, UpgradeExamineEvent>(OnUpgradeExamine);
     }
 
     public override void Update(float frameTime)
@@ -510,6 +517,7 @@ public sealed class ArtifactAnalyzerSystem : EntitySystem
         SetPowerSwitch(analyzer, powa, true);
         // End Frontier
 
+        _receiver.SetNeedsPower(uid, true);
         _ambientSound.SetAmbience(uid, true);
     }
 
@@ -525,6 +533,7 @@ public sealed class ArtifactAnalyzerSystem : EntitySystem
         SetPowerSwitch(analyzer, powa, false);
         // End Frontier
 
+        _receiver.SetNeedsPower(uid, false);
         _ambientSound.SetAmbience(uid, false);
     }
 
@@ -549,5 +558,20 @@ public sealed class ArtifactAnalyzerSystem : EntitySystem
             apc.Load = 1;
     }
     // End Frontier
+
+    //MONO: Upgradeable scan speed
+    private void OnRefreshParts(EntityUid uid, ArtifactAnalyzerComponent component, RefreshPartsEvent args)
+    {
+        var rating = args.PartRatings[component.MachinePartDuration];
+        component.AnalysisDuration = TimeSpan.FromSeconds(component.BaseAnalysisDuration.TotalSeconds * MathF.Pow(component.PartRatingDurationMultiplier, rating - 1));
+    }
+
+    private void OnUpgradeExamine(EntityUid uid, ArtifactAnalyzerComponent component, ref UpgradeExamineEvent args)
+    {
+        var displaypercent = (float)(component.AnalysisDuration.TotalSeconds / component.BaseAnalysisDuration.TotalSeconds);
+
+        args.AddPercentageUpgrade("artifact-analyzer-upgrade-duration", displaypercent);
+    }
+    //Mono end
 }
 

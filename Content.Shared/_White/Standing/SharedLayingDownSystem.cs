@@ -17,7 +17,6 @@ public abstract class SharedLayingDownSystem : EntitySystem
     [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedGravitySystem _gravity = default!;
-
     public override void Initialize()
     {
         CommandBinds.Builder
@@ -28,7 +27,9 @@ public abstract class SharedLayingDownSystem : EntitySystem
 
         SubscribeLocalEvent<StandingStateComponent, StandingUpDoAfterEvent>(OnStandingUpDoAfter);
         SubscribeLocalEvent<LayingDownComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshMovementSpeed);
+        SubscribeLocalEvent<LayingDownComponent, RefreshWeightlessModifiersEvent>(OnRefreshWeightlessModifier);
         SubscribeLocalEvent<LayingDownComponent, EntParentChangedMessage>(OnParentChanged);
+
     }
 
     public override void Shutdown()
@@ -98,6 +99,14 @@ public abstract class SharedLayingDownSystem : EntitySystem
             args.ModifySpeed(1f, 1f);
     }
 
+    // Mono edit
+    private void OnRefreshWeightlessModifier(EntityUid uid, LayingDownComponent component, ref RefreshWeightlessModifiersEvent args)
+    {
+        if (!_standing.IsDown(uid))
+            return;
+        args.ModifyAcceleration(1f, 0.10f);
+    }
+
     private void OnParentChanged(EntityUid uid, LayingDownComponent component, EntParentChangedMessage args)
     {
         // If the entity is not on a grid, try to make it stand up to avoid issues
@@ -144,8 +153,10 @@ public abstract class SharedLayingDownSystem : EntitySystem
             standingState.CurrentState is not StandingState.Standing)
         {
             if (behavior == DropHeldItemsBehavior.AlwaysDrop)
-                RaiseLocalEvent(uid, new DropHandItemsEvent());
-
+            {
+                var ev = new DropHandItemsEvent();
+                RaiseLocalEvent(uid, ref ev, false);
+            }
             return false;
         }
 

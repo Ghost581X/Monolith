@@ -28,6 +28,7 @@
     - SpawnDungeonLootClothesScience
     - SpawnDungeonLootRnDDisk
     - SpawnDungeonLootVendingRestocks
+    - SpawnLootTechDisksT1 # Mono
     chance: 1
     offset: 0.0
     rarePrototypes:
@@ -215,11 +216,11 @@
     prototypes:
     - ResearchDisk
     - ResearchDisk
-    - ResearchDisk5000
+    - ResearchDisk35000
     chance: 0.95
     offset: 0.0
     rarePrototypes:
-    - ResearchDisk10000
+    - ResearchDisk65000
     - WeaponCaseShortDocumentsFilled
     rareChance: 0.05
 
@@ -259,8 +260,9 @@
     chance: 0.9
     offset: 0.0
     rarePrototypes:
-    - AutolatheHyperConvectionMachineCircuitboard
-    - ProtolatheHyperConvectionMachineCircuitboard
+    # Mono - replace hyperconvection lathes with upgrade kits
+    - LatheUpgradeKitHyper
+    - LatheUpgradeKitCryo
     - ComputerIFFCircuitboard
     rareChance: 0.05
 
@@ -316,7 +318,7 @@
     prototypes:
     - VesselCircuitBoard
     - TSFMCCircuitBoard
-    - RogueCircuitBoard
+    - PDVCircuitBoard
     - NutimovCircuitBoard
     - AntimovCircuitBoard
     - RobocopCircuitBoard
@@ -326,6 +328,7 @@
     - NTDefaultCircuitBoard
     - CorporateCircuitBoard
     - AsimovCircuitBoard
+    - SpawnLootTechDisksT1 # Mono
     chance: 0.9
     offset: 0.0
     rarePrototypes:

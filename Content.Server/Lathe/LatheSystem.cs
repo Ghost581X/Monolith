@@ -16,6 +16,8 @@ using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.UserInterface;
 using Content.Shared.Database;
+using Content.Shared.DeviceLinking.Events; // Mono
+using Content.Server.DeviceLinking.Systems; // Mono
 using Content.Shared.Emag.Components;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Examine;
@@ -58,12 +60,17 @@ namespace Content.Server.Lathe
         [Dependency] private readonly StackSystem _stack = default!;
         [Dependency] private readonly TransformSystem _transform = default!;
         [Dependency] private readonly ContrabandTurnInSystem _contraband = default!; // Frontier
+        [Dependency] private readonly DeviceLinkSystem _deviceLink = default!; // Mono
 
         /// <summary>
         /// Per-tick cache
         /// </summary>
         private readonly List<GasMixture> _environments = new();
         private readonly HashSet<ProtoId<LatheRecipePrototype>> _availableRecipes = new();
+
+        // Mono - re-check whether we can continue production if current recipe is frozen
+        private TimeSpan _checkAccumulator = TimeSpan.FromSeconds(0);
+        private TimeSpan _checkSpacing = TimeSpan.FromSeconds(1);
 
         public override void Initialize()
         {
@@ -76,35 +83,60 @@ namespace Content.Server.Lathe
 
             SubscribeLocalEvent<LatheComponent, LatheQueueRecipeMessage>(OnLatheQueueRecipeMessage);
             SubscribeLocalEvent<LatheComponent, LatheSyncRequestMessage>(OnLatheSyncRequestMessage);
+            // Mono
+            SubscribeLocalEvent<LatheComponent, LatheSetLoopingMessage>(OnLatheSetLoopingMessage);
+            SubscribeLocalEvent<LatheComponent, LatheSetSkipMessage>(OnLatheSetSkipMessage);
+            SubscribeLocalEvent<LatheComponent, LatheRecipeCancelMessage>(OnLatheRecipeCancelMessage);
 
             SubscribeLocalEvent<LatheComponent, BeforeActivatableUIOpenEvent>((u, c, _) => UpdateUserInterfaceState(u, c));
             SubscribeLocalEvent<LatheComponent, MaterialAmountChangedEvent>(OnMaterialAmountChanged);
             SubscribeLocalEvent<TechnologyDatabaseComponent, LatheGetRecipesEvent>(OnGetRecipes);
             SubscribeLocalEvent<EmagLatheRecipesComponent, LatheGetRecipesEvent>(GetEmagLatheRecipes);
-            SubscribeLocalEvent<LatheHeatProducingComponent, LatheStartPrintingEvent>(OnHeatStartPrinting);
 
             //Frontier: upgradeable parts
             SubscribeLocalEvent<LatheComponent, RefreshPartsEvent>(OnPartsRefresh);
             SubscribeLocalEvent<LatheComponent, UpgradeExamineEvent>(OnUpgradeExamine);
+
+            // Mono
+            SubscribeLocalEvent<LatheComponent, SignalReceivedEvent>(OnSignalReceived);
+            SubscribeLocalEvent<LatheHeatProducingComponent, ExaminedEvent>(OnHeatExamine);
         }
         public override void Update(float frameTime)
         {
+            // Mono
+            _checkAccumulator += TimeSpan.FromSeconds(frameTime);
+            if (_checkAccumulator > _checkSpacing)
+            {
+                _checkAccumulator -= _checkSpacing;
+                var rebootQuery = EntityQueryEnumerator<LatheComponent>();
+                while (rebootQuery.MoveNext(out var uid, out var comp))
+                {
+                    // try see if we can reboot if we aren't producing
+                    if (HasComp<LatheProducingComponent>(uid))
+                        continue;
+
+                    TryStartProducing(uid, comp);
+                }
+            }
+
             var query = EntityQueryEnumerator<LatheProducingComponent, LatheComponent>();
             while (query.MoveNext(out var uid, out var comp, out var lathe))
             {
                 if (lathe.CurrentRecipe == null)
                     continue;
 
-                if (_timing.CurTime - comp.StartTime >= (comp.ProductionLength * 3))
+                if (_timing.CurTime - comp.StartTime >= comp.ProductionLength)
                     FinishProducing(uid, lathe);
             }
 
-            var heatQuery = EntityQueryEnumerator<LatheHeatProducingComponent, LatheProducingComponent, TransformComponent>();
-            while (heatQuery.MoveNext(out var uid, out var heatComp, out _, out var xform))
+            // Mono - now checks all and not only producing lathes in order to check air temperature
+            var heatQuery = EntityQueryEnumerator<LatheHeatProducingComponent, LatheComponent, TransformComponent>();
+            while (heatQuery.MoveNext(out var uid, out var heatComp, out var latheComp, out var xform))
             {
-                if (_timing.CurTime < heatComp.NextSecond)
+                heatComp.UpdateAccumulator += TimeSpan.FromSeconds(frameTime);
+                if (heatComp.UpdateAccumulator < heatComp.UpdateSpacing)
                     continue;
-                heatComp.NextSecond += TimeSpan.FromSeconds(1);
+                heatComp.UpdateAccumulator -= heatComp.UpdateSpacing;
 
                 var position = _transform.GetGridTilePositionOrDefault((uid, xform));
                 _environments.Clear();
@@ -121,13 +153,31 @@ namespace Content.Server.Lathe
                     }
                 }
 
-                if (_environments.Count > 0)
+                if (_environments.Count == 0)
+                    continue;
+
+                var avgTemp = 0f;
+                var totalHeatCap = 0f;
+                foreach (var env in _environments)
                 {
-                    var heatPerTile = heatComp.EnergyPerSecond / _environments.Count;
-                    foreach (var env in _environments)
-                    {
-                        _atmosphere.AddHeat(env, heatPerTile);
-                    }
+                    avgTemp += env.Temperature;;
+                    totalHeatCap += _atmosphere.GetHeatCapacity(env, true);
+                }
+                avgTemp /= _environments.Count;
+                var wasHot = heatComp.IsHot;
+                heatComp.IsHot = heatComp.TemperatureCap != null && avgTemp + heatComp.EnergyPerSecond / totalHeatCap > heatComp.TemperatureCap;
+                if (heatComp.IsHot)
+                    continue;
+                else if (wasHot && !latheComp.Paused)
+                    TryStartProducing(uid, latheComp);
+
+                if (!HasComp<LatheProducingComponent>(uid))
+                    continue;
+
+                var heatPerTile = heatComp.EnergyPerSecond / _environments.Count;
+                foreach (var env in _environments)
+                {
+                    _atmosphere.AddHeat(env, heatPerTile);
                 }
             }
         }
@@ -177,7 +227,8 @@ namespace Content.Server.Lathe
             return ev.Recipes.ToList();
         }
 
-        public bool TryAddToQueue(EntityUid uid, LatheRecipePrototype recipe, int quantity, LatheComponent? component = null) // Frontier: add quantity
+        public bool TryAddToQueue(EntityUid uid, LatheRecipePrototype recipe, int quantity, LatheComponent? component = null, // Frontier: add quantity
+                                  bool canDebt = false) // Mono
         {
             if (!Resolve(uid, ref component))
                 return false;
@@ -187,18 +238,9 @@ namespace Content.Server.Lathe
                 return false;
             // Frontier: argument check
 
-            if (!CanProduce(uid, recipe, quantity, component)) // Frontier: 1<quantity
+            // Mono - debt
+            if (!canDebt && !CanProduceEnd((uid, component), recipe, quantity)) // Frontier: 1<quantity
                 return false;
-
-            foreach (var (mat, amount) in recipe.Materials)
-            {
-                var adjustedAmount = recipe.ApplyMaterialDiscount
-                    ? (int) (-amount * component.FinalMaterialUseMultiplier) // Frontier: MaterialUseMultiplier<FinalMaterialUseMultiplier
-                    : -amount;
-                adjustedAmount *= quantity; // Frontier
-
-                _materialStorage.TryChangeMaterialAmount(uid, mat, adjustedAmount);
-            }
 
             // Frontier: queue up a batch
             if (component.Queue.Count > 0 && component.Queue[^1].Recipe.ID == recipe.ID)
@@ -215,15 +257,43 @@ namespace Content.Server.Lathe
         {
             if (!Resolve(uid, ref component))
                 return false;
-            if (component.CurrentRecipe != null || component.Queue.Count <= 0 || !this.IsPowered(uid, EntityManager))
+            // Mono - pause
+            if (component.Paused
+                || component.CurrentRecipe != null
+                || component.Queue.Count <= 0
+                || !this.IsPowered(uid, EntityManager)
+                || TryComp<LatheHeatProducingComponent>(uid, out var heat) && heat.IsHot) // Mono - if you want to add more conditions turn this into an event please
                 return false;
 
             // Frontier: handle batches
             var batch = component.Queue.First();
+            var recipe = batch.Recipe;
+            // <Mono> - resources now consumed as the production goes
+            if (!CanProduce(uid, recipe, 1, component))
+            {
+                if (component.SkipBad)
+                {
+                    component.Queue.RemoveAt(0);
+                    if (component.Loop)
+                        component.Queue.Add(batch);
+                    UpdateUserInterfaceState(uid, component);
+                }
+                return false;
+            }
+
+            foreach (var (mat, amount) in recipe.Materials)
+            {
+                var adjustedAmount = recipe.ApplyMaterialDiscount
+                    ? (int) (-amount * component.FinalMaterialUseMultiplier) // Frontier: MaterialUseMultiplier<FinalMaterialUseMultiplier
+                    : -amount;
+
+                _materialStorage.TryChangeMaterialAmount(uid, mat, adjustedAmount);
+            }
+            // </Mono>
+
             batch.ItemsPrinted++;
             if (batch.ItemsPrinted >= batch.ItemsRequested || batch.ItemsPrinted < 0) // Rollover sanity check
                 component.Queue.RemoveAt(0);
-            var recipe = batch.Recipe;
             // End Frontier
 
             var time = _reagentSpeed.ApplySpeed(uid, recipe.CompleteTime) * component.TimeMultiplier;
@@ -289,6 +359,13 @@ namespace Content.Server.Lathe
                         _puddle.TrySpillAt(uid, toAdd, out _);
                     }
                 }
+
+                // <Mono>
+                if (comp.Loop)
+                    TryAddToQueue(uid, comp.CurrentRecipe, 1, comp, true);
+
+                _deviceLink.SendSignal(uid, comp.ProducedPort, true);
+                // </Mono>
             }
 
             comp.CurrentRecipe = null;
@@ -309,7 +386,7 @@ namespace Content.Server.Lathe
 
             var producing = component.CurrentRecipe ?? component.Queue.FirstOrDefault()?.Recipe; // Frontier: add ?.Recipe
 
-            var state = new LatheUpdateState(GetAvailableRecipes(uid, component), component.Queue, producing);
+            var state = new LatheUpdateState(GetAvailableRecipes(uid, component), component.Queue, producing, component.Loop, component.SkipBad); // Mono
             _uiSys.SetUiState(uid, LatheUiKey.Key, state);
         }
 
@@ -351,11 +428,6 @@ namespace Content.Server.Lathe
                 AddRecipesFromDynamicPacks(ref args, database, component.EmagDynamicPacks);
         }
 
-        private void OnHeatStartPrinting(EntityUid uid, LatheHeatProducingComponent component, LatheStartPrintingEvent args)
-        {
-            component.NextSecond = _timing.CurTime;
-        }
-
         private void OnMaterialAmountChanged(EntityUid uid, LatheComponent component, ref MaterialAmountChangedEvent args)
         {
             UpdateUserInterfaceState(uid, component);
@@ -376,6 +448,10 @@ namespace Content.Server.Lathe
             component.FinalTimeMultiplier = component.TimeMultiplier;
             component.FinalMaterialUseMultiplier = component.MaterialUseMultiplier;
             // End of modified code
+            // <Mono>
+            _deviceLink.EnsureSinkPorts(uid, component.PausePort, component.ResumePort);
+            _deviceLink.EnsureSourcePorts(uid, component.ProducedPort);
+            // </Mono>
         }
 
         /// <summary>
@@ -439,6 +515,27 @@ namespace Content.Server.Lathe
         {
             UpdateUserInterfaceState(uid, component);
         }
+
+        // <Mono>
+        private void OnLatheSetLoopingMessage(Entity<LatheComponent> ent, ref LatheSetLoopingMessage args)
+        {
+            ent.Comp.Loop = args.ShouldLoop;
+            UpdateUserInterfaceState(ent, ent.Comp);
+        }
+
+        private void OnLatheSetSkipMessage(Entity<LatheComponent> ent, ref LatheSetSkipMessage args)
+        {
+            ent.Comp.SkipBad = args.ShouldSkip;
+            UpdateUserInterfaceState(ent, ent.Comp);
+        }
+
+        private void OnLatheRecipeCancelMessage(Entity<LatheComponent> ent, ref LatheRecipeCancelMessage args)
+        {
+            var id = args.Index;
+            if (ent.Comp.Queue.RemoveAll(recipe => recipe.Index == id) != 0)
+                UpdateUserInterfaceState(ent, ent.Comp);
+        }
+        // </Mono>
         #endregion
 
 
@@ -458,6 +555,13 @@ namespace Content.Server.Lathe
         {
             args.AddPercentageUpgrade("lathe-component-upgrade-speed", 1 / component.FinalTimeMultiplier);
             args.AddPercentageUpgrade("lathe-component-upgrade-material-use", component.FinalMaterialUseMultiplier);
+        }
+
+        // Mono
+        private void OnHeatExamine(Entity<LatheHeatProducingComponent> ent, ref ExaminedEvent args)
+        {
+            if (ent.Comp.IsHot)
+                args.PushMarkup(Loc.GetString("lathe-heat-producing-too-hot"));
         }
 
         // Frontier: modify item value
@@ -493,5 +597,37 @@ namespace Content.Server.Lathe
             }
         }
         // End Frontier
+
+        // Mono
+        private void OnSignalReceived(Entity<LatheComponent> ent, ref SignalReceivedEvent args)
+        {
+            if (args.Port == ent.Comp.PausePort)
+            {
+                TryPause((ent, ent.Comp));
+            }
+            else if (args.Port == ent.Comp.ResumePort)
+            {
+                TryUnpause((ent, ent.Comp));
+            }
+        }
+
+        public void TryPause(Entity<LatheComponent?> ent)
+        {
+            if (!Resolve(ent, ref ent.Comp))
+                return;
+
+            ent.Comp.Paused = true;
+        }
+
+        public void TryUnpause(Entity<LatheComponent?> ent)
+        {
+            if (!Resolve(ent, ref ent.Comp))
+                return;
+
+            bool wasPaused = ent.Comp.Paused;
+            ent.Comp.Paused = false;
+            if (wasPaused)
+                TryStartProducing(ent, ent.Comp);
+        }
     }
 }

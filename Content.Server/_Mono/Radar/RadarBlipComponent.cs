@@ -42,8 +42,14 @@ public sealed partial class RadarBlipComponent : Component
     /// Whether this blip should be visible on radar across different grids.
     /// </summary>
     [DataField]
-    public bool VisibleFromOtherGrids = false;
+    public bool VisibleFromOtherGrids = true;
 
     [DataField]
     public bool Enabled = true;
+
+    /// <summary>
+    /// Do not show the blip beyond this distance to the viewing mass scanner.
+    /// </summary>
+    [DataField]
+    public float MaxDistance = 1024f;
 }

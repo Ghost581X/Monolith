@@ -1,11 +1,3 @@
-# SPDX-FileCopyrightText: 2025 Ark
-# SPDX-FileCopyrightText: 2025 Blu
-# SPDX-FileCopyrightText: 2025 NotActuallyMarty
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: entity
   save: false
   name: Urist McRaptor
@@ -13,11 +5,11 @@
   id: BaseMobResomi
   abstract: true
   components:
-  # - type: LanguageKnowledge # Goobstation - WE ONLY SPEAK MURICAN HERE
-  #   speaks:
-  #     - TauCetiBasic
-  #   understands:
-  #     - TauCetiBasic
+  - type: LanguageKnowledge # Einstein Engines - Language
+    speaks:
+    - TauCetiBasic
+    understands:
+    - TauCetiBasic
   - type: Fixtures
     fixtures:
       fix1:
@@ -53,7 +45,7 @@
   - type: Speech
     speechVerb: Parrot
     speechSounds: MaleAvali
-    allowedEmotes: ['Chirp', 'Trill', 'Warble', 'Wurble'] #goob
+    allowedEmotes: ['Chirp', 'Trill', 'Warble', 'Wurble', 'Bagawk'] #goob
   - type: ResomiAccent
   - type: Vocal
     sounds:
@@ -66,6 +58,7 @@
     - FootstepSound
     - DoorBumpOpener
     - AnomalyHost
+    - Humanoid # Mono
   - type: Butcherable # Mono - MEAT
     butcheringType: Spike
     spawned:
@@ -375,6 +368,7 @@
     - map: [ "enum.HumanoidVisualLayers.RHand" ]
     - map: [ "enum.HumanoidVisualLayers.Tail" ]   # Tail changed to be below outerclothing and above limbs
     - map: [ "jumpsuit" ]                         # Jumpsuit above tail & limbs
+    - map: [ "balaclava" ]
     - map: [ "enum.HumanoidVisualLayers.Handcuffs" ]
       color: "#ffffff"
       sprite: Objects/Misc/handcuffs.rsi
@@ -392,6 +386,8 @@
     - map: [ "enum.HumanoidVisualLayers.HeadSide" ]
     - map: [ "maskalt" ]                          # gooblayer
     - map: [ "enum.HumanoidVisualLayers.Hair" ]
+    - map: [ "helmetcover" ]
+    - map: [ "helmetattachment" ]
     - map: [ "mask" ]
     - map: [ "enum.HumanoidVisualLayers.HeadTop" ]
     - map: [ "suitstorage" ]

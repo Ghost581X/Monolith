@@ -1,14 +1,6 @@
-// SPDX-FileCopyrightText: 2023 Slava0135
-// SPDX-FileCopyrightText: 2024 Aviu00
-// SPDX-FileCopyrightText: 2024 Hannah Giovanna Dawson
-// SPDX-FileCopyrightText: 2024 Whatstone
-// SPDX-FileCopyrightText: 2024 deltanedas
-// SPDX-FileCopyrightText: 2024 metalgearsloth
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.Weapons.Reflect;
 
@@ -43,7 +35,11 @@ public sealed partial class ReflectComponent : Component
     // WD END
 }
 
-[Flags]
+/// <summary>
+/// Used for both the projectiles being reflected and the entities reflecting. If there is ever overlap between the
+/// reflection types, the projectile will be reflected.
+/// </summary>
+[Flags, Serializable, NetSerializable]
 public enum ReflectType : byte
 {
     None = 0,

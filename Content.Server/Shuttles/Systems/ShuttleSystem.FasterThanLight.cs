@@ -1,40 +1,3 @@
-// SPDX-FileCopyrightText: 2022 Justin Trotter
-// SPDX-FileCopyrightText: 2022 LittleBuilderJane
-// SPDX-FileCopyrightText: 2022 SpaceManiac
-// SPDX-FileCopyrightText: 2022 metalgearsloth
-// SPDX-FileCopyrightText: 2023 Cheackraze
-// SPDX-FileCopyrightText: 2023 Checkraze
-// SPDX-FileCopyrightText: 2023 DrSmugleaf
-// SPDX-FileCopyrightText: 2023 Kevin Zheng
-// SPDX-FileCopyrightText: 2023 Pieter-Jan Briers
-// SPDX-FileCopyrightText: 2023 TheEmber
-// SPDX-FileCopyrightText: 2023 Tom Leys
-// SPDX-FileCopyrightText: 2023 Varen
-// SPDX-FileCopyrightText: 2023 Visne
-// SPDX-FileCopyrightText: 2023 deltanedas
-// SPDX-FileCopyrightText: 2023 deltanedas <@deltanedas:kde.org>
-// SPDX-FileCopyrightText: 2024 Dvir
-// SPDX-FileCopyrightText: 2024 Gansu
-// SPDX-FileCopyrightText: 2024 IProduceWidgets
-// SPDX-FileCopyrightText: 2024 Leon Friedrich
-// SPDX-FileCopyrightText: 2024 Mervill
-// SPDX-FileCopyrightText: 2024 MilenVolf
-// SPDX-FileCopyrightText: 2024 Nemanja
-// SPDX-FileCopyrightText: 2024 Plykiya
-// SPDX-FileCopyrightText: 2024 PopGamer46
-// SPDX-FileCopyrightText: 2024 Tayrtahn
-// SPDX-FileCopyrightText: 2024 TemporalOroboros
-// SPDX-FileCopyrightText: 2024 Whatstone
-// SPDX-FileCopyrightText: 2024 checkraze
-// SPDX-FileCopyrightText: 2024 no
-// SPDX-FileCopyrightText: 2024 slarticodefast
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 Ilya246
-// SPDX-FileCopyrightText: 2025 Redrover1760
-// SPDX-FileCopyrightText: 2025 gus
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
@@ -65,6 +28,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Utility;
 using FTLMapComponent = Content.Shared.Shuttles.Components.FTLMapComponent;
 using Content.Server.Salvage.Expeditions;
+using Content.Shared._Mono.Ships;
 
 namespace Content.Server.Shuttles.Systems;
 
@@ -83,6 +47,10 @@ public sealed partial class ShuttleSystem
     {
         Params = AudioParams.Default.WithVolume(-5f),
     };
+
+    private const float MassConstant = 50f; // Arbitrary, at this value massMultiplier = 0.65
+    private const float MassMultiplierMin = 0.5f;
+    private const float MassMultiplierMax = 5f;
 
     public float DefaultStartupTime;
     public float DefaultTravelTime;
@@ -712,6 +680,21 @@ public sealed partial class ShuttleSystem
         _console.RefreshShuttleConsoles(entity.Owner);
     }
 
+    // Mono Begin
+    private void MassAdjustFTLCooldown(PhysicsComponent shuttlePhysics, FTLDriveComponent drive, out float massAdjustedCooldown)
+    {
+        if (drive.MassAffectedDrive == false)
+        {
+            massAdjustedCooldown = drive.Cooldown;
+            return;
+        }
+        var adjustedMass = shuttlePhysics.Mass * drive.DriveMassMultiplier;
+        var massMultiplier = float.Log(float.Sqrt(adjustedMass / MassConstant + float.E));
+        massMultiplier = float.Clamp(massMultiplier, MassMultiplierMin, MassMultiplierMax);
+        massAdjustedCooldown = drive.Cooldown * massMultiplier;
+    }
+    // Mono End
+
     /// <summary>
     ///  Shuttle arrived.
     /// </summary>
@@ -729,7 +712,11 @@ public sealed partial class ShuttleSystem
         _dockSystem.SetDockBolts(entity, false);
 
         if (TryGetFTLDrive(entity, out _, out var globalDrive))
-            globalFtlCooldown = globalDrive.Cooldown;
+        {
+            MassAdjustFTLCooldown(body, globalDrive, out var massAdjustedCooldown);
+            globalFtlCooldown = massAdjustedCooldown;
+        }
+
 
         // Get all docked shuttles
         var dockedShuttles = new HashSet<EntityUid>();
@@ -745,6 +732,7 @@ public sealed partial class ShuttleSystem
             var dockedPos = _transform.GetWorldPosition(dockedUid);
             var mainRot = _transform.GetWorldRotation(uid);
             var dockedRot = _transform.GetWorldRotation(dockedUid);
+            var dockedBody = _physicsQuery.GetComponent(dockedUid);
 
             // Store position and rotation relative to main shuttle
             var dockConnections = new List<(EntityUid DockA, EntityUid DockB)>();
@@ -754,15 +742,16 @@ public sealed partial class ShuttleSystem
                 if (!TryComp<DockingComponent>(dock, out var dockComp) || !dockComp.Docked || dockComp.DockedWith == null)
                     continue;
                 dockConnections.Add((dock, dockComp.DockedWith.Value));
+                _dockSystem.Undock((dock, dockComp));
             }
             relativeTransforms[dockedUid] = (dockedPos - mainPos, dockedRot - mainRot, dockConnections);
+            _physics.SetLinearVelocity(dockedUid, Vector2.Zero, body: dockedBody);
+            _physics.SetAngularVelocity(dockedUid, 0f, body: dockedBody);
         }
 
         // Handle physics for main shuttle
         _physics.SetLinearVelocity(uid, Vector2.Zero, body: body);
         _physics.SetAngularVelocity(uid, 0f, body: body);
-        _physics.SetLinearDamping(uid, body, entity.Comp2.LinearDamping);
-        _physics.SetAngularDamping(uid, body, entity.Comp2.AngularDamping);
 
         var target = comp.TargetCoordinates;
         MapId mapId;
@@ -802,10 +791,13 @@ public sealed partial class ShuttleSystem
         {
             // TODO: This should now use tryftlproximity
             mapId = _transform.GetMapId(target);
-            _transform.SetCoordinates(uid, xform, target, rotation: comp.TargetAngle);
+            _transform.SetCoordinates(uid, xform, target, rotation: comp.TargetAngle.Reduced());
         }
 
+        var handledShuttles = new HashSet<EntityUid>();
         // Now move all docked shuttles to maintain their relative positions
+        var mainNewPos = _transform.GetWorldPosition(uid);
+        var mainNewRot = _transform.GetWorldRotation(uid);
         foreach (var dockedUid in dockedShuttles)
         {
             if (dockedUid == uid) continue;
@@ -813,34 +805,28 @@ public sealed partial class ShuttleSystem
             var (relativePos, relativeRot, dockConnections) = relativeTransforms[dockedUid];
             var ftlCooldown = 10f;
 
-            var mainNewPos = _transform.GetWorldPosition(uid);
-            var mainNewRot = _transform.GetWorldRotation(uid);
-
             var newPos = mainNewPos + relativePos;
             var newRot = mainNewRot + relativeRot;
             if (xform.MapUid != null)
             {
                 _transform.SetParent(dockedUid, dockedXform, xform.MapUid.Value);
+                _transform.SetWorldRotationNoLerp(dockedUid, newRot);
                 _transform.SetWorldPosition(dockedUid, newPos);
-                _transform.SetWorldRotation(dockedUid, newRot);
-            }
 
-            // Re-establish all docking connections
-            foreach (var (dockA, dockB) in dockConnections)
-            {
-                if (!TryComp<DockingComponent>(dockA, out var dockCompA) ||
-                    !TryComp<DockingComponent>(dockB, out var dockCompB))
-                    continue;
-                _dockSystem.Dock((dockA, dockCompA), (dockB, dockCompB));
             }
+            _physics.SetLinearVelocity(uid, Vector2.Zero, body: body);
+            _physics.SetAngularVelocity(uid, 0f, body: body);
 
             if (TryComp<PhysicsComponent>(dockedUid, out var dockedBody))
             {
                 _physics.SetLinearVelocity(dockedUid, Vector2.Zero, body: dockedBody);
                 _physics.SetAngularVelocity(dockedUid, 0f, body: dockedBody);
                 var dockedShuttle = Comp<ShuttleComponent>(dockedUid);
-                _physics.SetLinearDamping(dockedUid, dockedBody, dockedShuttle.LinearDamping);
-                _physics.SetAngularDamping(dockedUid, dockedBody, dockedShuttle.AngularDamping);
+                if (TryGetFTLDrive(dockedUid, out _, out var drive))
+                {
+                    MassAdjustFTLCooldown(dockedBody, drive, out var massAdjustedCooldown);
+                    ftlCooldown = massAdjustedCooldown;
+                }
                 if (HasComp<MapGridComponent>(xform.MapUid))
                 {
                     Disable(dockedUid, component: dockedBody);
@@ -851,8 +837,15 @@ public sealed partial class ShuttleSystem
                 }
             }
 
-            if (TryGetFTLDrive(dockedUid, out _, out var drive))
-                ftlCooldown = drive.Cooldown;
+            // Re-establish all docking connections
+            foreach (var (dockA, dockB) in dockConnections)
+            {
+                if (!TryComp<DockingComponent>(dockA, out var dockCompA) ||
+                    !TryComp<DockingComponent>(dockB, out var dockCompB))
+                    continue;
+                _dockSystem.Dock((dockA, dockCompA), (dockB, dockCompB));
+                _dockSystem.Dock((dockB, dockCompB), (dockA, dockCompA));
+            }
 
             // Put linked shuttles in cooldown state instead of immediately removing the component
             if (ftlCooldown > 0f && TryComp<FTLComponent>(dockedUid, out var dockedFtl))
@@ -1568,22 +1561,21 @@ public sealed partial class ShuttleSystem
             var newRot = mainRot + relativeRot;
             // Ensure we move to the same map as the main shuttle
             _transform.SetParent(dockedUid, dockedXform, ftlMap);
+            _transform.SetWorldRotationNoLerp(dockedUid, newRot);
             _transform.SetWorldPosition(dockedUid, newPos);
-            _transform.SetWorldRotation(dockedUid, newRot);
             LeaveNoFTLBehind((dockedUid, dockedXform), dockedOldGridMatrix, dockedOldMapUid);
 
             // Add FTL component to the docked shuttle and link it to the main shuttle
             var dockedComp = EnsureComp<FTLComponent>(dockedUid);
             dockedComp.LinkedShuttle = uid;
             dockedComp.State = FTLState.Travelling;
+            dockedComp.TargetAngle = comp.TargetAngle + relativeRot;
 
             if (TryComp<PhysicsComponent>(dockedUid, out var dockedBody))
             {
                 Enable(dockedUid, component: dockedBody);
                 _physics.SetLinearVelocity(dockedUid, new Vector2(0f, 20f), body: dockedBody);
                 _physics.SetAngularVelocity(dockedUid, 0f, body: dockedBody);
-                _physics.SetLinearDamping(dockedUid, dockedBody, 0f);
-                _physics.SetAngularDamping(dockedUid, dockedBody, 0f);
             }
 
             // Refresh consoles for this docked shuttle as well
@@ -1595,8 +1587,6 @@ public sealed partial class ShuttleSystem
         Enable(uid, component: body);
         _physics.SetLinearVelocity(uid, new Vector2(0f, 20f), body: body);
         _physics.SetAngularVelocity(uid, 0f, body: body);
-        _physics.SetLinearDamping(uid, body, 0f);
-        _physics.SetAngularDamping(uid, body, 0f);
 
         _dockSystem.SetDockBolts(uid, true);
         _console.RefreshShuttleConsoles(uid);

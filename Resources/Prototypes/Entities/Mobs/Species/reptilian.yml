@@ -38,6 +38,13 @@
       Male: MaleReptilian
       Female: FemaleReptilian
       Unsexed: MaleReptilian
+  - type: LanguageKnowledge # Einstein Engines - Languages
+    speaks:
+    - TauCetiBasic
+    - Draconic
+    understands:
+    - TauCetiBasic
+    - Draconic
   - type: BodyEmotes
     soundsId: ReptilianBodyEmotes
   - type: Damageable
@@ -94,6 +101,14 @@
             sprite: _White/Mobs/Species/displacement.rsi
             state: shoes
     # WWDP-Edit-End
+  - type: Tag # Mono/Goobstation
+    tags:
+    - ReptilianEmotes
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
+    - Humanoid
 
 - type: entity
   parent: BaseSpeciesDummy

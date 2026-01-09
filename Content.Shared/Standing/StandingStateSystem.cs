@@ -14,6 +14,7 @@ using Robust.Shared.Physics;
 using Robust.Shared.Physics.Systems;
 
 namespace Content.Shared.Standing;
+
 public sealed class StandingStateSystem : EntitySystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
@@ -24,6 +25,30 @@ public sealed class StandingStateSystem : EntitySystem
 
     // If StandingCollisionLayer value is ever changed to more than one layer, the logic needs to be edited.
     private const int StandingCollisionLayer = (int) CollisionGroup.MidImpassable;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<StandingStateComponent, AttemptMobCollideEvent>(OnMobCollide);
+        SubscribeLocalEvent<StandingStateComponent, AttemptMobTargetCollideEvent>(OnMobTargetCollide);
+    }
+
+    private void OnMobTargetCollide(Entity<StandingStateComponent> ent, ref AttemptMobTargetCollideEvent args)
+    {
+        if (!ent.Comp.Standing)
+        {
+            args.Cancelled = true;
+        }
+    }
+
+    private void OnMobCollide(Entity<StandingStateComponent> ent, ref AttemptMobCollideEvent args)
+    {
+        if (!ent.Comp.Standing)
+        {
+            args.Cancelled = true;
+        }
+    }
+
     public bool IsDown(EntityUid uid, StandingStateComponent? standingState = null)
     {
         if (!Resolve(uid, ref standingState, false))
@@ -56,7 +81,8 @@ public sealed class StandingStateSystem : EntitySystem
         // and ultimately this is just to avoid boilerplate in Down callers + keep their behavior consistent.
         if (dropHeldItems && hands != null)
         {
-            RaiseLocalEvent(uid, new DropHandItemsEvent(), false);
+            var ev = new DropHandItemsEvent();
+            RaiseLocalEvent(uid, ref ev, false);
         }
 
         if (!force)
@@ -98,6 +124,7 @@ public sealed class StandingStateSystem : EntitySystem
         }
 
         _movement.RefreshMovementSpeedModifiers(uid); // WD EDIT
+        _movement.RefreshWeightlessModifiers(uid); // Mono edit
         return true;
     }
 
@@ -141,34 +168,59 @@ public sealed class StandingStateSystem : EntitySystem
         }
         standingState.ChangedFixtures.Clear();
         _movement.RefreshMovementSpeedModifiers(uid); // WD EDIT
-
+        _movement.RefreshWeightlessModifiers(uid); // Mono edit
         return true;
     }
 }
-public sealed class DropHandItemsEvent : EventArgs
-{
-}
+
+[ByRefEvent]
+public record struct DropHandItemsEvent();
+
 /// <summary>
 /// Subscribe if you can potentially block a down attempt.
 /// </summary>
 public sealed class DownAttemptEvent : CancellableEntityEventArgs
 {
 }
+
 /// <summary>
 /// Subscribe if you can potentially block a stand attempt.
 /// </summary>
 public sealed class StandAttemptEvent : CancellableEntityEventArgs
 {
 }
+
 /// <summary>
 /// Raised when an entity becomes standing
 /// </summary>
 public sealed class StoodEvent : EntityEventArgs
 {
 }
+
 /// <summary>
 /// Raised when an entity is not standing
 /// </summary>
 public sealed class DownedEvent : EntityEventArgs
 {
 }
+
+/// <summary>
+/// Raised after an entity falls down.
+/// </summary>
+public sealed class FellDownEvent : EntityEventArgs
+{
+    public EntityUid Uid { get; }
+
+    public FellDownEvent(EntityUid uid)
+    {
+        Uid = uid;
+    }
+}
+
+/// <summary>
+/// Raised on the entity being thrown due to the holder falling down.
+/// </summary>
+[ByRefEvent]
+public record struct FellDownThrowAttemptEvent(EntityUid Thrower, bool Cancelled = false);
+
+

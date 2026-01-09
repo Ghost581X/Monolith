@@ -1,32 +1,3 @@
-# SPDX-FileCopyrightText: 2022 Nemanja
-# SPDX-FileCopyrightText: 2023 DrSmugleaf
-# SPDX-FileCopyrightText: 2023 Dvir
-# SPDX-FileCopyrightText: 2023 Flareguy
-# SPDX-FileCopyrightText: 2023 Kara
-# SPDX-FileCopyrightText: 2023 Leon Friedrich
-# SPDX-FileCopyrightText: 2023 Morb
-# SPDX-FileCopyrightText: 2023 OttoMaticode
-# SPDX-FileCopyrightText: 2023 brainfood1183
-# SPDX-FileCopyrightText: 2023 crazybrain23
-# SPDX-FileCopyrightText: 2023 deltanedas
-# SPDX-FileCopyrightText: 2023 deltanedas <@deltanedas:kde.org>
-# SPDX-FileCopyrightText: 2023 lzk
-# SPDX-FileCopyrightText: 2023 metalgearsloth
-# SPDX-FileCopyrightText: 2024 Jophire
-# SPDX-FileCopyrightText: 2024 LittleNyanCat
-# SPDX-FileCopyrightText: 2024 Mr. 27
-# SPDX-FileCopyrightText: 2024 Tayrtahn
-# SPDX-FileCopyrightText: 2024 Token
-# SPDX-FileCopyrightText: 2024 Whatstone
-# SPDX-FileCopyrightText: 2024 deepdarkdepths
-# SPDX-FileCopyrightText: 2025 Ark
-# SPDX-FileCopyrightText: 2025 BeeRobynn
-# SPDX-FileCopyrightText: 2025 Havaren
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 ScyronX
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: entity
   id: BaseMech
   save: false
@@ -46,6 +17,9 @@
     - Ammonia
     - NitrousOxide
     - Frezon
+    - BZ #Funky/Goob
+    - Healium #Funky/Goob
+    - Nitrium #Funky/Goob
     #- Helium3 TODO: fusion
     # remove everything except oxygen to maintain oxygen ratio
     overflowGases:
@@ -57,6 +31,10 @@
     - Ammonia
     - NitrousOxide
     - Frezon
+    - BZ #Funky/Goob
+    - Healium #Funky/Goob
+    - Nitrium #Funky/Goob
+    - Pluoxium #Funky/Goob
     #- Helium3 TODO: fusion
   - type: AirIntake
   # for intake and filter to work
@@ -90,7 +68,7 @@
   - type: MovementSpeedModifier
     baseWalkSpeed: 1
     baseSprintSpeed: 2
-    weightlessModifier: 1.2 # 0.7->1.2
+    baseWeightlessModifier: 5 # Mono
   - type: Tag
     tags:
     - DoorBumpOpener
@@ -119,8 +97,8 @@
       mech-battery-slot: !type:ContainerSlot
       paper_label: !type:ContainerSlot # Goobstation
   - type: Damageable
-    damageContainer: Inorganic
-    damageModifierSet: LightArmor # Goobstation
+    damageContainer: StructuralInorganic # Mono
+    damageModifierSet: MechArmorLight # Mono
   - type: FootstepModifier
     footstepSoundCollection:
       path: /Audio/Mecha/mechmove03.ogg
@@ -131,7 +109,7 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 1000 # Goobstation
+        damage: 5000 # Mono
       behaviors:
       - !type:PlaySoundBehavior
         sound:
@@ -174,15 +152,17 @@
         - Book
   - type: StaticPrice
     price: 450
+  - type: DragDropTargetable
   # Goobstation Change End
+  # <Mono>
   - type: RadarConsole
-    maxRange: 256
     followEntity: true
-  - type: Magboots # Monolith
+  - type: Magboots
+  # </Mono>
 
 - type: entity
   id: MechRipley
-  parent: [ BaseMech, IndustrialMech, BaseCargoContraband ] # Goobstation
+  parent: [ BaseMech, IndustrialMech ] # Goobstation
   name: Ripley APLU
   description: Versatile and lightly armored, the Ripley is useful for almost any heavy work scenario. The "APLU" stands for Autonomous Power Loading Unit.
   components:
@@ -204,6 +184,7 @@
     pilotWhitelist:
       components:
         - HumanoidAppearance
+        - BorgChassis # Goobstation - Let borgs pilot mechs
   - type: MeleeWeapon
     hidden: true
     attackRate: 1
@@ -215,7 +196,13 @@
     baseSprintSpeed: 3.6
   - type: Tag
     tags:
+    - DoorBumpOpener
     - CivilianMechBounty # Mono
+  - type: Prying # Mono
+    pryPowered: true
+    speedModifier: 2
+    useSound:
+      path: /Audio/Items/jaws_pry.ogg
 
 - type: entity
   id: MechRipleyBattery
@@ -228,7 +215,7 @@
       - PowerCellHigh
 
 - type: entity
-  parent: [ BaseMech, SpecialMech, BaseCivilianContraband ] # Goobstation
+  parent: [ BaseMech, SpecialMech ] # Goobstation
   id: MechHonker
   name: H.O.N.K.
   description: "Produced by \"Tyranny of Honk, INC\", this exosuit is designed as heavy clown-support. Used to spread the fun and joy of life. HONK!"
@@ -255,9 +242,16 @@
     pilotWhitelist:
       components:
       - HumanoidAppearance
+      - BorgChassis # Goobstation - Let borgs pilot mechs
   - type: Tag
     tags:
+    - DoorBumpOpener
     - CivilianMechBounty # Mono
+  - type: Prying # Mono
+    pryPowered: true
+    speedModifier: 2
+    useSound:
+      path: /Audio/Items/jaws_pry.ogg
 
 - type: entity
   parent: MechHonker
@@ -305,6 +299,11 @@
   - type: MovementSpeedModifier
     baseWalkSpeed: 2.4
     baseSprintSpeed: 3.7
+  - type: Prying # Mono
+    pryPowered: true
+    speedModifier: 2
+    useSound:
+      path: /Audio/Items/jaws_pry.ogg
 
 - type: entity
   parent: MechHamtr
@@ -378,6 +377,11 @@
     # - Maintenance # Frontier
   # TOOD: buzz / chime actions
   # TODO: builtin flashlight
+  - type: Prying # Mono
+    pryPowered: true
+    speedModifier: 2
+    useSound:
+      path: /Audio/Items/jaws_pry.ogg
 
 - type: entity
   parent: MechVim

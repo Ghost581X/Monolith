@@ -25,13 +25,6 @@
   name: jetpack
   description: It's a jetpack. It can hold 5 L of gas.
   components:
-    - type: InputMover
-      toParent: true
-    - type: MovementSpeedModifier
-      weightlessAcceleration: 1
-      weightlessFriction: 0.3
-      weightlessModifier: 1.2
-    - type: CanMoveInAir
     - type: Sprite
       sprite: _DV/Objects/Tanks/Jetpacks/blue.rsi # DeltaV - Modified sprites to allow SUITSTORAGE use.
       state: icon
@@ -54,6 +47,8 @@
         volume: 5
         temperature: 293.15
     - type: Jetpack
+      acceleration: 1.15 # Mono
+      weightlessModifier: 2.4 # Mono
       moleUsage: 0.00085
     - type: Appearance
     - type: StaticPrice
@@ -110,7 +105,7 @@
 #Empty black
 - type: entity
   id: JetpackBlack
-  parent: [BaseJetpack, BaseC3SyndicateContraband] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband
+  parent: BaseJetpack
   name: jetpack
   suffix: Empty
   components:
@@ -145,7 +140,7 @@
 #Empty captain
 - type: entity
   id: JetpackCaptain
-  parent: BaseJetpack # Frontier: remove BaseGrandTheftContraband
+  parent: BaseJetpack
   name: captain's jetpack
   suffix: Empty
   components:
@@ -188,10 +183,11 @@
   id: JetpackMini
   parent: BaseJetpack
   name: mini jetpack
-  description: It's a jetpack. It can hold 1.5 L of gas.
+  description: It's a jetpack. It can hold 1 L of gas.
   suffix: Empty
   components:
     - type: Item
+      size: Normal # Mono
       sprite: Objects/Tanks/Jetpacks/mini.rsi
     - type: Sprite
       sprite: Objects/Tanks/Jetpacks/mini.rsi
@@ -204,7 +200,7 @@
     - type: GasTank
       outputPressure: 42.6
       air:
-        volume: 1.5
+        volume: 1 # Mono
     - type: StaticPrice
       price: 95
 
@@ -228,7 +224,7 @@
 #Empty security
 - type: entity
   id: JetpackSecurity
-  parent: [BaseJetpack, BaseC2ContrabandUnredeemable] # Frontier: BaseSecurityContraband<BaseC2ContrabandUnredeemable
+  parent: BaseJetpack
   name: security jetpack
   suffix: Empty
   components:
