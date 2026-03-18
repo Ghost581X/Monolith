@@ -253,6 +253,9 @@
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
       state: generic_panel_open
   - type: FireControlConsole
+  - type: ShipNpcTarget
+    needPower: true
+  - type: TargetSeekingTarget
   - type: ActivatableUI
     key: enum.FireControlConsoleUiKey.Key
   - type: UserInterface
@@ -301,6 +304,17 @@
   - type: ShipRepairable
     repairTime: 7
     repairCost: 25
+  - type: RadarBlip
+    visibleFromOtherGrids: true
+    radarColor: "#fc9403"
+    scale: 1.5
+    shape: diamond
+    gridConfig:
+      color: "#fc9403"
+      shape: Square
+      respectZoom: true
+      rotate: true
+      bounds: "-0.5,-0.5,0.5,0.5"
 
 - type: entity
   parent: [BaseStructureComputerTabletop, ComputerGunneryConsole]
