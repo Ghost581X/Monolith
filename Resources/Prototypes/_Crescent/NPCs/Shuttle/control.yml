@@ -1,5 +1,5 @@
 - type: entity
-  parent: [ BaseMachinePowered ]
+  parent: [ BaseMachinePowered, BaseStructureDisableToolUse ]
   id: DroneController
   name: drone control server
   description: Pilots the drone it's on, if controlled by a drone control console.
@@ -94,6 +94,7 @@
       enum.DroneConsoleUiKey.Key:
         type: DroneConsoleBoundUserInterface
   - type: RadarConsole
+    noRotate: true
   - type: WorldLoader
     radius: 256
   - type: DeviceNetwork

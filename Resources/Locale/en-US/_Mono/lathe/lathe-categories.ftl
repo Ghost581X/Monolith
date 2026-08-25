@@ -5,6 +5,10 @@ lathe-category-dangerous-animals = Dangerous Animals
 
 # Misc
 lathe-category-vouchers = Ship Vouchers
+lathe-category-nfr = NFR Rods
+lathe-category-componentmaterials = Packaged Components
+lathe-category-components = Industry Components
+lathe-category-altrecipes = Alternative Recipes
 
 # Mechs
 lathe-category-mech-weapons-s2s4 = S2/4 Mech Equipment
@@ -41,3 +45,5 @@ lathe-category-guns-smartguns = Smartguns
 lathe-category-guns-ballistic = Ballistic Weapons
 lathe-category-guns-energy = Energy Weapons
 lathe-category-guns-explosive = Explosives
+lathe-category-guns-antitank = Anti-Tank Weapons
+lathe-category-attachments = Weapon Attachments

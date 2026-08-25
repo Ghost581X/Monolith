@@ -6,6 +6,7 @@ guide-entry-shipyard-takeaway = Takeaway
 guide-entry-shipyard-ruby = Ruby
 guide-entry-shipyard-motley-anne = Motley Anne
 guide-entry-shipyard-fenrir = Fenrir
+guide-entry-shipyard-nfr = INSFC NFR Operation Manual
 
 # Gunnery Guides
 guide-entry-gunnery = Ship Gunnery
@@ -29,7 +30,7 @@ guide-entry-monolith-rules = Monolith Rules
 # Creatures
 guide-entry-creatures = Creatures of the Sector
 guide-entry-cortical-borer = Cortical Borer
-
+guide-entry-xenoborgs = Xenoborgs
 # Mechs
 guide-entry-mechs = Mechs
 guide-entry-s1mechs = Series 1 Mechs

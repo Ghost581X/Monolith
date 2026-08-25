@@ -23,8 +23,11 @@ shuttle-console-signature-unknown =
        *[other] Unknown
     }
 
+shuttle-console-company-unknown = UNAFFILIATED
+
 # Network Port Buttons
 shuttle-console-network-ports = Network Ports
+shuttle-console-network-connect-tooltip = The buttons on the shuttle console send a signal when pressed, use a multitool on the console and connect it up to a device!
 
 # Device Link Buttons
 shuttle-console-device-button-1 = Port 1

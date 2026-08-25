@@ -27,6 +27,11 @@
         density: 15
         layer:
         - GhostImpassable
+  #CrystallEdge
+  - type: CEZPhysics
+    autoStep: false
+    velocityGravity: false
+  - type: CEZLevelGhostMover
 
 # shared parent between aghosts, replay spectators and normal observers
 - type: entity
@@ -119,6 +124,7 @@
   - type: RadarConsole
     followEntity: true
     hideCoords: true
+    noRotate: true # Mono
   - type: ComplexInteraction # Needed to interact with innate radar console
   - type: ShipyardSellCondition # Teleport to shipyard console on sale
     preserveOnSale: true

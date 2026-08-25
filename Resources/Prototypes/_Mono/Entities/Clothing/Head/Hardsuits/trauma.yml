@@ -16,6 +16,7 @@
     lowPressureMultiplier: 1000
   - type: RadarConsole
     followEntity: true
+    noRotate: true
   - type: DetectionRangeMultiplier
     infraredMultiplier: 0.5
     visualMultiplier: 0.75
@@ -59,9 +60,15 @@
   - type: PressureProtection
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
-  - type: NightVision
-    flashDurationMultiplier: 2
-    isEquipment: true
+  - type: NightVision # Gen 4 quadtube
+    relayOverlay: true
+    goggleEffect: true
+    action: ActionToggleNightVision
+    viewCircleRadius: 400
+    viewCircleCount: 4
+    viewCircleSpacing: 260
+    phosphorColor: "#41D7D9"
+    lightingColor: "#FFFFFF32"
   - type: ThermalVision
     flashDurationMultiplier: 2
     pulseTime: 3
@@ -69,6 +76,7 @@
     toggleAction: PulseThermalVision
   - type: RadarConsole
     followEntity: true
+    noRotate: true
   - type: ActivatableUI
     key: enum.RadarConsoleUiKey.Key
     singleUser: true

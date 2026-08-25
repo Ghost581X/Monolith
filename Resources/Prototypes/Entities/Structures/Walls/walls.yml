@@ -9,6 +9,10 @@
     snap:
     - Wall
   components:
+  - type: Anchorable
+    flags:
+    - Anchorable
+  - type: Rotatable
   - type: RangedDamageSound
     soundGroups:
       Brute:
@@ -22,6 +26,7 @@
     tags:
     - Wall
   - type: IsRoof
+  - type: RequiresGrid # Mono
   - type: Sprite
     drawdepth: Walls
   - type: Icon
@@ -75,21 +80,21 @@
 - type: entity
   parent: BaseWallTierTwo # Mono
   id: WallClock
-  name: clock wall
+  name: brass wall
   components:
   - type: Tag
     tags:
     - Wall
   - type: Sprite
-    sprite: Structures/Walls/clock.rsi
+    sprite: Structures/Walls/brass.rsi
   - type: Icon
-    sprite: Structures/Walls/clock.rsi
+    sprite: Structures/Walls/brass.rsi
   - type: Construction
     graph: ClockworkGirder
     node: clockworkWall
   - type: IconSmooth
     key: walls
-    base: clock
+    base: brass
   - type: RCDDeconstructable # Frontier
     cost: 6 # Frontier
     delay: 8 # Frontier
@@ -186,25 +191,25 @@
     key: walls
     base: debug
 
-- type: entity
-  parent: BaseWallTierThree # Mono - surely its fine since diamonds are so rare
-  id: WallDiamond
-  name: diamond wall
-  components:
-  - type: Tag
-    tags:
-    - Wall
-  - type: Sprite
-    sprite: Structures/Walls/diamond.rsi
-  - type: Icon
-    sprite: Structures/Walls/diamond.rsi
-  - type: RCDDeconstructable
-    cost: 6
-    delay: 8
-    fx: EffectRCDDeconstruct8
-  - type: IconSmooth
-    key: walls
-    base: diamond
+#- type: entity
+#  parent: BaseWallTierThree # Mono - surely its fine since diamonds are so rare
+#  id: WallDiamond
+#  name: diamond wall
+#  components:
+#  - type: Tag
+#    tags:
+#    - Wall
+#  - type: Sprite
+#    sprite: Structures/Walls/diamond.rsi
+#  - type: Icon
+#    sprite: Structures/Walls/diamond.rsi
+#  - type: RCDDeconstructable
+#    cost: 6
+#    delay: 8
+#    fx: EffectRCDDeconstruct8
+#  - type: IconSmooth
+#    key: walls
+#    base: diamond
 
 - type: entity
   parent: BaseWallTierOne # Mono
@@ -352,6 +357,10 @@
   - type: Construction # Mono
     graph: Girder
     node: plastitaniumWall
+  - type: Tag # Mono
+    tags:
+    - Wall
+    - WallT3
 
 - type: entity
   parent: [ WallPlastitaniumDiagonalIndestructible, BaseWallTierTwo ] # Mono
@@ -419,7 +428,7 @@
         mask:
         - FullTileMask
         layer:
-        - WallLayer
+        - DiagonalWallLayer # Mono WallLayer->DiagonalWallLayer
   - type: StaticPrice
     price: 50 # Mono
   - type: ArmorThickness
@@ -664,7 +673,7 @@
         mask:
         - FullTileMask
         layer:
-        - WallLayer
+        - DiagonalWallLayer # Mono WallLayer->DiagonalWallLayer
         density: 2000
   - type: Physics
     bodyType: Static
@@ -731,28 +740,28 @@
 #  - type: Reflect # Frontier
 #    reflectProb: 1 # Frontier
 
-- type: entity
-  parent: BaseWallTierOne # Mono
-  id: WallShuttleInterior
-  name: shuttle wall
-  suffix: Interior
-  components:
-  - type: RCDDeconstructable
-    cost: 6
-    delay: 8
-    fx: EffectRCDDeconstruct8
-  - type: Sprite
-    sprite: Structures/Walls/shuttleinterior.rsi
-  - type: Icon
-    sprite: Structures/Walls/shuttleinterior.rsi
-  - type: Construction
-    graph: Girder
-    node: shuttleInteriorWall
-  - type: IconSmooth
-    key: walls
-    base: state
-#  - type: Reflect # Frontier
-#    reflectProb: 1 # Frontier
+#- type: entity
+#  parent: BaseWallTierOne # Mono
+#  id: WallShuttleInterior
+#  name: shuttle wall
+#  suffix: Interior
+#  components:
+#  - type: RCDDeconstructable
+#    cost: 6
+#    delay: 8
+#    fx: EffectRCDDeconstruct8
+#  - type: Sprite
+#    sprite: Structures/Walls/shuttleinterior.rsi
+#  - type: Icon
+#    sprite: Structures/Walls/shuttleinterior.rsi
+#  - type: Construction
+#    graph: Girder
+#    node: shuttleInteriorWall
+#  - type: IconSmooth
+#    key: walls
+#    base: state
+##  - type: Reflect # Frontier
+##    reflectProb: 1 # Frontier
 
 - type: entity
   parent: BaseWallTierOne
@@ -903,6 +912,34 @@
     graph: Girder
     node: reinforcedWallChitin
 
+# Xenoborg walls
+- type: entity
+  parent: WallPlastitanium
+  id: WallXenoborg
+  name: xenoborg wall
+  components:
+  - type: Sprite
+    sprite: Structures/Walls/xenoborg.rsi
+  - type: Icon
+    sprite: Structures/Walls/xenoborg.rsi
+  - type: IconSmooth
+    key: walls
+    base: xenoborg
+
+- type: entity
+  parent: WallPlastitaniumDiagonal
+  id: WallXenoborgDiagonal
+  name: xenoborg wall
+  suffix: diagonal
+  components:
+  - type: Sprite
+    drawdepth: Walls
+    sprite: Structures/Walls/xenoborg_diagonal.rsi
+    state: state0
+  - type: Icon
+    sprite: Structures/Walls/xenoborg_diagonal.rsi
+    state: state0
+
 - type: entity
   parent: BaseWallTierOne # Mono
   id: WallUranium
@@ -1045,10 +1082,6 @@
   - type: IconSmooth
     key: walls
     base: mining
-  - type: RandomIconSmooth
-    randomStates:
-    - mining
-    - miningB
   - type: Appearance
 
 - type: entity

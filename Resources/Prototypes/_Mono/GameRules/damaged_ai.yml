@@ -13,13 +13,16 @@
     - id: UnknownShuttleZenithE
     - id: UnknownShuttleRazorN
     - id: UnknownShuttleWyvern
+    - id: UnknownShuttleZenith
+    - id: UnknownShuttleWyrm
+    - id: UnknownShuttleNebula
 
 - type: entity
   parent: BaseRandomShuttleRule
   id: UnknownShuttleZenith
   components:
   - type: StationEvent
-    startAnnouncement: station-event-ai-shuttle-detected
+    startAnnouncement: station-event-unknown-shuttle-detected #station-event-ai-shuttle-detected
     startAudio:
       path: /Audio/Misc/notice1.ogg
     weight: 2
@@ -27,14 +30,14 @@
   - type: GameRule
     minPlayers: 32
   - type: LoadMapRule
-    preloadedGrid: AIZenith
+    gridPath: /Maps/_Mono/ShuttleEvent/zenith.yml
 
 - type: entity
   parent: BaseRandomShuttleRule
   id: UnknownShuttleZenithE
   components:
   - type: StationEvent
-    startAnnouncement: station-event-ai-shuttle-detected
+    startAnnouncement: station-event-unknown-shuttle-detected #station-event-ai-shuttle-detected
     startAudio:
       path: /Audio/Misc/notice1.ogg
     weight: 3
@@ -42,14 +45,14 @@
   - type: GameRule
     minPlayers: 32
   - type: LoadMapRule
-    preloadedGrid: AIZenithE
+    gridPath: /Maps/_Mono/ShuttleEvent/zenith_e.yml
 
 - type: entity
   parent: BaseRandomShuttleRule
   id: UnknownShuttleNebula
   components:
   - type: StationEvent
-    startAnnouncement: station-event-ai-shuttle-detected
+    startAnnouncement: station-event-unknown-shuttle-detected #station-event-ai-shuttle-detected
     startAudio:
       path: /Audio/Misc/notice1.ogg
     weight: 2
@@ -57,14 +60,14 @@
   - type: GameRule
     minPlayers: 32
   - type: LoadMapRule
-    preloadedGrid: AINebula
+    gridPath: /Maps/_Mono/ShuttleEvent/nebula.yml
 
 - type: entity
   parent: BaseRandomShuttleRule
   id: UnknownShuttleWyrm
   components:
   - type: StationEvent
-    startAnnouncement: station-event-ai-shuttle-detected
+    startAnnouncement: station-event-unknown-shuttle-detected #station-event-ai-shuttle-detected
     startAudio:
       path: /Audio/Misc/notice1.ogg
     weight: 3
@@ -72,14 +75,14 @@
   - type: GameRule
     minPlayers: 15
   - type: LoadMapRule
-    preloadedGrid: AIWyrm
+    gridPath: /Maps/_Mono/ShuttleEvent/wyrm.yml
 
 - type: entity
   parent: BaseRandomShuttleRule
   id: UnknownShuttleRazorN
   components:
   - type: StationEvent
-    startAnnouncement: station-event-ai-shuttle-detected
+    startAnnouncement: station-event-unknown-shuttle-detected #station-event-ai-shuttle-detected
     startAudio:
       path: /Audio/Misc/notice1.ogg
     weight: 2 # rare but not too rare since it's in the T2 spawner
@@ -87,7 +90,7 @@
   - type: GameRule
     minPlayers: 15
   - type: LoadMapRule
-    preloadedGrid: AIRazorN
+    gridPath: /Maps/_Mono/ShuttleEvent/razorn.yml
 
 - type: entity
   parent: BaseRandomShuttleRule
@@ -97,9 +100,9 @@
     startAnnouncement: station-event-ai-capital-detected
     startAudio:
       path: /Audio/Misc/delta_alt.ogg
-    weight: 3
+    weight: 1.5
     maxOccurrences: 1
   - type: GameRule
     minPlayers: 60
   - type: LoadMapRule
-    preloadedGrid: AIWyvern
+    gridPath: /Maps/_Mono/ShuttleEvent/wyvern.yml

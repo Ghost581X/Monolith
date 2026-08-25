@@ -24,6 +24,10 @@
   - Captain
   - Frontier
   special:
+  - !type:AddComponentSpecial
+    components:
+    - type: ChatRank
+      rank: cc-judge
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ] # Mono - remove TSFMC implant
   - !type:GiveItemOnHolidaySpecial
@@ -32,6 +36,8 @@
 
 - type: startingGear
   id: SecurityGuardGear
+  equipment:
+    pocket1: WeaponEnergyGunLawbringer
   storage:
     back:
     - EncryptionKeyService
